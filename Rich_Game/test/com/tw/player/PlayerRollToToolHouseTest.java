@@ -44,7 +44,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_wait_for_response_if_has_enough_point_to_buy_tool() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_5_TOOL_1 + 1);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -54,7 +54,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_end_turn_if_has_no_enough_point_before_buying() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_5_TOOL_1 - 1);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -64,7 +64,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_get_tool_and_wait_for_response_after_buying_and_still_has_enough_points() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_5_TOOL_1 + POINT_6_TOOL_2);
         currentPlayer.roll(dice);
 
@@ -79,7 +79,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_end_turn_after_buying_and_no_enough_points() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_6_TOOL_2);
         currentPlayer.roll(dice);
 
@@ -94,7 +94,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_end_turn_after_buying_and_contains_10_tools() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_6_TOOL_2 * 10 + POINT_5_TOOL_1);
         currentPlayer.roll(dice);
 
@@ -107,7 +107,7 @@ public class PlayerRollToToolHouseTest {
 
     @Test
     public void should_end_turn_when_buying_and_input_quit() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.addPoint(POINT_5_TOOL_1 + 1);
 
         currentPlayer.roll(dice);
@@ -118,10 +118,10 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_end_turn_if_contains_10_tools_before_buying() {
         //contains 10 tools before get into tool house
-        AssistancePower[] tenTools = new AssistancePower[10];
+        Tool[] tenTools = new Tool[10];
         for( int i=0; i<10; i++ )
             tenTools[i] = tool_5;
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools(map, INITIAL_FUND_10, tenTools);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, tenTools);
         currentPlayer.addPoint(POINT_5_TOOL_1);
 
         currentPlayer.roll(dice);

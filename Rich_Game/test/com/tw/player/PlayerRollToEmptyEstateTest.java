@@ -36,7 +36,7 @@ public class PlayerRollToEmptyEstateTest {
 
     @Test
     public void should_wait_for_response_if_has_enough_money_to_buy() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         currentPlayer.roll(dice);
@@ -45,21 +45,23 @@ public class PlayerRollToEmptyEstateTest {
 
     @Test
     public void should_buy_estate_if_say_yes() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         currentPlayer.roll(dice);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
+        assertThat(currentPlayer.estates.size(), is(0));
         assertThat(emptyEstate.getOwner(), is(nullValue()));
 
         currentPlayer.sayYes();
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - emptyEstate.getEmptyPrice()));
+        assertThat(currentPlayer.estates.size(), is(1));
         assertThat(emptyEstate.getOwner(), is(currentPlayer));
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
     }
 
     @Test
     public void should_end_turn_if_say_no() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         currentPlayer.roll(dice);
         currentPlayer.sayNo();
@@ -71,7 +73,7 @@ public class PlayerRollToEmptyEstateTest {
 
     @Test
     public void should_end_turn_if_no_enough_money() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, EMPTY_PRICE_5-1);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, EMPTY_PRICE_5-1);
 
         currentPlayer.roll(dice);
 

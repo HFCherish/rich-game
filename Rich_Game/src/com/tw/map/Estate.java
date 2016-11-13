@@ -35,10 +35,6 @@ public class Estate implements Place {
         return owner;
     }
 
-    public void sellTo(Player currentPlayer) {
-        this.owner = currentPlayer;
-    }
-
     public EstateLevel getLevel() {
         return level;
     }
@@ -68,7 +64,11 @@ public class Estate implements Place {
         }
     }
 
-    public enum EstateLevel {EMPTY, THATCH}
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public enum EstateLevel {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}
 
     public enum EstateType {OWN, EMPTY, OTHER}
 }

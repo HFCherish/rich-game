@@ -33,8 +33,8 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_wait_for_response_if_has_enough_money_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
-        ownEstate.sellTo(currentPlayer);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -44,8 +44,8 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_end_turn_if_no_enough_money_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, EMPTY_ESTATE_PRICE_5-1);
-        ownEstate.sellTo(currentPlayer);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, EMPTY_ESTATE_PRICE_5-1);
+        currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -55,8 +55,8 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_upgrade_own_estate_if_say_yes_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
-        ownEstate.sellTo(currentPlayer);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5);
+        currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         currentPlayer.roll(dice);
@@ -71,8 +71,8 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_end_turn_if_say_no_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
-        ownEstate.sellTo(currentPlayer);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5);
+        currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         currentPlayer.roll(dice);

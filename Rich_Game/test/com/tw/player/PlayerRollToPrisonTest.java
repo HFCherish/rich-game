@@ -1,7 +1,8 @@
-package com.tw.map;
+package com.tw.player;
 
 import com.tw.Dice;
-import com.tw.player.Player;
+import com.tw.map.GameMap;
+import com.tw.map.Prison;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class PlayerRollToPrisonTest {
     public void should_player_get_into_prison_and_end_turn() {
         Prison prison = new Prison();
         when(map.move(anyObject(), anyInt())).thenReturn(prison);
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getStuckDays(), is(0));

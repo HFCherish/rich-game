@@ -29,13 +29,13 @@ public class PlayerRollToOthersEstate {
         map = mock(GameMap.class);
         dice = () -> 1;
         othersEstate = new Estate(EMPTY_ESTATE_PRICE_5);
-        othersEstate.sellTo(Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10));
+        Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10).buyEstate(othersEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(othersEstate);
     }
 
     @Test
     public void should_end_turn_and_not_charge_if_has_lucky_god() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_Lucky(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Lucky_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
@@ -46,7 +46,7 @@ public class PlayerRollToOthersEstate {
 
     @Test
     public void should_charge_and_end_turn_if_no_lucky_god() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
@@ -57,7 +57,7 @@ public class PlayerRollToOthersEstate {
 
     @Test
     public void should_bankrupt_if_funds_less_than_0_after_charge() {
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, EMPTY_ESTATE_PRICE_5-1);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, EMPTY_ESTATE_PRICE_5-1);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(EMPTY_ESTATE_PRICE_5-1));

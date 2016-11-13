@@ -21,21 +21,19 @@ public class Player {
     private int funds;
     private Place currentPlace;
     private int points;
-    private List<AssistancePower> tools;
+    private List<Tool> tools;
+    List<Estate> estates;
     private boolean hasLuckyGod;
-    private int hospitalDays;
-    private int prisonDays;
     private int stuckDays;
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
-        this.funds = initialFund;
+        funds = initialFund;
         this.status = Status.WAIT_FOR_COMMAND;
         points = 0;
         stuckDays = 0;
-        hospitalDays = 0;
-        prisonDays = 0;
         tools = new ArrayList<>();
+        estates = new ArrayList<>();
         hasLuckyGod = false;
     }
 
@@ -71,8 +69,7 @@ public class Player {
     public void sayYes() {
         Estate estate = (Estate) currentPlace;
         if (estate.getOwner() == null) {
-            funds -= estate.getEmptyPrice();
-            estate.sellTo(this);
+            buyEstate(estate);
         } else if (estate.getOwner().equals(this)) {
             funds -= estate.getEmptyPrice();
             estate.upgrade();
@@ -80,7 +77,13 @@ public class Player {
         endTurn();
     }
 
-    public static Player createPlayerWith_Fund_Map(GameMap map, int initialFund) {
+    protected void buyEstate(Estate estate) {
+        funds -= estate.getEmptyPrice();
+        estate.setOwner(this);
+        estates.add(estate);
+    }
+
+    public static Player createPlayerWith_Fund_Map_COMMAND_STATE(GameMap map, int initialFund) {
         return new Player(map, initialFund);
     }
 
@@ -92,7 +95,7 @@ public class Player {
         points += addedPoints;
     }
 
-    public List<AssistancePower> getTools() {
+    public List<Tool> getTools() {
         return tools;
     }
 
@@ -118,8 +121,8 @@ public class Player {
         return points;
     }
 
-    public static Player createPlayerWith_Fund_Map_Tools(GameMap map, int initialFund10, AssistancePower... tools) {
-        Player player = createPlayerWith_Fund_Map(map, initialFund10);
+    public static Player createPlayerWith_Fund_Map_Tools_COMMAND_STATE(GameMap map, int initialFund10, Tool... tools) {
+        Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund10);
         player.tools.addAll(Arrays.asList(tools));
         return player;
     }
@@ -143,8 +146,8 @@ public class Player {
         return hasLuckyGod;
     }
 
-    public static Player createPlayerWith_Fund_Map_Lucky(GameMap map, int initialFund) {
-        Player player = createPlayerWith_Fund_Map(map, initialFund);
+    public static Player createPlayerWith_Fund_Map_Lucky_COMMAND_STATE(GameMap map, int initialFund) {
+        Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund);
         player.hasLuckyGod = true;
         return player;
     }
@@ -155,6 +158,10 @@ public class Player {
 
     public int getStuckDays() {
         return stuckDays;
+    }
+
+    public String queryAsString(Report report) {
+        return report.reportAsString(funds, points, estates, tools);
     }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}

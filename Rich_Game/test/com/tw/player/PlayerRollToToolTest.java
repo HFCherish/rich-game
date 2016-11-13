@@ -34,7 +34,7 @@ public class PlayerRollToToolTest {
     public void should_stop_and_end_turn_if_pass_block() {
         Place block = new Block();
         when(map.move(anyObject(), anyInt())).thenReturn(block);
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         currentPlayer.roll(dice);
@@ -45,7 +45,7 @@ public class PlayerRollToToolTest {
     public void should_get_into_hospital_and_end_turn_if_pass_bomb() {
         Place bomb = new Bomb();
         when(map.move(anyObject(), anyInt())).thenReturn(bomb);
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getStuckDays(), is(0));

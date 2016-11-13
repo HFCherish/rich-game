@@ -39,7 +39,7 @@ public class PlayerRollToGiftHouseTest {
     public void should_wait_for_response_if_has_enough_point_to_buy_tool() {
         giftHouse = new GiftHouse();
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         currentPlayer.roll(dice);
@@ -53,7 +53,7 @@ public class PlayerRollToGiftHouseTest {
         when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift1_point);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.roll(dice);
 
         assertThat(currentPlayer.getPoints(), is(0));
@@ -69,7 +69,7 @@ public class PlayerRollToGiftHouseTest {
         when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_fund);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.roll(dice);
 
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
@@ -85,7 +85,7 @@ public class PlayerRollToGiftHouseTest {
         when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_luckyGod);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.roll(dice);
 
         assertThat(currentPlayer.isLucky(), is(false));
@@ -100,7 +100,7 @@ public class PlayerRollToGiftHouseTest {
         when(giftHouse.getItemByIndex(anyInt())).thenReturn(null);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
-        currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
         currentPlayer.roll(dice);
 
         currentPlayer.selectGift(4);
