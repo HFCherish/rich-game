@@ -24,13 +24,17 @@ public class Player {
     private List<AssistancePower> tools;
     private boolean hasLuckyGod;
     private int hospitalDays;
+    private int prisonDays;
+    private int stuckDays;
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
         this.funds = initialFund;
         this.status = Status.WAIT_FOR_COMMAND;
         points = 0;
+        stuckDays = 0;
         hospitalDays = 0;
+        prisonDays = 0;
         tools = new ArrayList<>();
         hasLuckyGod = false;
     }
@@ -145,12 +149,12 @@ public class Player {
         return player;
     }
 
-    public int hospitalDays() {
-        return hospitalDays;
+    public void stuckFor(int days) {
+        stuckDays = days;
     }
 
-    public void goToHospital() {
-        hospitalDays = 3;
+    public int getStuckDays() {
+        return stuckDays;
     }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
