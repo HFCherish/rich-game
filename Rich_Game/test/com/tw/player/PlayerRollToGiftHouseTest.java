@@ -1,11 +1,12 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.asest.AssistancePower;
 import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.PointCard;
-import com.tw.giftHouse.Gift;
 import com.tw.giftHouse.GiftHouse;
 import com.tw.giftHouse.LuckyGod;
+import com.tw.house.House;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,17 +27,17 @@ public class PlayerRollToGiftHouseTest {
     private GameMap map;
     private Dice dice;
     private Player currentPlayer;
-    private GiftHouse giftHouse;
+    private House giftHouse;
 
     @Before
     public void setUp() {
         map = mock(GameMap.class);
         dice = () -> 1;
-        giftHouse = mock(GiftHouse.class);
     }
 
     @Test
     public void should_wait_for_response_if_has_enough_point_to_buy_tool() {
+        giftHouse = new GiftHouse();
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
 
@@ -47,8 +48,9 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_addPoints_and_end_turn_if_select_point_card() {
-        Gift gift1_point = new PointCard(POINT_VALUE);
-        when(giftHouse.getGift(anyInt())).thenReturn(gift1_point);
+        giftHouse = mock(House.class);
+        AssistancePower gift1_point = new PointCard(POINT_VALUE);
+        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift1_point);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
@@ -62,8 +64,9 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_add_funds_and_end_turn_if_select_fund() {
-        Gift gift_fund = new Fund(INITIAL_FUND_10);
-        when(giftHouse.getGift(anyInt())).thenReturn(gift_fund);
+        giftHouse = mock(House.class);
+        AssistancePower gift_fund = new Fund(INITIAL_FUND_10);
+        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_fund);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
@@ -77,8 +80,9 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_get_lucky_god_and_end_turn_if_select_lucky_god() {
-        Gift gift_luckyGod = new LuckyGod();
-        when(giftHouse.getGift(anyInt())).thenReturn(gift_luckyGod);
+        giftHouse = mock(House.class);
+        AssistancePower gift_luckyGod = new LuckyGod();
+        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_luckyGod);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
@@ -92,7 +96,8 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_end_turn_if_select_wrong() {
-        when(giftHouse.getGift(anyInt())).thenReturn(null);
+        giftHouse = mock(House.class);
+        when(giftHouse.getItemByIndex(anyInt())).thenReturn(null);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);

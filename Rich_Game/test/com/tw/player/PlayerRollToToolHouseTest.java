@@ -1,6 +1,8 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.asest.AssistancePower;
+import com.tw.house.House;
 import com.tw.map.GameMap;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolHouse;
@@ -23,7 +25,7 @@ public class PlayerRollToToolHouseTest {
     public static final int POINT_6_TOOL_2 = 6;
     private GameMap map;
     private Dice dice;
-    private ToolHouse toolHouse;
+    private House toolHouse;
     private Player currentPlayer;
     private Tool tool_5;
     private Tool tool_6;
@@ -116,7 +118,7 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_end_turn_if_contains_10_tools_before_buying() {
         //contains 10 tools before get into tool house
-        Tool[] tenTools = new Tool[10];
+        AssistancePower[] tenTools = new AssistancePower[10];
         for( int i=0; i<10; i++ )
             tenTools[i] = tool_5;
         currentPlayer = Player.createPlayerWith_Fund_Map_Tools(map, INITIAL_FUND_10, tenTools);

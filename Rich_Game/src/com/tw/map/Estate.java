@@ -15,6 +15,18 @@ public class Estate implements Place {
         level = EstateLevel.EMPTY;
     }
 
+    public void passOthersEstate(Player player, Estate estate) {
+        if (!player.isLucky()) {
+            player.chargeFunds(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1));
+            if(player.getFunds() < 0) {
+                player.bankrupt();
+                return;
+            }
+        }
+        player.endTurn();
+        return;
+    }
+
     public int getEmptyPrice() {
         return emptyPrice;
     }
@@ -39,6 +51,21 @@ public class Estate implements Place {
         if(owner == null)   return EstateType.EMPTY;
         if(owner.equals(player))   return EstateType.OWN;
         return EstateType.OTHER;
+    }
+
+    @Override
+    public void comeHere(Player player) {
+        Estate estate = this;
+        EstateType type = estate.typeFor(player);
+        if (type.equals(EstateType.OTHER)) {
+            passOthersEstate(player, estate);
+        }
+        else if (player.getFunds() < estate.getEmptyPrice()) {
+            player.endTurn();
+        }
+        else {
+            player.waitForResponse();
+        }
     }
 
     public enum EstateLevel {EMPTY, THATCH}

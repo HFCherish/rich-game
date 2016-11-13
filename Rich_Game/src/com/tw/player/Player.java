@@ -1,7 +1,9 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.asest.AssistancePower;
 import com.tw.giftHouse.*;
+import com.tw.house.House;
 import com.tw.map.*;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolHouse;
@@ -19,7 +21,7 @@ public class Player {
     private int funds;
     private Place currentPlace;
     private int points;
-    private List<Tool> tools;
+    private List<AssistancePower> tools;
     private boolean hasLuckyGod;
     private int hospitalDays;
 
@@ -35,66 +37,23 @@ public class Player {
 
     public void roll(Dice dice) {
         currentPlace = map.move(currentPlace, dice.next());
-        if (currentPlace instanceof Estate) {
-            Estate estate = (Estate) this.currentPlace;
-            Estate.EstateType type = estate.typeFor(this);
-            if (type.equals(Estate.EstateType.OTHER)) {
-                passOthersEstate(estate);
-                return;
-            }
-            else if( type.equals(Estate.EstateType.EMPTY)) {
-                if(funds < estate.getEmptyPrice()) {
-                    status = Status.END_TURN;
-                    return;
-                }
-                else {
-                    status = Status.WAIT_FOR_RESPONSE;
-                    return;
-                }
-            }
-            else {
-                if (funds < estate.getEmptyPrice()) {
-                    status = Status.END_TURN;
-                    return;
-                }
-                else {
-                    status = Status.WAIT_FOR_RESPONSE;
-                    return;
-                }
-            }
-        }
-        if( currentPlace instanceof ToolHouse) {
-            if ((!((ToolHouse) currentPlace).canAffordWith(points) || tools.size() == 10)) {
-                status = Status.END_TURN;
-                return;
-            }
-            else {
-                status = Status.WAIT_FOR_RESPONSE;
-                return;
-            }
-        }
-        if(currentPlace instanceof Block) {
-            status = Status.END_TURN;
-            return;
-        }
-        if(currentPlace instanceof Bomb) {
-            status = Status.END_TURN;
-            hospitalDays = 3;
-            return;
-        }
+        currentPlace.comeHere(this);
+    }
+
+    public void waitForResponse() {
         status = Status.WAIT_FOR_RESPONSE;
     }
 
-    private void passOthersEstate(Estate estate) {
-        if (!isLucky()) {
-            funds -= estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1);
-            if(funds < 0) {
-                status = Status.BANKRUPT;
-                return;
-            }
-        }
+    public void endTurn() {
         status = Status.END_TURN;
-        return;
+    }
+
+    public void bankrupt() {
+        status = Status.BANKRUPT;
+    }
+
+    public void chargeFunds(int fees) {
+        funds -= fees;
     }
 
     public Status getStatus() {
@@ -114,7 +73,7 @@ public class Player {
             funds -= estate.getEmptyPrice();
             estate.upgrade();
         }
-        status = Status.END_TURN;
+        endTurn();
     }
 
     public static Player createPlayerWith_Fund_Map(GameMap map, int initialFund) {
@@ -122,58 +81,58 @@ public class Player {
     }
 
     public void sayNo() {
-        status = Status.END_TURN;
+        endTurn();
     }
 
     public void addPoint(int addedPoints) {
         points += addedPoints;
     }
 
-    public List<Tool> getTools() {
+    public List<AssistancePower> getTools() {
         return tools;
     }
 
     public void buyTool(int toolIndex) {
         if (toolIndex == ToolHouse.QUIT_INDEX) {
-            status = Status.END_TURN;
+            endTurn();
             return;
         }
         ToolHouse toolHouse = (ToolHouse) this.currentPlace;
-        Tool toolById = toolHouse.getToolById(toolIndex);
+        Tool toolById = toolHouse.getItemByIndex(toolIndex);
         if (toolById != null) {
             tools.add(toolById);
             points -= toolById.getPoints();
             if (toolHouse.canAffordWith(points) && tools.size() < 10) {
-                status = Status.WAIT_FOR_RESPONSE;
+                waitForResponse();
                 return;
             }
         }
-        status = Status.END_TURN;
+        endTurn();
     }
 
     public int getPoints() {
         return points;
     }
 
-    public static Player createPlayerWith_Fund_Map_Tools(GameMap map, int initialFund10, Tool... tools) {
+    public static Player createPlayerWith_Fund_Map_Tools(GameMap map, int initialFund10, AssistancePower... tools) {
         Player player = createPlayerWith_Fund_Map(map, initialFund10);
         player.tools.addAll(Arrays.asList(tools));
         return player;
     }
 
     public void selectGift(int giftIndex_startFrom1) {
-        GiftHouse giftHouse = (GiftHouse) currentPlace;
-        Gift gift = giftHouse.getGift(giftIndex_startFrom1);
+        House giftHouse = (House) currentPlace;
+        AssistancePower gift = giftHouse.getItemByIndex(giftIndex_startFrom1);
         if (gift != null) {
             if (gift instanceof PointCard) {
-                points += gift.getValue();
+                points += ((PointCard) gift).getValue();
             } else if (gift instanceof Fund) {
-                funds += gift.getValue();
+                funds += ((Fund) gift).getValue();
             } else if (gift instanceof LuckyGod) {
                 hasLuckyGod = true;
             }
         }
-        status = Status.END_TURN;
+        endTurn();
     }
 
     public boolean isLucky() {
@@ -188,6 +147,10 @@ public class Player {
 
     public int hospitalDays() {
         return hospitalDays;
+    }
+
+    public void goToHospital() {
+        hospitalDays = 3;
     }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}

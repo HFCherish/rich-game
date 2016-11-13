@@ -32,7 +32,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_stop_and_end_turn_if_pass_block() {
-        Place block = mock(Block.class);
+        Place block = new Block();
         when(map.move(anyObject(), anyInt())).thenReturn(block);
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
 
@@ -43,7 +43,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_get_into_hospital_and_end_turn_if_pass_bomb() {
-        Place bomb = mock(Bomb.class);
+        Place bomb = new Bomb();
         when(map.move(anyObject(), anyInt())).thenReturn(bomb);
         currentPlayer = Player.createPlayerWith_Fund_Map(map, INITIAL_FUND_10);
 
