@@ -31,6 +31,7 @@ public class Player {
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
+        this.map.addPlayer(this);
         funds = initialFund;
         this.status = Status.WAIT_FOR_COMMAND;
         points = 0;
@@ -44,6 +45,10 @@ public class Player {
     public void roll(Dice dice) {
         currentPlace = map.move(currentPlace, dice.next());
         currentPlace.comeHere(this);
+    }
+
+    public void setCurrentPlace(Place place) {
+        this.currentPlace = place;
     }
 
     public void waitForResponse() {
@@ -158,7 +163,12 @@ public class Player {
         return player;
     }
 
-    public void stuckFor(int days) {
+    public void goToHospital(int days) {
+        stuckIn(map.getHospital(), days);
+    }
+
+    public void stuckIn(Place place, int days) {
+        currentPlace = place;
         stuckDays = days;
     }
 
@@ -192,6 +202,16 @@ public class Player {
         if (tools.get(toolType) == 0 || (steps < -10 || steps > 10))
             return false;
         return map.setTool(toolType, steps, currentPlace);
+    }
+
+    public Place getCurrentPlace() {
+        return currentPlace;
+    }
+
+    public static Player createPlayerWith_Fund_Map_place_COMMAND_STATE(GameMap map, int iniitialFund, Place initialPlace) {
+        Player player = new Player(map, iniitialFund);
+        player.currentPlace = initialPlace;
+        return player;
     }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}

@@ -47,6 +47,7 @@ public class Estate implements Place {
 
     @Override
     public void comeHere(Player player) {
+        player.setCurrentPlace(this);
         Estate estate = this;
         EstateType type = estate.typeFor(player);
         if (type.equals(EstateType.OTHER)) {
@@ -60,14 +61,12 @@ public class Estate implements Place {
         }
     }
 
-
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
-    public static Estate createEstateWith_Position_and_funds(Position position, int initialFunds) {
-        Estate estate = new Estate(initialFunds);
-        return null;
+    public static Estate createEstateWith_Position_and_funds(Position position, int emptyPrice) {
+        return new Estate(emptyPrice);
     }
 
     public enum EstateLevel {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}

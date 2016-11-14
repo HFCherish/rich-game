@@ -2,6 +2,7 @@ package com.tw.giftHouse;
 
 import com.tw.asest.AssistancePower;
 import com.tw.house.House;
+import com.tw.map.Position;
 import com.tw.player.Player;
 
 /**
@@ -15,6 +16,7 @@ public class GiftHouse implements House {
 
     @Override
     public void comeHere(Player player) {
+        player.setCurrentPlace(this);
         player.waitForResponse();
     }
 }

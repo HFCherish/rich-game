@@ -8,7 +8,7 @@ import com.tw.player.Player;
 public class Prison implements Place {
     @Override
     public void comeHere(Player player) {
-        player.stuckFor(2);
+        player.stuckIn(this, 2);
         player.endTurn();
     }
 }

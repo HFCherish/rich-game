@@ -6,19 +6,25 @@ package com.tw.map;
 public class Position {
     private final int x;
     private final int y;
-    private Direction direction;
 
-    public Position(int x, int y, Direction direction) {
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
-        this.direction = direction;
     }
 
     @Override
     public boolean equals(Object obj) {
         if( obj instanceof Position) {
             Position another = (Position) obj;
-            return x== another.x && y== another.y && direction.equals(another.direction);
+            return x== another.x && y== another.y;
         }
         return false;
     }
