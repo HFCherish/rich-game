@@ -170,10 +170,12 @@ public class Player {
         return report.reportAsString(funds, points, estates, tools);
     }
 
-    public void sellEstate(Estate estate) {
+    public boolean sellEstate(Estate estate) {
+        if(!estates.contains(estate))    return false;
         funds += estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2;
         estates.remove(estate);
         estate.setOwner(null);
+        return true;
     }
 
     public void sellTool(Tool tool) {

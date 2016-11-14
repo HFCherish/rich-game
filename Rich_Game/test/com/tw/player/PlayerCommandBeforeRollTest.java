@@ -62,12 +62,31 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.estates.size(), is(1));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.OWNER));
 
-        currentPlayer.sellEstate(emptyEstate);
+        assertThat(currentPlayer.sellEstate(emptyEstate), is(true));
 
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
         assertThat(currentPlayer.estates.size(), is(0));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 + empty_house_price_5 * 2));
+    }
+
+    @Test
+    public void should_not_able_to_sell_estate_if_not_has_that_estate_when_waiting_for_command() {
+        int empty_house_price_5 = 5;
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        Estate emptyEstate = new Estate(empty_house_price_5);
+
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
+        assertThat(currentPlayer.estates.size(), is(0));
+        assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
+
+        assertThat(currentPlayer.sellEstate(emptyEstate), is(false));
+
+        assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
+        assertThat(currentPlayer.estates.size(), is(0));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
     }
 
     @Test
