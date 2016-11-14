@@ -31,10 +31,6 @@ public class Estate implements Place {
         return emptyPrice;
     }
 
-    public Player getOwner() {
-        return owner;
-    }
-
     public EstateLevel getLevel() {
         return level;
     }
@@ -45,7 +41,7 @@ public class Estate implements Place {
 
     public EstateType typeFor(Player player) {
         if(owner == null)   return EstateType.EMPTY;
-        if(owner.equals(player))   return EstateType.OWN;
+        if(owner.equals(player))   return EstateType.OWNER;
         return EstateType.OTHER;
     }
 
@@ -70,5 +66,5 @@ public class Estate implements Place {
 
     public enum EstateLevel {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}
 
-    public enum EstateType {OWN, EMPTY, OTHER}
+    public enum EstateType {OWNER, EMPTY, OTHER}
 }

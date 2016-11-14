@@ -1,12 +1,14 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.GameHelp;
 import com.tw.asest.AssistancePower;
 import com.tw.giftHouse.*;
 import com.tw.house.House;
 import com.tw.map.*;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolHouse;
+import com.tw.toolHouse.ToolType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,9 +70,10 @@ public class Player {
 
     public void sayYes() {
         Estate estate = (Estate) currentPlace;
-        if (estate.getOwner() == null) {
+        Estate.EstateType estateType = estate.typeFor(this);
+        if (estateType.equals(Estate.EstateType.EMPTY)) {
             buyEstate(estate);
-        } else if (estate.getOwner().equals(this)) {
+        } else if (estateType.equals(Estate.EstateType.OWNER)) {
             funds -= estate.getEmptyPrice();
             estate.upgrade();
         }
@@ -163,6 +166,29 @@ public class Player {
     public String queryAsString(Report report) {
         return report.reportAsString(funds, points, estates, tools);
     }
+
+    public void sellEstate(Estate estate) {
+        funds += estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2;
+        estates.remove(estate);
+        estate.setOwner(null);
+    }
+
+    public void sellTool(Tool tool) {
+        points += tool.getPoints();
+        tools.remove(tool);
+    }
+
+    public String helpAsString(GameHelp gameHelp) {
+        return gameHelp.getHelpAsString();
+    }
+
+    public boolean setTool(ToolType toolType, int steps) {
+        return false;
+    }
+
+//    public <T> T setTool(Tool tool, int i) {
+//        map.setTool()
+//    }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
 }

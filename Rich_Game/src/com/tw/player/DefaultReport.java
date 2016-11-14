@@ -1,11 +1,9 @@
 package com.tw.player;
 
 import com.tw.asest.AssistancePower;
-import com.tw.map.Block;
-import com.tw.map.Bomb;
 import com.tw.map.Estate;
-import com.tw.toolHouse.RobotDull;
 import com.tw.toolHouse.Tool;
+import com.tw.toolHouse.ToolType;
 
 import java.util.List;
 
@@ -30,9 +28,9 @@ public class DefaultReport implements Report {
         int block = 0;
         int robotDull = 0;
         for(AssistancePower tool: tools) {
-            if(tool instanceof Bomb)    bomb++;
-            if(tool instanceof Block)   block++;
-            if(tool instanceof RobotDull) robotDull++;
+            if(tool.equals(ToolType.Bomb))    bomb++;
+            if(tool.equals(ToolType.Block))   block++;
+            if(tool.equals(ToolType.RobotDull)) robotDull++;
         }
         res.append("道具: 路障" + block + "个; 炸弹" + bomb + "个; 机器娃娃" + robotDull + "个\n");
     }

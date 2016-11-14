@@ -50,12 +50,12 @@ public class PlayerRollToEmptyEstateTest {
         currentPlayer.roll(dice);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(currentPlayer.estates.size(), is(0));
-        assertThat(emptyEstate.getOwner(), is(nullValue()));
+        assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
 
         currentPlayer.sayYes();
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - emptyEstate.getEmptyPrice()));
         assertThat(currentPlayer.estates.size(), is(1));
-        assertThat(emptyEstate.getOwner(), is(currentPlayer));
+        assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.OWNER));
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
     }
 
@@ -68,7 +68,7 @@ public class PlayerRollToEmptyEstateTest {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
-        assertThat(emptyEstate.getOwner(), is(nullValue()));
+        assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
     }
 
     @Test

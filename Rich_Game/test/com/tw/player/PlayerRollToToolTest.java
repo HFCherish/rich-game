@@ -3,8 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.map.GameMap;
 import com.tw.map.Place;
-import com.tw.map.Block;
-import com.tw.map.Bomb;
+import com.tw.toolHouse.ToolType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_stop_and_end_turn_if_pass_block() {
-        Place block = new Block();
+        Place block = ToolType.Block;
         when(map.move(anyObject(), anyInt())).thenReturn(block);
         currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
@@ -43,7 +42,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_get_into_hospital_and_end_turn_if_pass_bomb() {
-        Place bomb = new Bomb();
+        Place bomb = ToolType.Bomb;
         when(map.move(anyObject(), anyInt())).thenReturn(bomb);
         currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
