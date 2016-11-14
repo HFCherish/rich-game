@@ -24,9 +24,9 @@ public class DefaultReport implements Report {
     }
 
     private void appendToolInfo(HashMap<Tool, Integer> tools) {
-        int bomb = tools.get(ToolType.Bomb) == null ? 0 : tools.get(ToolType.Bomb);
-        int block = tools.get(ToolType.Block) == null ? 0 : tools.get(ToolType.Block);
-        int robotDull = tools.get(ToolType.RobotDull) == null ? 0 : tools.get(ToolType.RobotDull);
+        int bomb = tools.get(ToolType.Bomb);
+        int block = tools.get(ToolType.Block);
+        int robotDull = tools.get(ToolType.RobotDull);
         res.append("道具: 路障" + block + "个; 炸弹" + bomb + "个; 机器娃娃" + robotDull + "个\n");
     }
 

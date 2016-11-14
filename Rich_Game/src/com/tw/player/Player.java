@@ -112,7 +112,7 @@ public class Player {
         ToolHouse toolHouse = (ToolHouse) this.currentPlace;
         Tool toolById = toolHouse.getItemByIndex(toolIndex);
         if (toolById != null) {
-            tools.compute(toolById, (k, v) -> v == null ? 1 : v + 1);
+            tools.compute(toolById, (k, v) -> v + 1);
             points -= toolById.getPoints();
             if (toolHouse.canAffordWith(points) && tools.values().stream().reduce(0, (a, b) -> a + b) < 10) {
                 waitForResponse();
@@ -129,8 +129,7 @@ public class Player {
     public static Player createPlayerWith_Fund_Map_Tools_COMMAND_STATE(GameMap map, int initialFund10, Tool... tools) {
         Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund10);
         if (tools != null && tools.length > 0)
-            Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v==null ? 1 : v+1));
-//        player.tools.addAll(Arrays.asList(tools));
+            Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v+1));
         return player;
     }
 
@@ -178,7 +177,6 @@ public class Player {
     }
 
     public void sellTool(Tool tool) {
-        tools.compute(tool, (k, v) -> v == null ? 0 : v);
         if (tools.get(tool) == 0) return;
         tools.compute(tool, (k, v) -> v - 1);
         points += tool.getPoints();
