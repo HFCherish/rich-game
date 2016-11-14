@@ -7,4 +7,6 @@ import com.tw.player.Player;
  */
 public interface Place {
     void comeHere(Player player);
+
+
 }

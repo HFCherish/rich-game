@@ -60,8 +60,14 @@ public class Estate implements Place {
         }
     }
 
+
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public static Estate createEstateWith_Position_and_funds(Position position, int initialFunds) {
+        Estate estate = new Estate(initialFunds);
+        return null;
     }
 
     public enum EstateLevel {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}

@@ -1,6 +1,8 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.map.BlockPlace;
+import com.tw.map.BombPlace;
 import com.tw.map.GameMap;
 import com.tw.map.Place;
 import com.tw.toolHouse.ToolType;
@@ -31,7 +33,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_stop_and_end_turn_if_pass_block() {
-        Place block = ToolType.Block;
+        Place block = new BlockPlace();
         when(map.move(anyObject(), anyInt())).thenReturn(block);
         currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 
@@ -42,7 +44,7 @@ public class PlayerRollToToolTest {
 
     @Test
     public void should_get_into_hospital_and_end_turn_if_pass_bomb() {
-        Place bomb = ToolType.Bomb;
+        Place bomb = new BombPlace();
         when(map.move(anyObject(), anyInt())).thenReturn(bomb);
         currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
 

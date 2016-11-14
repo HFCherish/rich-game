@@ -129,7 +129,7 @@ public class Player {
     public static Player createPlayerWith_Fund_Map_Tools_COMMAND_STATE(GameMap map, int initialFund10, Tool... tools) {
         Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund10);
         if (tools != null && tools.length > 0)
-            Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v+1));
+            Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v + 1));
         return player;
     }
 
@@ -171,7 +171,7 @@ public class Player {
     }
 
     public boolean sellEstate(Estate estate) {
-        if(!estates.contains(estate))    return false;
+        if (!estates.contains(estate)) return false;
         funds += estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2;
         estates.remove(estate);
         estate.setOwner(null);
@@ -188,14 +188,11 @@ public class Player {
         return gameHelp.getHelpAsString();
     }
 
-    public boolean setTool(ToolType toolType, int steps) {
-//        if()
-        return false;
+    public boolean setTool(Tool toolType, int steps) {
+        if (tools.get(toolType) == 0 || (steps < -10 || steps > 10))
+            return false;
+        return map.setTool(toolType, steps, currentPlace);
     }
-
-//    public <T> T setTool(Tool tool, int i) {
-//        map.setTool()
-//    }
 
     public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
 }

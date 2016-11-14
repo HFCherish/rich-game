@@ -145,23 +145,35 @@ public class PlayerCommandBeforeRollTest {
     }
 
     @Test
-    public void should_not_set_blocker_if_steps_out_of_range() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block);
+    public void should_not_set_tool_if_steps_out_of_range() {
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
         assertThat(currentPlayer.setTool(ToolType.Block, 15), is(false));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        assertThat(currentPlayer.setTool(ToolType.Bomb, 15), is(false));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        assertThat(currentPlayer.setTool(ToolType.RobotDull, 15), is(false));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 
     @Test
-    public void should_able_to_set_blocker_when_has_blocker_and_set_at_right_place() {
+    public void should_able_to_set_tool_when_has_that_tool() {
         when(map.setTool(anyObject(), anyInt(), anyObject())).thenReturn(true);
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-//        assertThat(currentPlayer.setTool(ToolType.Block, 10), is(true));
+        assertThat(currentPlayer.setTool(ToolType.Block, 10), is(true));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        assertThat(currentPlayer.setTool(ToolType.Bomb, 10), is(true));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        assertThat(currentPlayer.setTool(ToolType.RobotDull, 10), is(true));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 }

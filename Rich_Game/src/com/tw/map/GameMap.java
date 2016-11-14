@@ -8,5 +8,5 @@ import com.tw.toolHouse.Tool;
 public interface GameMap {
     Place move(Place start, int steps);
 
-    boolean setTool(Tool tool, int steps, Position start);
+    boolean setTool(Tool tool, int steps, Place start);
 }
