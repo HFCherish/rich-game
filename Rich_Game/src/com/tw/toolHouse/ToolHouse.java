@@ -1,8 +1,6 @@
 package com.tw.toolHouse;
 
-import com.tw.asest.AssistancePower;
 import com.tw.house.House;
-import com.tw.map.Place;
 import com.tw.player.Player;
 
 import java.util.Arrays;
@@ -30,7 +28,7 @@ public class ToolHouse implements House {
 
     @Override
     public void comeHere(Player player) {
-        if ((!canAffordWith(player.getPoints()) || player.getTools().size() == 10)) {
+        if ((!canAffordWith(player.getPoints()) || player.getTools().values().stream().reduce(0, (a, b) -> a+b) == 10)) {
             player.endTurn();
         }
         else {

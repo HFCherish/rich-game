@@ -1,7 +1,6 @@
 package com.tw.player;
 
 import com.tw.Dice;
-import com.tw.asest.AssistancePower;
 import com.tw.house.House;
 import com.tw.map.GameMap;
 import com.tw.toolHouse.Tool;
@@ -68,11 +67,11 @@ public class PlayerRollToToolHouseTest {
         currentPlayer.addPoint(POINT_5_TOOL_1 + POINT_6_TOOL_2);
         currentPlayer.roll(dice);
 
-        assertThat(currentPlayer.getTools().size(), is(0));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
         assertThat(currentPlayer.getPoints(), is(POINT_5_TOOL_1 + POINT_6_TOOL_2));
         currentPlayer.buyTool(1);
-        assertThat(currentPlayer.getTools().size(), is(1));
-        assertThat(currentPlayer.getTools().contains(tool_5), is(true));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(1));
+        assertThat(currentPlayer.getTools().get(tool_5), is(1));
         assertThat(currentPlayer.getPoints(), is(POINT_6_TOOL_2));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
     }
@@ -84,11 +83,11 @@ public class PlayerRollToToolHouseTest {
         currentPlayer.roll(dice);
 
         assertThat(currentPlayer.getPoints(), is(POINT_6_TOOL_2));
-        assertThat(currentPlayer.getTools().size(), is(0));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
         currentPlayer.buyTool(1);
-        assertThat(currentPlayer.getTools().size(), is(1));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(1));
         assertThat(currentPlayer.getPoints(), is(POINT_6_TOOL_2 - POINT_5_TOOL_1));
-        assertThat(currentPlayer.getTools().contains(tool_5), is(true));
+        assertThat(currentPlayer.getTools().get(tool_5), is(1));
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
     }
 
@@ -100,7 +99,7 @@ public class PlayerRollToToolHouseTest {
 
         for (int i = 0; i < 10; i++)
             currentPlayer.buyTool(2);
-        assertThat(currentPlayer.getTools().size(), is(10));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(10));
         assertThat(currentPlayer.getPoints(), is(POINT_5_TOOL_1));
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
     }
@@ -125,7 +124,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer.addPoint(POINT_5_TOOL_1);
 
         currentPlayer.roll(dice);
-        assertThat(currentPlayer.getTools().size(), is(10));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(10));
         assertThat(currentPlayer.getPoints(), is(POINT_5_TOOL_1));
         assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
     }

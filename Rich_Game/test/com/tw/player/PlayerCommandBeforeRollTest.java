@@ -11,6 +11,8 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -77,13 +79,28 @@ public class PlayerCommandBeforeRollTest {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getPoints(), is(0));
-        assertThat(currentPlayer.getTools().size(), is(1));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(1));
 
         currentPlayer.sellTool(tool);
 
-        assertThat(currentPlayer.getTools().size(), is(0));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getPoints(), is(tool_point_5));
+    }
+
+    @Test
+    public void should_not_sell_tool_if_not_has_that_tool_when_waiting_for_command() {
+        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(currentPlayer.getPoints(), is(0));
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
+
+        currentPlayer.sellTool(ToolType.Block);
+
+        assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(currentPlayer.getPoints(), is(0));
     }
 
     @Test
@@ -109,5 +126,27 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.setTool(ToolType.Block, 1), is(false));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
+    }
+
+    @Test
+    public void should_not_set_blocker_if_steps_out_of_range() {
+//        when(map.setTool(anyObject(), anyInt(), anyObject())).thenReturn(false);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block);
+
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        assertThat(currentPlayer.setTool(ToolType.Block, 15), is(false));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+    }
+
+    @Test
+    public void should_able_to_set_blocker_when_has_blocker_and_set_at_right_place() {
+                when(map.setTool(anyObject(), anyInt(), anyObject())).thenReturn(true);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block);
+
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+//        assertThat(currentPlayer.setTool(ToolType.Block, 10), is(true));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 }

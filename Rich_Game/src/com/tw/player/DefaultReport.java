@@ -1,10 +1,10 @@
 package com.tw.player;
 
-import com.tw.asest.AssistancePower;
 import com.tw.map.Estate;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolType;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ public class DefaultReport implements Report {
     private StringBuilder res;
 
     @Override
-    public String reportAsString(int funds, int points, List<Estate> estates, List<Tool> tools) {
+    public String reportAsString(int funds, int points, List<Estate> estates, HashMap<Tool, Integer> tools) {
         res = new StringBuilder();
         res.append("资金: " + funds + "元\n");
         res.append("点数: " + points + "点\n");
@@ -23,15 +23,10 @@ public class DefaultReport implements Report {
         return res.toString();
     }
 
-    private void appendToolInfo(List<Tool> tools) {
-        int bomb = 0;
-        int block = 0;
-        int robotDull = 0;
-        for(AssistancePower tool: tools) {
-            if(tool.equals(ToolType.Bomb))    bomb++;
-            if(tool.equals(ToolType.Block))   block++;
-            if(tool.equals(ToolType.RobotDull)) robotDull++;
-        }
+    private void appendToolInfo(HashMap<Tool, Integer> tools) {
+        int bomb = tools.get(ToolType.Bomb) == null ? 0 : tools.get(ToolType.Bomb);
+        int block = tools.get(ToolType.Block) == null ? 0 : tools.get(ToolType.Block);
+        int robotDull = tools.get(ToolType.RobotDull) == null ? 0 : tools.get(ToolType.RobotDull);
         res.append("道具: 路障" + block + "个; 炸弹" + bomb + "个; 机器娃娃" + robotDull + "个\n");
     }
 

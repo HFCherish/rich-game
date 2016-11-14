@@ -12,6 +12,7 @@ import com.tw.toolHouse.ToolType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Player {
     private int funds;
     private Place currentPlace;
     private int points;
-    private List<Tool> tools;
+    HashMap<Tool, Integer> tools;
     List<Estate> estates;
     private boolean hasLuckyGod;
     private int stuckDays;
@@ -34,7 +35,8 @@ public class Player {
         this.status = Status.WAIT_FOR_COMMAND;
         points = 0;
         stuckDays = 0;
-        tools = new ArrayList<>();
+        tools = new HashMap<>();
+        Arrays.stream(ToolType.values()).forEach(toolType -> tools.compute(toolType, (k, v) -> 0));
         estates = new ArrayList<>();
         hasLuckyGod = false;
     }
@@ -98,7 +100,7 @@ public class Player {
         points += addedPoints;
     }
 
-    public List<Tool> getTools() {
+    public HashMap<Tool, Integer> getTools() {
         return tools;
     }
 
@@ -110,9 +112,9 @@ public class Player {
         ToolHouse toolHouse = (ToolHouse) this.currentPlace;
         Tool toolById = toolHouse.getItemByIndex(toolIndex);
         if (toolById != null) {
-            tools.add(toolById);
+            tools.compute(toolById, (k, v) -> v == null ? 1 : v + 1);
             points -= toolById.getPoints();
-            if (toolHouse.canAffordWith(points) && tools.size() < 10) {
+            if (toolHouse.canAffordWith(points) && tools.values().stream().reduce(0, (a, b) -> a + b) < 10) {
                 waitForResponse();
                 return;
             }
@@ -126,7 +128,9 @@ public class Player {
 
     public static Player createPlayerWith_Fund_Map_Tools_COMMAND_STATE(GameMap map, int initialFund10, Tool... tools) {
         Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund10);
-        player.tools.addAll(Arrays.asList(tools));
+        if (tools != null && tools.length > 0)
+            Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v==null ? 1 : v+1));
+//        player.tools.addAll(Arrays.asList(tools));
         return player;
     }
 
@@ -174,8 +178,10 @@ public class Player {
     }
 
     public void sellTool(Tool tool) {
+        tools.compute(tool, (k, v) -> v == null ? 0 : v);
+        if (tools.get(tool) == 0) return;
+        tools.compute(tool, (k, v) -> v - 1);
         points += tool.getPoints();
-        tools.remove(tool);
     }
 
     public String helpAsString(GameHelp gameHelp) {
@@ -183,6 +189,7 @@ public class Player {
     }
 
     public boolean setTool(ToolType toolType, int steps) {
+//        if()
         return false;
     }
 
