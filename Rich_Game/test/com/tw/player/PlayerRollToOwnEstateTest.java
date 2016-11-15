@@ -43,6 +43,7 @@ public class PlayerRollToOwnEstateTest {
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        assertThat(currentPlayer.getResponseCommand(), is(CommandFactory.UpgradeEstate(ownEstate)));
     }
 
     @Test

@@ -1,13 +1,15 @@
 package com.tw.player;
 
-import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
-import com.tw.commands.CommandFactory;
-import com.tw.commands.Roll;
-import com.tw.giftHouse.*;
+import com.tw.commands.Command;
+import com.tw.giftHouse.Fund;
+import com.tw.giftHouse.LuckyGod;
+import com.tw.giftHouse.PointCard;
 import com.tw.house.House;
-import com.tw.map.*;
+import com.tw.map.Estate;
+import com.tw.map.GameMap;
+import com.tw.map.Place;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolHouse;
 import com.tw.toolHouse.ToolType;
@@ -31,6 +33,7 @@ public class Player {
     private boolean hasLuckyGod;
     private int stuckDays;
     private Game game;
+    private Command responseCommand;
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
@@ -43,6 +46,14 @@ public class Player {
         Arrays.stream(ToolType.values()).forEach(toolType -> tools.compute(toolType, (k, v) -> 0));
         estates = new ArrayList<>();
         hasLuckyGod = false;
+    }
+
+    public void setResponseCommand(Command responseCommand) {
+        this.responseCommand = responseCommand;
+    }
+
+    public Command getResponseCommand() {
+        return responseCommand;
     }
 
     public void moveTo(Place place) {
@@ -169,11 +180,6 @@ public class Player {
     }
 
     public void stuckFor(int days) {
-        stuckDays = days;
-    }
-
-    public void stuckIn(Place place, int days) {
-        currentPlace = place;
         stuckDays = days;
     }
 

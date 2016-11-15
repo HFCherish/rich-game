@@ -1,5 +1,6 @@
 package com.tw.map;
 
+import com.tw.commands.CommandFactory;
 import com.tw.player.Player;
 
 /**
@@ -18,7 +19,7 @@ public class Estate implements Place {
     public Player.Status passOthersEstate(Player player, Estate estate) {
         if (!player.isLucky()) {
             player.chargeFunds(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1));
-            if(player.getFunds() < 0) {
+            if (player.getFunds() < 0) {
                 return player.bankrupt();
             }
         }
@@ -38,8 +39,8 @@ public class Estate implements Place {
     }
 
     public EstateType typeFor(Player player) {
-        if(owner == null)   return EstateType.EMPTY;
-        if(owner.equals(player))   return EstateType.OWNER;
+        if (owner == null) return EstateType.EMPTY;
+        if (owner.equals(player)) return EstateType.OWNER;
         return EstateType.OTHER;
     }
 
@@ -50,13 +51,11 @@ public class Estate implements Place {
         EstateType type = estate.typeFor(player);
         if (type.equals(EstateType.OTHER)) {
             return passOthersEstate(player, estate);
-        }
-        else if (player.getFunds() < estate.getEmptyPrice()) {
+        } else if (player.getFunds() < estate.getEmptyPrice()) {
             return player.endTurn();
         }
-        else {
-            return player.waitForResponse();
-        }
+        if(type.equals(EstateType.OWNER))   player.setResponseCommand(CommandFactory.UpgradeEstate(this));
+        return player.waitForResponse();
     }
 
     public void setOwner(Player owner) {

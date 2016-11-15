@@ -23,7 +23,7 @@ public class GameTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player1.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-        player1.stuckIn(new Prison(), 2);
+        player1.stuckFor(2);
 
         game.nextPlayer();
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

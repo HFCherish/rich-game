@@ -32,4 +32,8 @@ public class CommandFactory {
     public static Command Roll(Dice dice) {
         return new Roll(dice);
     }
+
+    public static Command UpgradeEstate(Estate estate) {
+        return new UpgradeEstate(estate);
+    }
 }
