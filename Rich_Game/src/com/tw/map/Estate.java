@@ -55,6 +55,7 @@ public class Estate implements Place {
             return player.endTurn();
         }
         if(type.equals(EstateType.OWNER))   player.setResponseCommand(CommandFactory.UpgradeEstate(this));
+        else player.setResponseCommand(CommandFactory.BuyEstate(this));
         return player.waitForResponse();
     }
 
