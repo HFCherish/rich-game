@@ -7,5 +7,4 @@ import com.tw.asest.AssistancePower;
  */
 public interface Tool extends AssistancePower{
     int RANGE = 10;
-    int getPoints();
 }

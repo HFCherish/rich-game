@@ -9,7 +9,6 @@ import com.tw.toolHouse.ToolHouse;
 import com.tw.toolHouse.ToolType;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -39,8 +38,8 @@ public class PlayerRollToToolHouseTest {
         dice = () -> 1;
         tool_block = ToolType.Block;
         tool_robot = ToolType.RobotDull;
-        POINT_BLOCK = tool_block.getPoints();
-        POINT_ROBOT = tool_robot.getPoints();
+        POINT_BLOCK = tool_block.getValue();
+        POINT_ROBOT = tool_robot.getValue();
         toolHouse = new ToolHouse(tool_block, tool_robot);
 
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);

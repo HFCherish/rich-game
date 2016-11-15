@@ -11,7 +11,8 @@ public class Prison implements Place {
 
     @Override
     public void comeHere(Player player) {
-        player.stuckIn(this, PRISON_DAYS);
+        player.moveTo(this);
+        player.stuckFor(PRISON_DAYS);
         player.endTurn();
     }
 }

@@ -9,6 +9,6 @@ public class Starting implements Place {
 
     @Override
     public void comeHere(Player player) {
-        player.setCurrentPlace(this);
+        player.moveTo(this);
     }
 }

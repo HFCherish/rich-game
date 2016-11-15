@@ -17,7 +17,7 @@ public class SellTool implements Command {
     public Player.Status execute(Player player) {
         if (player.getTools().get(tool) > 0) {
             player.getTools().compute(tool, (k, v) -> v - 1);
-            player.addPoint(tool.getPoints());
+            player.addPoint(tool.getValue());
         }
         return Player.Status.WAIT_FOR_COMMAND;
     }

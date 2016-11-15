@@ -47,7 +47,7 @@ public class Estate implements Place {
 
     @Override
     public void comeHere(Player player) {
-        player.setCurrentPlace(this);
+        player.moveTo(this);
         Estate estate = this;
         EstateType type = estate.typeFor(player);
         if (type.equals(EstateType.OTHER)) {

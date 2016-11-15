@@ -6,17 +6,17 @@ package com.tw.toolHouse;
 public enum  ToolType implements Tool{
     Block {
         @Override
-        public int getPoints() {
+        public int getValue() {
             return 50;
         }
     }, Bomb {
         @Override
-        public int getPoints() {
+        public int getValue() {
             return 50;
         }
     }, RobotDull {
         @Override
-        public int getPoints() {
+        public int getValue() {
             return 30;
         }
     }

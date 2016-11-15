@@ -9,6 +9,6 @@ public class Hospital implements Place {
     public static final int HOSPITAL_DAYS = 3;
     @Override
     public void comeHere(Player player) {
-        player.setCurrentPlace(this);
+        player.moveTo(this);
     }
 }

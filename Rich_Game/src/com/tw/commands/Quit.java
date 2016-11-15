@@ -7,12 +7,6 @@ import com.tw.player.Player;
  */
 public class Quit implements Command {
 
-    private Player player;
-
-    public Quit(Player player) {
-        this.player = player;
-    }
-
     @Override
     public Player.Status execute(Player player) {
         player.getGame().end();

@@ -4,7 +4,6 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
 import com.tw.commands.Command;
-import com.tw.commands.CommandFactory;
 import com.tw.giftHouse.*;
 import com.tw.house.House;
 import com.tw.map.*;
@@ -45,13 +44,21 @@ public class Player {
         hasLuckyGod = false;
     }
 
+    public static class Roll implements Command {
+
+        @Override
+        public Status execute(Player player) {
+            return null;
+        }
+    }
     public void roll(Dice dice) {
-        currentPlace = map.move(currentPlace, dice.next());
-        currentPlace.comeHere(this);
+        Place place = map.move(currentPlace, dice.next());
+//        moveTo(place);
+        place.comeHere(this);
     }
 
-    public void setCurrentPlace(Place place) {
-        this.currentPlace = place;
+    public void moveTo(Place place) {
+        currentPlace = place;
     }
 
     public void waitForResponse() {
@@ -122,10 +129,10 @@ public class Player {
             return;
         }
         ToolHouse toolHouse = (ToolHouse) this.currentPlace;
-        Tool toolById = toolHouse.getItemByIndex(toolIndex);
+        Tool toolById = (Tool) toolHouse.getItemByIndex(toolIndex);
         if (toolById != null) {
             tools.compute(toolById, (k, v) -> v + 1);
-            points -= toolById.getPoints();
+            points -= toolById.getValue();
             if (toolHouse.canAffordWith(points) && tools.values().stream().reduce(0, (a, b) -> a + b) < 10) {
                 waitForResponse();
                 return;
@@ -170,8 +177,8 @@ public class Player {
         return player;
     }
 
-    public void goToHospital() {
-        stuckIn(map.getHospital(), Hospital.HOSPITAL_DAYS);
+    public void stuckFor(int days) {
+        stuckDays = days;
     }
 
     public void stuckIn(Place place, int days) {

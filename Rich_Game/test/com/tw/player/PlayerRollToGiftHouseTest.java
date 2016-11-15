@@ -51,9 +51,8 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_addPoints_and_end_turn_if_select_point_card() {
-        giftHouse = mock(House.class);
         AssistancePower gift1_point = new PointCard(POINT_VALUE);
-        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift1_point);
+        giftHouse = new GiftHouse(gift1_point);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
@@ -67,9 +66,8 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_add_funds_and_end_turn_if_select_fund() {
-        giftHouse = mock(House.class);
         AssistancePower gift_fund = new Fund(INITIAL_FUND_10);
-        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_fund);
+        giftHouse = new GiftHouse(gift_fund);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
@@ -83,9 +81,8 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_get_lucky_god_and_end_turn_if_select_lucky_god() {
-        giftHouse = mock(House.class);
         AssistancePower gift_luckyGod = new LuckyGod();
-        when(giftHouse.getItemByIndex(anyInt())).thenReturn(gift_luckyGod);
+        giftHouse = new GiftHouse(gift_luckyGod);
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
@@ -99,8 +96,7 @@ public class PlayerRollToGiftHouseTest {
 
     @Test
     public void should_end_turn_if_select_wrong() {
-        giftHouse = mock(House.class);
-        when(giftHouse.getItemByIndex(anyInt())).thenReturn(null);
+        giftHouse = new GiftHouse();
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
