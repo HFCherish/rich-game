@@ -1,7 +1,9 @@
 package com.tw.player;
 
 import com.tw.Game;
+import com.tw.commands.ResponseType;
 import com.tw.commands.Responsive;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.giftHouse.LuckyGod;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
@@ -123,22 +125,6 @@ public class Player {
         return tools;
     }
 
-    public Status buyTool(int toolIndex) {
-        if (toolIndex == ToolHouse.QUIT_INDEX) {
-            return endTurn();
-        }
-        ToolHouse toolHouse = (ToolHouse) this.currentPlace;
-        Tool toolById = (Tool) toolHouse.getItemByIndex(toolIndex);
-        if (toolById != null) {
-            tools.compute(toolById, (k, v) -> v + 1);
-            points -= toolById.getValue();
-            if (toolHouse.canAffordWith(points) && tools.values().stream().reduce(0, (a, b) -> a + b) < 10) {
-                return waitForResponse();
-            }
-        }
-        return endTurn();
-    }
-
     public int getPoints() {
         return points;
     }
@@ -220,6 +206,10 @@ public class Player {
 
     public Game getGame() {
         return game;
+    }
+
+    public void decreasePoints(int value) {
+        points -= value;
     }
 
     public enum Status {WAIT_FOR_COMMAND, WAIT_FOR_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
