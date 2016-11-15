@@ -33,8 +33,6 @@ public class Game {
     }
 
     public void nextPlayer() {
-//        players.get(currentPlayerIndex).endTurn();
-
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         if(players.get(currentPlayerIndex).getStuckDays() > 0) {
             players.get(currentPlayerIndex).decreaseStuckDays();

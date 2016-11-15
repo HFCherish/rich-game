@@ -34,6 +34,10 @@ public class DefaultGameMapTest {
         assertThat(map.move(starting, 4), is(starting));
 
         assertThat(map.move(starting, -1), is(estate4));
+
+        assertThat(map.move(starting, -4), is(starting));
+
+        assertThat(map.move(starting, -3), is(estate2));
     }
 
     @Test
@@ -42,9 +46,15 @@ public class DefaultGameMapTest {
         Place bomb = new BombPlace(new Prison());
         Place estate3 = new Estate(10000);
         Place estate4 = new Estate(10000);
-        GameMap map = new DefaultGameMap(2, 2, starting, bomb, estate3, estate4);
+        DefaultGameMap map = new DefaultGameMap(2, 2, starting, bomb, estate3, estate4);
 
         assertThat(map.move(starting, 3), is(bomb));
+
+        map.places.set(1, bomb);
+        assertThat(map.move(starting, 6), is(bomb));
+
+        map.places.set(1, bomb);
+        assertThat(map.move(starting, -6), is(bomb));
     }
 
     @Test
@@ -60,6 +70,23 @@ public class DefaultGameMapTest {
         assertThat(map.setTool(ToolType.Bomb, 1, starting), is(true));
 
         assertThat(map.places.get(1) instanceof BombPlace, is(true));
+    }
+
+    @Test
+    public void should_clean_the_other_tools_around_10_if_use_robot() {
+        Place starting = new Estate(10000);
+        Place bomb = new BombPlace(new Estate(10000));
+        Place estate3 = new Estate(10000);
+        Place block = new BlockPlace(new Prison());
+        DefaultGameMap map = new DefaultGameMap(2, 2, starting, bomb, estate3, block);
+
+        assertThat(map.places.get(1) instanceof BombPlace, is(true));
+        assertThat(map.places.get(3) instanceof BlockPlace, is(true));
+
+        assertThat(map.setTool(ToolType.RobotDull, 0, starting), is(true));
+
+        assertThat(map.places.get(1) instanceof Estate, is(true));
+        assertThat(map.places.get(3) instanceof Prison, is(true));
     }
 
     @Test
