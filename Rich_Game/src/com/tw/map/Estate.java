@@ -1,6 +1,6 @@
 package com.tw.map;
 
-import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.player.Player;
 
 /**
@@ -54,8 +54,8 @@ public class Estate implements Place {
         } else if (player.getFunds() < estate.getEmptyPrice()) {
             return player.endTurn();
         }
-        if(type.equals(EstateType.OWNER))   player.setResponseCommand(CommandFactory.UpgradeEstate(this));
-        else player.setResponseCommand(CommandFactory.BuyEstate(this));
+        if(type.equals(EstateType.OWNER))   player.setResponseCommand(ResponsiveFactory.UpgradeEstate(this));
+        else player.setResponseCommand(ResponsiveFactory.BuyEstate(this));
         return player.waitForResponse();
     }
 

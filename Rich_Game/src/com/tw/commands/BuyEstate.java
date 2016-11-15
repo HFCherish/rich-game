@@ -6,7 +6,7 @@ import com.tw.player.Player;
 /**
  * Created by pzzheng on 11/15/16.
  */
-public class BuyEstate implements Command {
+public class BuyEstate implements Command, Responsive {
     private Estate emptyEstate;
 
     public BuyEstate(Estate emptyEstate) {
@@ -30,6 +30,11 @@ public class BuyEstate implements Command {
 
     @Override
     public Player.Status execute(Player player) {
+        return null;
+    }
+
+    @Override
+    public Player.Status response(Player player, ResponseType responseType) {
         return null;
     }
 }

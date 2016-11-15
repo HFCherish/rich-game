@@ -12,8 +12,6 @@ public class CommandFactory {
     public static Command RobotDull = new RobotDull();
     public static Command Help = new Help();
     public static Command Quit = new Quit();
-    public static Command BuyTool = new BuyTool();
-    public static Command SelectGift = new SelectGift();
 
     public static Command Block(int steps) {
         return new Block(steps);
@@ -35,11 +33,4 @@ public class CommandFactory {
         return new Roll(dice);
     }
 
-    public static Command UpgradeEstate(Estate estate) {
-        return new UpgradeEstate(estate);
-    }
-
-    public static Command BuyEstate(Estate emptyEstate) {
-        return new BuyEstate(emptyEstate);
-    }
 }

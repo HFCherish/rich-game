@@ -3,6 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
@@ -45,7 +46,7 @@ public class PlayerRollToEmptyEstateTest {
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
-        assertThat(currentPlayer.getResponseCommand(), is(CommandFactory.BuyEstate(emptyEstate)));
+        assertThat(currentPlayer.getResponseCommand(), is(ResponsiveFactory.BuyEstate(emptyEstate)));
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class PlayerRollToOwnEstateTest {
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
-        assertThat(currentPlayer.getResponseCommand(), is(CommandFactory.UpgradeEstate(ownEstate)));
+        assertThat(currentPlayer.getResponseCommand(), is(ResponsiveFactory.UpgradeEstate(ownEstate)));
     }
 
     @Test

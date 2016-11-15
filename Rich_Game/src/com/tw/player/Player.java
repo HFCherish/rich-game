@@ -2,7 +2,7 @@ package com.tw.player;
 
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
-import com.tw.commands.Command;
+import com.tw.commands.Responsive;
 import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.LuckyGod;
 import com.tw.giftHouse.PointCard;
@@ -33,7 +33,7 @@ public class Player {
     private boolean hasLuckyGod;
     private int stuckDays;
     private Game game;
-    private Command responseCommand;
+    private Responsive responseCommand;
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
@@ -48,11 +48,11 @@ public class Player {
         hasLuckyGod = false;
     }
 
-    public void setResponseCommand(Command responseCommand) {
+    public void setResponseCommand(Responsive responseCommand) {
         this.responseCommand = responseCommand;
     }
 
-    public Command getResponseCommand() {
+    public Responsive getResponseCommand() {
         return responseCommand;
     }
 

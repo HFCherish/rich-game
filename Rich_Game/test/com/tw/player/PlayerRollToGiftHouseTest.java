@@ -4,6 +4,7 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
 import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.PointCard;
 import com.tw.giftHouse.GiftHouse;
@@ -47,7 +48,7 @@ public class PlayerRollToGiftHouseTest {
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
-        assertThat(currentPlayer.getResponseCommand(), is(CommandFactory.SelectGift));
+        assertThat(currentPlayer.getResponseCommand(), is(ResponsiveFactory.SelectGift));
     }
 
     @Test
