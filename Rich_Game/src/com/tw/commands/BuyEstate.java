@@ -21,7 +21,6 @@ public class BuyEstate implements Command {
         BuyEstate buyEstate = (BuyEstate) o;
 
         return emptyEstate != null ? emptyEstate.equals(buyEstate.emptyEstate) : buyEstate.emptyEstate == null;
-
     }
 
     @Override

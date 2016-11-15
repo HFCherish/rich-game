@@ -1,5 +1,6 @@
 package com.tw.toolHouse;
 
+import com.tw.commands.CommandFactory;
 import com.tw.house.House;
 import com.tw.player.Player;
 
@@ -24,6 +25,7 @@ public class ToolHouse extends House {
             return player.endTurn();
         }
         else {
+            player.setResponseCommand(CommandFactory.BuyTool);
             return player.waitForResponse();
         }
     }

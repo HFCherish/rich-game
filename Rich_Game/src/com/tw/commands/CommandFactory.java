@@ -12,6 +12,7 @@ public class CommandFactory {
     public static Command RobotDull = new RobotDull();
     public static Command Help = new Help();
     public static Command Quit = new Quit();
+    public static Command BuyTool = new BuyTool();
 
     public static Command Block(int steps) {
         return new Block(steps);
