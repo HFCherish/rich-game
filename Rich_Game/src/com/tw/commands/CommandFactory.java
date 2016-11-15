@@ -1,6 +1,7 @@
 package com.tw.commands;
 
 import com.tw.map.Estate;
+import com.tw.player.Player;
 import com.tw.toolHouse.Tool;
 
 /**
@@ -10,6 +11,7 @@ public class CommandFactory {
     public static Command Query = new Query();
     public static Command RobotDull = new RobotDull();
     public static Command Help = new Help();
+    public static Command Quit = new Quit(Player.this);
 
     public static Command Block(int steps) {
         return new Block(steps);

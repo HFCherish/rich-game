@@ -2,7 +2,6 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
-import com.tw.GameHelp;
 import com.tw.asest.AssistancePower;
 import com.tw.commands.Command;
 import com.tw.commands.CommandFactory;
@@ -222,16 +221,16 @@ public class Player {
         stuckDays--;
     }
 
-    public void quit() {
-        game.end();
-    }
-
     public void enterGame(Game game) {
         this.game = game;
     }
 
     public boolean isLose() {
         return status == Status.BANKRUPT;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public enum Status {WAIT_FOR_COMMAND, WAIT_FOR_TURN, BANKRUPT, WAIT_FOR_RESPONSE}

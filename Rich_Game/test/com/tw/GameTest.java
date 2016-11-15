@@ -1,5 +1,6 @@
 package com.tw;
 
+import com.tw.commands.CommandFactory;
 import com.tw.map.*;
 import com.tw.player.Player;
 import org.junit.Test;
@@ -46,7 +47,7 @@ public class GameTest {
 
         assertThat(game.getStatus(), is(Game.Status.GAME_START));
 
-        player1.quit();
+        CommandFactory.Quit.execute(player1);
 
         assertThat(game.getStatus(), is(Game.Status.GAME_END));
     }
