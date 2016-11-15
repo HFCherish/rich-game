@@ -1,9 +1,7 @@
 package com.tw.player;
 
 import com.tw.Game;
-import com.tw.commands.ResponseType;
 import com.tw.commands.Responsive;
-import com.tw.commands.ResponsiveFactory;
 import com.tw.giftHouse.LuckyGod;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;

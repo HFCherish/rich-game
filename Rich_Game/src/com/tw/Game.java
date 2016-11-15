@@ -1,5 +1,7 @@
 package com.tw;
 
+import com.tw.commands.Command;
+import com.tw.commands.Response;
 import com.tw.map.GameMap;
 import com.tw.player.Player;
 
@@ -25,6 +27,15 @@ public class Game {
         this.players.stream().forEach(player -> player.enterGame(this));
         setCurrentPlayer(0);
         status = Status.GAME_START;
+    }
+
+    public Player.Status execute(Command command) {
+        return command.execute(players.get(currentPlayerIndex));
+    }
+
+    public Player.Status respond(Response response) {
+        Player player = players.get(currentPlayerIndex);
+        return player.getResponseCommand().respond(player, response);
     }
 
     private void setCurrentPlayer(int index) {

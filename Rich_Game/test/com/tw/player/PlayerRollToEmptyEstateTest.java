@@ -3,7 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.commands.CommandFactory;
-import com.tw.commands.ResponseType;
+import com.tw.commands.Response;
 import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
@@ -59,7 +59,7 @@ public class PlayerRollToEmptyEstateTest {
         assertThat(currentPlayer.estates.size(), is(0));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
 
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Yes);
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Yes);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - emptyEstate.getEmptyPrice()));
         assertThat(currentPlayer.estates.size(), is(1));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.OWNER));

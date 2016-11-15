@@ -12,9 +12,9 @@ import com.tw.player.Player;
  */
 public class SelectGift implements Responsive {
     @Override
-    public Player.Status respond(Player player, ResponseType responseType) {
+    public Player.Status respond(Player player, Response response) {
         House giftHouse = (House) player.getCurrentPlace();
-        AssistancePower gift = giftHouse.getItemByIndex(responseType.getNumber());
+        AssistancePower gift = giftHouse.getItemByIndex(response.getNumber());
         if (gift != null) {
             if (gift instanceof PointCard) {
                 player.addPoint(gift.getValue());

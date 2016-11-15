@@ -3,7 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.commands.CommandFactory;
-import com.tw.commands.ResponseType;
+import com.tw.commands.Response;
 import com.tw.commands.ResponsiveFactory;
 import com.tw.house.House;
 import com.tw.map.GameMap;
@@ -76,7 +76,7 @@ public class PlayerRollToToolHouseTest {
 
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
         assertThat(currentPlayer.getPoints(), is(POINT_BLOCK + POINT_ROBOT));
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(1));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(1));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(1));
         assertThat(currentPlayer.getTools().get(tool_block), is(1));
         assertThat(currentPlayer.getPoints(), is(POINT_ROBOT));
@@ -91,7 +91,7 @@ public class PlayerRollToToolHouseTest {
 
         assertThat(currentPlayer.getPoints(), is(POINT_ROBOT));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(1));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(1));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(1));
         assertThat(currentPlayer.getPoints(), is(POINT_ROBOT - POINT_BLOCK));
         assertThat(currentPlayer.getTools().get(tool_block), is(1));
@@ -105,7 +105,7 @@ public class PlayerRollToToolHouseTest {
         CommandFactory.Roll(dice).execute(currentPlayer);
 
         for (int i = 0; i < 10; i++)
-            currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(2));
+            currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(2));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(10));
         assertThat(currentPlayer.getPoints(), is(POINT_BLOCK));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
@@ -117,7 +117,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer.addPoint(POINT_BLOCK + 1);
 
         CommandFactory.Roll(dice).execute(currentPlayer);
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(ToolHouse.QUIT_INDEX));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(ToolHouse.QUIT_INDEX));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 

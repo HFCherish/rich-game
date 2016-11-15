@@ -83,4 +83,5 @@ public class GameTest {
 
         assertThat(game.getStatus(), is(Game.Status.GAME_END));
     }
+
 }

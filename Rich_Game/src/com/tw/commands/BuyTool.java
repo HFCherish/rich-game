@@ -12,12 +12,12 @@ import java.util.HashMap;
 public class BuyTool implements Responsive {
 
     @Override
-    public Player.Status respond(Player player, ResponseType responseType) {
-        if (responseType.getNumber() == ToolHouse.QUIT_INDEX) {
+    public Player.Status respond(Player player, Response response) {
+        if (response.getNumber() == ToolHouse.QUIT_INDEX) {
             return player.endTurn();
         }
         ToolHouse toolHouse = (ToolHouse) player.getCurrentPlace();
-        Tool toolById = (Tool) toolHouse.getItemByIndex(responseType.getNumber());
+        Tool toolById = (Tool) toolHouse.getItemByIndex(response.getNumber());
 
         if (toolById != null) {
             HashMap<Tool, Integer> tools = player.getTools();

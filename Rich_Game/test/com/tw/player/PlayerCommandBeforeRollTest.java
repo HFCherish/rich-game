@@ -3,7 +3,7 @@ package com.tw.player;
 import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.commands.CommandFactory;
-import com.tw.commands.ResponseType;
+import com.tw.commands.Response;
 import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
@@ -11,7 +11,6 @@ import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolType;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -36,10 +35,10 @@ public class PlayerCommandBeforeRollTest {
 
         currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10 * 2, game, ToolType.Bomb, ToolType.Block);
         Estate emptyEstate = new Estate(EMPTY_PRICE_5);
-        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, ResponseType.Yes);
+        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, Response.Yes);
         Estate thatch = new Estate(EMPTY_PRICE_5);
         thatch.upgrade();
-        ResponsiveFactory.BuyEstate(thatch).respond(currentPlayer, ResponseType.Yes);
+        ResponsiveFactory.BuyEstate(thatch).respond(currentPlayer, Response.Yes);
         currentPlayer.inTurn();
 
         MatcherAssert.assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -61,7 +60,7 @@ public class PlayerCommandBeforeRollTest {
         int empty_house_price_5 = 5;
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + empty_house_price_5, game);
         Estate emptyEstate = new Estate(empty_house_price_5);
-        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, ResponseType.Yes);
+        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, Response.Yes);
         currentPlayer.inTurn();
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

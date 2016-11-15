@@ -4,7 +4,7 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
 import com.tw.commands.CommandFactory;
-import com.tw.commands.ResponseType;
+import com.tw.commands.Response;
 import com.tw.commands.ResponsiveFactory;
 import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.PointCard;
@@ -62,7 +62,7 @@ public class PlayerRollToGiftHouseTest {
         CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getPoints(), is(0));
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(1));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(1));
         assertThat(currentPlayer.getPoints(), is(POINT_VALUE));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -77,7 +77,7 @@ public class PlayerRollToGiftHouseTest {
         CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(1));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(1));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 + INITIAL_FUND_10));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -92,7 +92,7 @@ public class PlayerRollToGiftHouseTest {
         CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.isLucky(), is(false));
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(1));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(1));
         assertThat(currentPlayer.isLucky(), is(true));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -105,7 +105,7 @@ public class PlayerRollToGiftHouseTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         CommandFactory.Roll(dice).execute(currentPlayer);
 
-        currentPlayer.getResponseCommand().respond(currentPlayer, ResponseType.Number(4));
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.Number(4));
         assertThat(currentPlayer.isLucky(), is(false));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(currentPlayer.getPoints(), is(0));
