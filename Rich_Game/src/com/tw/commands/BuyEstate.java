@@ -34,7 +34,7 @@ public class BuyEstate implements Command, Responsive {
     }
 
     @Override
-    public Player.Status response(Player player, ResponseType responseType) {
+    public Player.Status respond(Player player, ResponseType responseType) {
         return null;
     }
 }

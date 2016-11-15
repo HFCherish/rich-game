@@ -1,12 +1,8 @@
 package com.tw.player;
 
 import com.tw.Game;
-import com.tw.asest.AssistancePower;
 import com.tw.commands.Responsive;
-import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.LuckyGod;
-import com.tw.giftHouse.PointCard;
-import com.tw.house.House;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import com.tw.map.Place;
@@ -31,6 +27,7 @@ public class Player {
     HashMap<Tool, Integer> tools;
     List<Estate> estates;
     private boolean hasLuckyGod;
+    private int luckyDays;
     private int stuckDays;
     private Game game;
     private Responsive responseCommand;
@@ -42,6 +39,7 @@ public class Player {
         this.status = Status.WAIT_FOR_COMMAND;
         points = 0;
         stuckDays = 0;
+        luckyDays = 0;
         tools = new HashMap<>();
         Arrays.stream(ToolType.values()).forEach(toolType -> tools.compute(toolType, (k, v) -> 0));
         estates = new ArrayList<>();
@@ -125,10 +123,9 @@ public class Player {
         return tools;
     }
 
-    public void buyTool(int toolIndex) {
+    public Status buyTool(int toolIndex) {
         if (toolIndex == ToolHouse.QUIT_INDEX) {
-            endTurn();
-            return;
+            return endTurn();
         }
         ToolHouse toolHouse = (ToolHouse) this.currentPlace;
         Tool toolById = (Tool) toolHouse.getItemByIndex(toolIndex);
@@ -136,11 +133,10 @@ public class Player {
             tools.compute(toolById, (k, v) -> v + 1);
             points -= toolById.getValue();
             if (toolHouse.canAffordWith(points) && tools.values().stream().reduce(0, (a, b) -> a + b) < 10) {
-                waitForResponse();
-                return;
+                return waitForResponse();
             }
         }
-        endTurn();
+        return endTurn();
     }
 
     public int getPoints() {
@@ -154,28 +150,17 @@ public class Player {
         return player;
     }
 
-    public void selectGift(int giftIndex_startFrom1) {
-        House giftHouse = (House) currentPlace;
-        AssistancePower gift = giftHouse.getItemByIndex(giftIndex_startFrom1);
-        if (gift != null) {
-            if (gift instanceof PointCard) {
-                points += ((PointCard) gift).getValue();
-            } else if (gift instanceof Fund) {
-                funds += ((Fund) gift).getValue();
-            } else if (gift instanceof LuckyGod) {
-                hasLuckyGod = true;
-            }
-        }
-        endTurn();
+    public  void getLuckyGod() {
+        luckyDays = LuckyGod.LuckyDays;
     }
 
     public boolean isLucky() {
-        return hasLuckyGod;
+        return luckyDays > 0;
     }
 
     public static Player createPlayerWith_Fund_Map_Lucky_command_state_in_game(GameMap map, int initialFund, Game game) {
         Player player = createPlayerWith_Fund_Map_command_state_in_game(map, initialFund, game);
-        player.hasLuckyGod = true;
+        player.getLuckyGod();
         return player;
     }
 
