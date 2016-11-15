@@ -66,7 +66,7 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.estates.size(), is(1));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.OWNER));
 
-        assertThat(currentPlayer.sellEstate(emptyEstate), is(true));
+        CommandFactory.SellEstate(emptyEstate).execute(currentPlayer);
 
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
         assertThat(currentPlayer.estates.size(), is(0));
@@ -85,7 +85,7 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.estates.size(), is(0));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
 
-        assertThat(currentPlayer.sellEstate(emptyEstate), is(false));
+        CommandFactory.SellEstate(emptyEstate).execute(currentPlayer);
 
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
         assertThat(currentPlayer.estates.size(), is(0));

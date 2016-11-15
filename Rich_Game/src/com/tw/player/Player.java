@@ -183,25 +183,12 @@ public class Player {
         return stuckDays;
     }
 
-    public static class SellEstate implements Command{
-        private Estate estate;
-
-        public SellEstate(Estate estate) {
-            this.estate = estate;
-        }
-
-        @Override
-        public Status execute(Player player) {
-
-            return null;
-        }
+    public List<Estate> getEstates() {
+        return estates;
     }
-    public boolean sellEstate(Estate estate) {
-        if (!estates.contains(estate)) return false;
-        funds += estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2;
-        estates.remove(estate);
-        estate.setOwner(null);
-        return true;
+
+    public void addFunds(int income) {
+        funds += income;
     }
 
     public void sellTool(Tool tool) {
