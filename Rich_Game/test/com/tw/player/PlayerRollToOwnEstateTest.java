@@ -1,10 +1,12 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.Game;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -23,6 +25,7 @@ public class PlayerRollToOwnEstateTest {
     private Dice dice;
     private Estate ownEstate;
     private Player currentPlayer;
+    Game game = mock((Game.class));
 
     @Before
     public void setUp() {
@@ -33,7 +36,7 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_wait_for_response_if_has_enough_money_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
@@ -44,18 +47,18 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_end_turn_if_no_enough_money_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, EMPTY_ESTATE_PRICE_5-1);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, EMPTY_ESTATE_PRICE_5-1, game);
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         currentPlayer.roll(dice);
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
     @Test
     public void should_upgrade_own_estate_if_say_yes_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5, game);
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
@@ -66,12 +69,12 @@ public class PlayerRollToOwnEstateTest {
         currentPlayer.sayYes();
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - EMPTY_ESTATE_PRICE_5));
         assertThat(ownEstate.getLevel(), is(Estate.EstateLevel.THATCH));
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
     @Test
     public void should_end_turn_if_say_no_to_upgrade() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5, game);
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
@@ -80,6 +83,6 @@ public class PlayerRollToOwnEstateTest {
         currentPlayer.sayNo();
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(ownEstate.getLevel(), is(Estate.EstateLevel.EMPTY));
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 }

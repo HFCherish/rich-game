@@ -12,7 +12,7 @@ public class BombPlace extends ToolPlace {
 
     @Override
     public void comeHere(Player player) {
-        player.goToHospital(3);
+        player.goToHospital();
         player.endTurn();
     }
 }

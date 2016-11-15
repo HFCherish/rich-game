@@ -1,5 +1,6 @@
 package com.tw.player;
 
+import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
@@ -7,6 +8,7 @@ import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolType;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,13 +25,15 @@ public class PlayerCommandBeforeRollTest {
     public static final int INITIAL_FUND_10 = 10;
     GameMap map = mock(GameMap.class);
     private Player currentPlayer;
+    @Mock
+    Game game;
 
     @Test
     public void should_show_right_asset_report() {
         int EMPTY_PRICE_5 = 5;
         GameMap map = mock(GameMap.class);
 
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10 * 2, ToolType.Bomb, ToolType.Block);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10 * 2, game, ToolType.Bomb, ToolType.Block);
         Estate emptyEstate = new Estate(EMPTY_PRICE_5);
         currentPlayer.buyEstate(emptyEstate);
         Estate thatch = new Estate(EMPTY_PRICE_5);
@@ -53,7 +57,7 @@ public class PlayerCommandBeforeRollTest {
     @Test
     public void should_able_to_sell_estate_when_waiting_for_command() {
         int empty_house_price_5 = 5;
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10 + empty_house_price_5);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + empty_house_price_5, game);
         Estate emptyEstate = new Estate(empty_house_price_5);
         currentPlayer.buyEstate(emptyEstate);
 
@@ -73,7 +77,7 @@ public class PlayerCommandBeforeRollTest {
     @Test
     public void should_not_able_to_sell_estate_if_not_has_that_estate_when_waiting_for_command() {
         int empty_house_price_5 = 5;
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         Estate emptyEstate = new Estate(empty_house_price_5);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -92,7 +96,7 @@ public class PlayerCommandBeforeRollTest {
     @Test
     public void should_able_to_sell_tool_when_waiting_for_command() {
         Tool tool = ToolType.Block;
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, tool);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10, game, tool);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getPoints(), is(0));
@@ -107,7 +111,7 @@ public class PlayerCommandBeforeRollTest {
 
     @Test
     public void should_not_sell_tool_if_not_has_that_tool_when_waiting_for_command() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getPoints(), is(0));
@@ -122,7 +126,7 @@ public class PlayerCommandBeforeRollTest {
 
     @Test
     public void should_able_to_get_help_when_waiting_for_command() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         GameHelp gameHelp = mock(GameHelp.class);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -135,7 +139,7 @@ public class PlayerCommandBeforeRollTest {
 
     @Test
     public void should_not_set_blocker_if_does_not_have_blocker() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
@@ -146,7 +150,7 @@ public class PlayerCommandBeforeRollTest {
 
     @Test
     public void should_not_set_tool_if_steps_out_of_range() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10, game, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
@@ -163,7 +167,7 @@ public class PlayerCommandBeforeRollTest {
     @Test
     public void should_able_to_set_tool_when_has_that_tool() {
         when(map.setTool(anyObject(), anyInt(), anyObject())).thenReturn(true);
-        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_COMMAND_STATE(map, INITIAL_FUND_10, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10, game, ToolType.Block, ToolType.Bomb, ToolType.RobotDull);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 

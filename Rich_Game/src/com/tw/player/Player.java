@@ -1,6 +1,7 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.asest.AssistancePower;
 import com.tw.giftHouse.*;
@@ -28,6 +29,7 @@ public class Player {
     List<Estate> estates;
     private boolean hasLuckyGod;
     private int stuckDays;
+    private Game game;
 
     public Player(GameMap map, int initialFund) {
         this.map = map;
@@ -56,11 +58,13 @@ public class Player {
     }
 
     public void endTurn() {
-        status = Status.END_TURN;
+        status = Status.WAIT_FOR_TURN;
+        game.inform(status);
     }
 
     public void bankrupt() {
         status = Status.BANKRUPT;
+        game.inform(status);
     }
 
     public void chargeFunds(int fees) {
@@ -93,8 +97,10 @@ public class Player {
         estates.add(estate);
     }
 
-    public static Player createPlayerWith_Fund_Map_COMMAND_STATE(GameMap map, int initialFund) {
-        return new Player(map, initialFund);
+    public static Player createPlayerWith_Fund_Map_command_state_in_game(GameMap map, int initialFund, Game game) {
+        Player player = new Player(map, initialFund);
+        player.enterGame(game);
+        return player;
     }
 
     public void sayNo() {
@@ -131,8 +137,8 @@ public class Player {
         return points;
     }
 
-    public static Player createPlayerWith_Fund_Map_Tools_COMMAND_STATE(GameMap map, int initialFund10, Tool... tools) {
-        Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund10);
+    public static Player createPlayerWith_Fund_Map_Tools_command_state_in_game(GameMap map, int initialFund10, Game game, Tool... tools) {
+        Player player = createPlayerWith_Fund_Map_command_state_in_game(map, initialFund10, game);
         if (tools != null && tools.length > 0)
             Arrays.stream(tools).forEach(tool -> player.getTools().compute(tool, (k, v) -> v + 1));
         return player;
@@ -157,14 +163,14 @@ public class Player {
         return hasLuckyGod;
     }
 
-    public static Player createPlayerWith_Fund_Map_Lucky_COMMAND_STATE(GameMap map, int initialFund) {
-        Player player = createPlayerWith_Fund_Map_COMMAND_STATE(map, initialFund);
+    public static Player createPlayerWith_Fund_Map_Lucky_command_state_in_game(GameMap map, int initialFund, Game game) {
+        Player player = createPlayerWith_Fund_Map_command_state_in_game(map, initialFund, game);
         player.hasLuckyGod = true;
         return player;
     }
 
-    public void goToHospital(int days) {
-        stuckIn(map.getHospital(), days);
+    public void goToHospital() {
+        stuckIn(map.getHospital(), Hospital.HOSPITAL_DAYS);
     }
 
     public void stuckIn(Place place, int days) {
@@ -208,11 +214,39 @@ public class Player {
         return currentPlace;
     }
 
-    public static Player createPlayerWith_Fund_Map_place_COMMAND_STATE(GameMap map, int iniitialFund, Place initialPlace) {
+    public static Player createPlayerWith_Fund_Map_place_command_state_in_game(GameMap map, int iniitialFund, Game game, Place initialPlace) {
         Player player = new Player(map, iniitialFund);
+        player.enterGame(game);
         player.currentPlace = initialPlace;
         return player;
     }
 
-    public enum Status {WAIT_FOR_COMMAND, END_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
+
+    public static Player createPlayerWith_Fund_Map_WAIT_TURN_STATE(GameMap map, int initialFund) {
+        Player player = new Player(map, initialFund);
+        player.status = Status.WAIT_FOR_TURN;
+        return player;
+    }
+
+    public void inTurn() {
+        status = Status.WAIT_FOR_COMMAND;
+    }
+
+    public void decreaseStuckDays() {
+        stuckDays--;
+    }
+
+    public void quit() {
+        game.end();
+    }
+
+    public void enterGame(Game game) {
+        this.game = game;
+    }
+
+    public boolean isLose() {
+        return status == Status.BANKRUPT;
+    }
+
+    public enum Status {WAIT_FOR_COMMAND, WAIT_FOR_TURN, BANKRUPT, WAIT_FOR_RESPONSE}
 }

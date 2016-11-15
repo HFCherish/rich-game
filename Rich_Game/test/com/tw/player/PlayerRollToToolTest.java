@@ -1,11 +1,11 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.Game;
 import com.tw.map.*;
-import com.tw.toolHouse.ToolType;
-import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -22,6 +22,7 @@ public class PlayerRollToToolTest {
     private GameMap map;
     private Dice dice;
     private Player currentPlayer;
+    Game game = mock((Game.class));
 
     @Before
     public void setUp() {
@@ -33,23 +34,23 @@ public class PlayerRollToToolTest {
     public void should_stop_and_end_turn_if_pass_block() {
         Place block = new BlockPlace(new Prison());
         when(map.move(anyObject(), anyInt())).thenReturn(block);
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         currentPlayer.roll(dice);
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
     @Test
     public void should_get_into_hospital_and_end_turn_if_pass_bomb() {
         Place bomb = new BombPlace(new Prison());
         when(map.move(anyObject(), anyInt())).thenReturn(bomb);
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getStuckDays(), is(0));
         currentPlayer.roll(dice);
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(currentPlayer.getStuckDays(), is(3));
     }
 }

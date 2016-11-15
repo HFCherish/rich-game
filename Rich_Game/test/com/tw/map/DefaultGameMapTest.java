@@ -1,19 +1,24 @@
 package com.tw.map;
 
 import com.tw.Dice;
+import com.tw.Game;
 import com.tw.player.Player;
 import com.tw.toolHouse.ToolType;
-import org.hamcrest.MatcherAssert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by pzzheng on 11/14/16.
  */
 public class DefaultGameMapTest {
+    Game game = mock((Game.class));
+
     @Test
     public void should_able_to_move_to_another_place() {
         Place starting = new Estate(10000);
@@ -79,7 +84,7 @@ public class DefaultGameMapTest {
         Place estate3 = new Estate(10000);
         Place estate4 = new Estate(10000);
         DefaultGameMap map = new DefaultGameMap(2, 2, starting, bomb, estate3, estate4);
-        Player.createPlayerWith_Fund_Map_place_COMMAND_STATE(map, 10000, estate3);
+        Player.createPlayerWith_Fund_Map_place_command_state_in_game(map, 10000, game, estate3);
 
         assertThat(map.setTool(ToolType.Bomb, 2, starting), is(false));
     }
@@ -92,7 +97,7 @@ public class DefaultGameMapTest {
         Place estate3 = new Estate(10000);
         Place hospital = new Hospital();
         DefaultGameMap map = new DefaultGameMap(2, 2, starting, bomb, estate3, hospital);
-        Player player = Player.createPlayerWith_Fund_Map_place_COMMAND_STATE(map, 10000, estate3);
+        Player player = Player.createPlayerWith_Fund_Map_place_command_state_in_game(map, 10000, game, estate3);
         Dice dice = () -> 3;
 
         assertThat(player.getCurrentPlace(), is(estate3));
@@ -112,7 +117,8 @@ public class DefaultGameMapTest {
         Place estate3 = new Estate(10000);
         Place hospital = new Hospital();
         DefaultGameMap map = new DefaultGameMap(2, 2, starting, block, estate3, hospital);
-        Player player = Player.createPlayerWith_Fund_Map_place_COMMAND_STATE(map, 10000, estate3);
+
+        Player player = Player.createPlayerWith_Fund_Map_place_command_state_in_game(map, 10000, game, estate3);
         Dice dice = () -> 3;
 
         assertThat(player.getCurrentPlace(), is(estate3));

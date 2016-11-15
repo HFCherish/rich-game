@@ -1,10 +1,12 @@
 package com.tw.player;
 
 import com.tw.Dice;
+import com.tw.Game;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -23,41 +25,42 @@ public class PlayerRollToOthersEstate {
     private Dice dice;
     private Estate othersEstate;
     private Player currentPlayer;
+    Game game = mock((Game.class));
 
     @Before
     public void setUp() {
         map = mock(GameMap.class);
         dice = () -> 1;
         othersEstate = new Estate(EMPTY_ESTATE_PRICE_5);
-        Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10).buyEstate(othersEstate);
+        Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game).buyEstate(othersEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(othersEstate);
     }
 
     @Test
     public void should_end_turn_and_not_charge_if_has_lucky_god() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_Lucky_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_Lucky_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         currentPlayer.roll(dice);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
     @Test
     public void should_charge_and_end_turn_if_no_lucky_god() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, INITIAL_FUND_10);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         currentPlayer.roll(dice);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - EMPTY_ESTATE_PRICE_5));
-        assertThat(currentPlayer.getStatus(), is(Player.Status.END_TURN));
+        assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
     @Test
     public void should_bankrupt_if_funds_less_than_0_after_charge() {
-        currentPlayer = Player.createPlayerWith_Fund_Map_COMMAND_STATE(map, EMPTY_ESTATE_PRICE_5-1);
+        currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, EMPTY_ESTATE_PRICE_5-1, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(EMPTY_ESTATE_PRICE_5-1));
