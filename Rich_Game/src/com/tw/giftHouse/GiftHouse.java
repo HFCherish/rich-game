@@ -1,6 +1,7 @@
 package com.tw.giftHouse;
 
 import com.tw.asest.AssistancePower;
+import com.tw.commands.CommandFactory;
 import com.tw.house.House;
 import com.tw.player.Player;
 
@@ -16,6 +17,7 @@ public class GiftHouse extends House {
     @Override
     public Player.Status comeHere(Player player) {
         player.moveTo(this);
+        player.setResponseCommand(CommandFactory.SelectGift);
         return player.waitForResponse();
     }
 }
