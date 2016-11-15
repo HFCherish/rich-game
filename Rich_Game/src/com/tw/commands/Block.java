@@ -21,7 +21,7 @@ public class Block implements Command {
         HashMap<Tool, Integer> tools = player.getTools();
         ToolType toolType = ToolType.Block;
         if (tools.get(toolType) > 0 && (steps >= -10 && steps <= 10) && player.getMap().setTool(toolType, steps, player.getCurrentPlace()))
-            player.removeTool(toolType);
+            tools.compute(toolType, (k, v) -> v - 1);
         return Player.Status.WAIT_FOR_COMMAND;
     }
 }

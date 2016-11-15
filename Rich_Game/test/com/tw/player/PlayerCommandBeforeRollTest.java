@@ -102,7 +102,7 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.getPoints(), is(0));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a + b), is(1));
 
-        currentPlayer.sellTool(tool);
+        CommandFactory.SellTool(tool).execute(currentPlayer);
 
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a + b), is(0));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -117,7 +117,7 @@ public class PlayerCommandBeforeRollTest {
         assertThat(currentPlayer.getPoints(), is(0));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a + b), is(0));
 
-        currentPlayer.sellTool(ToolType.Block);
+        CommandFactory.SellTool(ToolType.Block).execute(currentPlayer);
 
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a + b), is(0));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

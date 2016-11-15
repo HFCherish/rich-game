@@ -1,6 +1,7 @@
 package com.tw.commands;
 
 import com.tw.map.Estate;
+import com.tw.toolHouse.Tool;
 
 /**
  * Created by pzzheng on 11/15/16.
@@ -19,5 +20,9 @@ public class CommandFactory {
 
     public static Command SellEstate(Estate estate) {
         return new SellEstate(estate);
+    }
+
+    public static Command SellTool(Tool tool) {
+        return new SellTool(tool);
     }
 }

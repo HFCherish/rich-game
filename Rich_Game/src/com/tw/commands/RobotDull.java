@@ -17,7 +17,7 @@ public class RobotDull implements Command {
         ToolType toolType = ToolType.RobotDull;
         if (tools.get(toolType) > 0) {
             player.getMap().setTool(toolType, 0, player.getCurrentPlace());
-            player.removeTool(toolType);
+            tools.compute(toolType, (k, v) -> v - 1);
         }
         return Player.Status.WAIT_FOR_COMMAND;
     }

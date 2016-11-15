@@ -191,20 +191,9 @@ public class Player {
         funds += income;
     }
 
-    public void sellTool(Tool tool) {
-        if (tools.get(tool) == 0) return;
-        removeTool(tool);
-        points += tool.getPoints();
-    }
-
-    public void removeTool(Tool tool) {
-        tools.compute(tool, (k, v) -> v - 1);
-    }
-
     public String helpAsString(GameHelp gameHelp) {
         return gameHelp.getHelpAsString();
     }
-
 
     public GameMap getMap() {
         return map;
