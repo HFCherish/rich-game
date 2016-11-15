@@ -131,7 +131,7 @@ public class PlayerCommandBeforeRollTest {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        currentPlayer.helpAsString(gameHelp);
+        CommandFactory.Help.execute(currentPlayer);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 

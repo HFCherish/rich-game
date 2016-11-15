@@ -4,7 +4,8 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.asest.AssistancePower;
-import com.tw.commands.*;
+import com.tw.commands.Command;
+import com.tw.commands.CommandFactory;
 import com.tw.giftHouse.*;
 import com.tw.house.House;
 import com.tw.map.*;
@@ -189,10 +190,6 @@ public class Player {
 
     public void addFunds(int income) {
         funds += income;
-    }
-
-    public String helpAsString(GameHelp gameHelp) {
-        return gameHelp.getHelpAsString();
     }
 
     public GameMap getMap() {
