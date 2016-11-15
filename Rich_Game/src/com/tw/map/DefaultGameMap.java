@@ -61,11 +61,7 @@ public class DefaultGameMap implements GameMap {
     @Override
     public boolean setTool(Tool tool, int steps, Place start) {
         if (tool.equals(ToolType.RobotDull)) {
-            int startIndex = places.indexOf(start);
-            for( int i=1; i<=Tool.RANGE && i<=places.size(); i++ ) {
-                removeNextTool(startIndex, i);
-                removeNextTool(startIndex, -i);
-            }
+            useRobot(start);
             return true;
         }
         Place placeToSetTool = places.get(nextPlaceIndex(steps, places.indexOf(start)));
@@ -81,6 +77,14 @@ public class DefaultGameMap implements GameMap {
             places.set(places.indexOf(placeToSetTool), new BlockPlace(placeToSetTool));
         }
         return true;
+    }
+
+    public void useRobot(Place start) {
+        int startIndex = places.indexOf(start);
+        for(int i = 1; i<= Tool.RANGE && i<=places.size(); i++ ) {
+            removeNextTool(startIndex, i);
+            removeNextTool(startIndex, -i);
+        }
     }
 
     @Override

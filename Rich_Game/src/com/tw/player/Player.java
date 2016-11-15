@@ -4,6 +4,7 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.asest.AssistancePower;
+import com.tw.commands.*;
 import com.tw.giftHouse.*;
 import com.tw.house.House;
 import com.tw.map.*;
@@ -182,10 +183,19 @@ public class Player {
         return stuckDays;
     }
 
-    public String queryAsString(Report report) {
-        return report.reportAsString(funds, points, estates, tools);
-    }
+    public static class SellEstate implements Command{
+        private Estate estate;
 
+        public SellEstate(Estate estate) {
+            this.estate = estate;
+        }
+
+        @Override
+        public Status execute(Player player) {
+
+            return null;
+        }
+    }
     public boolean sellEstate(Estate estate) {
         if (!estates.contains(estate)) return false;
         funds += estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2;
@@ -196,18 +206,21 @@ public class Player {
 
     public void sellTool(Tool tool) {
         if (tools.get(tool) == 0) return;
-        tools.compute(tool, (k, v) -> v - 1);
+        removeTool(tool);
         points += tool.getPoints();
+    }
+
+    public void removeTool(Tool tool) {
+        tools.compute(tool, (k, v) -> v - 1);
     }
 
     public String helpAsString(GameHelp gameHelp) {
         return gameHelp.getHelpAsString();
     }
 
-    public boolean setTool(Tool toolType, int steps) {
-        if (tools.get(toolType) == 0 || (steps < -10 || steps > 10))
-            return false;
-        return map.setTool(toolType, steps, currentPlace);
+
+    public GameMap getMap() {
+        return map;
     }
 
     public Place getCurrentPlace() {

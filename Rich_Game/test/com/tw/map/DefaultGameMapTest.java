@@ -4,14 +4,11 @@ import com.tw.Dice;
 import com.tw.Game;
 import com.tw.player.Player;
 import com.tw.toolHouse.ToolType;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by pzzheng on 11/14/16.

@@ -1,6 +1,7 @@
-package com.tw.player;
+package com.tw.report;
 
 import com.tw.map.Estate;
+import com.tw.player.Report;
 import com.tw.toolHouse.Tool;
 import com.tw.toolHouse.ToolType;
 
