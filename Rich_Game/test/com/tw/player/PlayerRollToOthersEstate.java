@@ -3,6 +3,8 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponseType;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
@@ -32,7 +34,7 @@ public class PlayerRollToOthersEstate {
         map = mock(GameMap.class);
         dice = () -> 1;
         othersEstate = new Estate(EMPTY_ESTATE_PRICE_5);
-        Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game).buyEstate(othersEstate);
+        ResponsiveFactory.BuyEstate(othersEstate).respond(Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game), ResponseType.Yes);
         when(map.move(anyObject(), anyInt())).thenReturn(othersEstate);
     }
 

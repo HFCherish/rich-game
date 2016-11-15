@@ -3,6 +3,8 @@ package com.tw.player;
 import com.tw.Game;
 import com.tw.GameHelp;
 import com.tw.commands.CommandFactory;
+import com.tw.commands.ResponseType;
+import com.tw.commands.ResponsiveFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import com.tw.toolHouse.Tool;
@@ -25,8 +27,7 @@ public class PlayerCommandBeforeRollTest {
     public static final int INITIAL_FUND_10 = 10;
     GameMap map = mock(GameMap.class);
     private Player currentPlayer;
-    @Mock
-    Game game;
+    Game game = mock(Game.class);
 
     @Test
     public void should_show_right_asset_report() {
@@ -35,10 +36,11 @@ public class PlayerCommandBeforeRollTest {
 
         currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10 * 2, game, ToolType.Bomb, ToolType.Block);
         Estate emptyEstate = new Estate(EMPTY_PRICE_5);
-        currentPlayer.buyEstate(emptyEstate);
+        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, ResponseType.Yes);
         Estate thatch = new Estate(EMPTY_PRICE_5);
         thatch.upgrade();
-        currentPlayer.buyEstate(thatch);
+        ResponsiveFactory.BuyEstate(thatch).respond(currentPlayer, ResponseType.Yes);
+        currentPlayer.inTurn();
 
         MatcherAssert.assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(CommandFactory.Query.execute(currentPlayer), is(Player.Status.WAIT_FOR_COMMAND));
@@ -59,7 +61,8 @@ public class PlayerCommandBeforeRollTest {
         int empty_house_price_5 = 5;
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + empty_house_price_5, game);
         Estate emptyEstate = new Estate(empty_house_price_5);
-        currentPlayer.buyEstate(emptyEstate);
+        ResponsiveFactory.BuyEstate(emptyEstate).respond(currentPlayer, ResponseType.Yes);
+        currentPlayer.inTurn();
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));

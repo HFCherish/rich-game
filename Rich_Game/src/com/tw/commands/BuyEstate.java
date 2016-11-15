@@ -6,7 +6,7 @@ import com.tw.player.Player;
 /**
  * Created by pzzheng on 11/15/16.
  */
-public class BuyEstate implements Command, Responsive {
+public class BuyEstate implements Responsive {
     private Estate emptyEstate;
 
     public BuyEstate(Estate emptyEstate) {
@@ -29,12 +29,11 @@ public class BuyEstate implements Command, Responsive {
     }
 
     @Override
-    public Player.Status execute(Player player) {
-        return null;
-    }
-
-    @Override
     public Player.Status respond(Player player, ResponseType responseType) {
-        return null;
+        player.decreaseFunds(emptyEstate.getEmptyPrice());
+        emptyEstate.setOwner(player);
+        player.getEstates().add(emptyEstate);
+        return player.endTurn();
+
     }
 }

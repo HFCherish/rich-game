@@ -9,7 +9,6 @@ import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import com.tw.map.Place;
 import com.tw.toolHouse.Tool;
-import com.tw.toolHouse.ToolHouse;
 import com.tw.toolHouse.ToolType;
 
 import java.util.ArrayList;
@@ -77,10 +76,6 @@ public class Player {
         return status;
     }
 
-    public void chargeFunds(int fees) {
-        funds -= fees;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -89,22 +84,8 @@ public class Player {
         return funds;
     }
 
-    public void sayYes() {
-        Estate estate = (Estate) currentPlace;
-        Estate.EstateType estateType = estate.typeFor(this);
-        if (estateType.equals(Estate.EstateType.EMPTY)) {
-            buyEstate(estate);
-        } else if (estateType.equals(Estate.EstateType.OWNER)) {
-            funds -= estate.getEmptyPrice();
-            estate.upgrade();
-        }
-        endTurn();
-    }
-
-    protected void buyEstate(Estate estate) {
-        funds -= estate.getEmptyPrice();
-        estate.setOwner(this);
-        estates.add(estate);
+    public void decreaseFunds(int cost) {
+        funds -= cost;
     }
 
     public static Player createPlayerWith_Fund_Map_command_state_in_game(GameMap map, int initialFund, Game game) {
@@ -136,7 +117,7 @@ public class Player {
         return player;
     }
 
-    public  void getLuckyGod() {
+    public void getLuckyGod() {
         luckyDays = LuckyGod.LuckyDays;
     }
 

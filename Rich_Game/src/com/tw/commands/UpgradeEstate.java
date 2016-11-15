@@ -6,7 +6,7 @@ import com.tw.player.Player;
 /**
  * Created by pzzheng on 11/15/16.
  */
-public class UpgradeEstate implements Command, Responsive {
+public class UpgradeEstate implements Responsive {
     private Estate estate;
 
     public UpgradeEstate(Estate estate) {
@@ -30,12 +30,9 @@ public class UpgradeEstate implements Command, Responsive {
     }
 
     @Override
-    public Player.Status execute(Player player) {
-        return null;
-    }
-
-    @Override
     public Player.Status respond(Player player, ResponseType responseType) {
-        return null;
+        player.decreaseFunds(estate.getEmptyPrice());
+        estate.upgrade();
+        return player.endTurn();
     }
 }

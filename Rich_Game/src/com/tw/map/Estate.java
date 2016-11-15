@@ -18,7 +18,7 @@ public class Estate implements Place {
 
     public Player.Status passOthersEstate(Player player, Estate estate) {
         if (!player.isLucky()) {
-            player.chargeFunds(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1));
+            player.decreaseFunds(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1));
             if (player.getFunds() < 0) {
                 return player.bankrupt();
             }

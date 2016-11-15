@@ -9,11 +9,7 @@ import java.util.HashMap;
 /**
  * Created by pzzheng on 11/15/16.
  */
-public class BuyTool implements Command, Responsive {
-    @Override
-    public Player.Status execute(Player player) {
-        return null;
-    }
+public class BuyTool implements Responsive {
 
     @Override
     public Player.Status respond(Player player, ResponseType responseType) {
