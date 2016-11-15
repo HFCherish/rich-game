@@ -12,8 +12,8 @@ public class BlockPlace extends ToolPlace {
     }
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         basePlace.comeHere(player);
-        player.endTurn();
+        return player.endTurn();
     }
 }

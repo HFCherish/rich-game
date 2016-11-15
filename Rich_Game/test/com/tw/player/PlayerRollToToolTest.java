@@ -2,10 +2,10 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.map.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -37,7 +37,7 @@ public class PlayerRollToToolTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
@@ -49,7 +49,7 @@ public class PlayerRollToToolTest {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getStuckDays(), is(0));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(currentPlayer.getStuckDays(), is(3));
     }

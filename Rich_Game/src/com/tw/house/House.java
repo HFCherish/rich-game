@@ -22,5 +22,5 @@ public abstract class House implements Place {
         return items.get(index_startFrom1 - 1);
     }
 
-    public abstract void comeHere(Player player);
+    public abstract Player.Status comeHere(Player player);
 }

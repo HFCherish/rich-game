@@ -2,6 +2,7 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.house.House;
 import com.tw.map.GameMap;
 import com.tw.toolHouse.Tool;
@@ -51,7 +52,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer.addPoint(POINT_BLOCK + 1);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
     }
 
@@ -60,7 +61,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
@@ -68,7 +69,7 @@ public class PlayerRollToToolHouseTest {
     public void should_get_tool_and_wait_for_response_after_buying_and_still_has_enough_points() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         currentPlayer.addPoint(POINT_BLOCK + POINT_ROBOT);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
         assertThat(currentPlayer.getPoints(), is(POINT_BLOCK + POINT_ROBOT));
@@ -83,7 +84,7 @@ public class PlayerRollToToolHouseTest {
     public void should_end_turn_after_buying_and_no_enough_points() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         currentPlayer.addPoint(POINT_ROBOT);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getPoints(), is(POINT_ROBOT));
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(0));
@@ -98,7 +99,7 @@ public class PlayerRollToToolHouseTest {
     public void should_end_turn_after_buying_and_contains_10_tools() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         currentPlayer.addPoint(POINT_ROBOT * 10 + POINT_BLOCK);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         for (int i = 0; i < 10; i++)
             currentPlayer.buyTool(2);
@@ -112,7 +113,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
         currentPlayer.addPoint(POINT_BLOCK + 1);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         currentPlayer.buyTool(ToolHouse.QUIT_INDEX);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -126,7 +127,7 @@ public class PlayerRollToToolHouseTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_Tools_command_state_in_game(map, INITIAL_FUND_10, game, tenTools);
         currentPlayer.addPoint(POINT_BLOCK);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getTools().values().stream().reduce(0, (a, b) -> a+b), is(10));
         assertThat(currentPlayer.getPoints(), is(POINT_BLOCK));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));

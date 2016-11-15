@@ -2,11 +2,11 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.map.GameMap;
 import com.tw.map.Prison;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,7 +39,7 @@ public class PlayerRollToPrisonTest {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getStuckDays(), is(0));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStuckDays(), is(2));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }

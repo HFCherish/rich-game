@@ -3,7 +3,8 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
-import com.tw.commands.Command;
+import com.tw.commands.CommandFactory;
+import com.tw.commands.Roll;
 import com.tw.giftHouse.*;
 import com.tw.house.House;
 import com.tw.map.*;
@@ -44,35 +45,25 @@ public class Player {
         hasLuckyGod = false;
     }
 
-    public static class Roll implements Command {
-
-        @Override
-        public Status execute(Player player) {
-            return null;
-        }
-    }
-    public void roll(Dice dice) {
-        Place place = map.move(currentPlace, dice.next());
-//        moveTo(place);
-        place.comeHere(this);
-    }
-
     public void moveTo(Place place) {
         currentPlace = place;
     }
 
-    public void waitForResponse() {
+    public Status waitForResponse() {
         status = Status.WAIT_FOR_RESPONSE;
+        return status;
     }
 
-    public void endTurn() {
+    public Status endTurn() {
         status = Status.WAIT_FOR_TURN;
         game.inform(status);
+        return status;
     }
 
-    public void bankrupt() {
+    public Status bankrupt() {
         status = Status.BANKRUPT;
         game.inform(status);
+        return status;
     }
 
     public void chargeFunds(int fees) {

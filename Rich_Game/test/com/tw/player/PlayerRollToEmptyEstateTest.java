@@ -2,6 +2,7 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class PlayerRollToEmptyEstateTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
     }
 
@@ -50,7 +51,7 @@ public class PlayerRollToEmptyEstateTest {
     public void should_buy_estate_if_say_yes() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(currentPlayer.estates.size(), is(0));
         assertThat(emptyEstate.typeFor(currentPlayer), is(Estate.EstateType.EMPTY));
@@ -66,7 +67,7 @@ public class PlayerRollToEmptyEstateTest {
     public void should_end_turn_if_say_no() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         currentPlayer.sayNo();
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
@@ -78,7 +79,7 @@ public class PlayerRollToEmptyEstateTest {
     public void should_end_turn_if_no_enough_money() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, EMPTY_PRICE_5-1, game);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(currentPlayer.getFunds(), is(EMPTY_PRICE_5-1));

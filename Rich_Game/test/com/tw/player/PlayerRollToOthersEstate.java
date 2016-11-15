@@ -2,11 +2,11 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -42,7 +42,7 @@ public class PlayerRollToOthersEstate {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -53,7 +53,7 @@ public class PlayerRollToOthersEstate {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10 - EMPTY_ESTATE_PRICE_5));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
@@ -64,7 +64,7 @@ public class PlayerRollToOthersEstate {
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(currentPlayer.getFunds(), is(EMPTY_ESTATE_PRICE_5-1));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(-1));
         assertThat(currentPlayer.getStatus(), is(Player.Status.BANKRUPT));
     }

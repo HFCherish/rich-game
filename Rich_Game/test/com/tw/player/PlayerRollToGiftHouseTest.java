@@ -3,6 +3,7 @@ package com.tw.player;
 import com.tw.Dice;
 import com.tw.Game;
 import com.tw.asest.AssistancePower;
+import com.tw.commands.CommandFactory;
 import com.tw.giftHouse.Fund;
 import com.tw.giftHouse.PointCard;
 import com.tw.giftHouse.GiftHouse;
@@ -11,7 +12,6 @@ import com.tw.house.House;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -45,7 +45,7 @@ public class PlayerRollToGiftHouseTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
     }
 
@@ -56,7 +56,7 @@ public class PlayerRollToGiftHouseTest {
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getPoints(), is(0));
         currentPlayer.selectGift(1);
@@ -71,7 +71,7 @@ public class PlayerRollToGiftHouseTest {
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         currentPlayer.selectGift(1);
@@ -86,7 +86,7 @@ public class PlayerRollToGiftHouseTest {
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         assertThat(currentPlayer.isLucky(), is(false));
         currentPlayer.selectGift(1);
@@ -100,7 +100,7 @@ public class PlayerRollToGiftHouseTest {
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
 
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         currentPlayer.selectGift(4);
         assertThat(currentPlayer.isLucky(), is(false));

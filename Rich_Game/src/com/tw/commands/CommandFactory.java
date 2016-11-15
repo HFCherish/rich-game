@@ -1,7 +1,7 @@
 package com.tw.commands;
 
+import com.tw.Dice;
 import com.tw.map.Estate;
-import com.tw.player.Player;
 import com.tw.toolHouse.Tool;
 
 /**
@@ -27,5 +27,9 @@ public class CommandFactory {
 
     public static Command SellTool(Tool tool) {
         return new SellTool(tool);
+    }
+
+    public static Command Roll(Dice dice) {
+        return new Roll(dice);
     }
 }

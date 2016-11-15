@@ -2,6 +2,7 @@ package com.tw.map;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.player.Player;
 import com.tw.toolHouse.ToolType;
 import org.junit.Test;
@@ -127,7 +128,7 @@ public class DefaultGameMapTest {
         assertThat(player.getCurrentPlace(), is(estate3));
         assertThat(map.places.get(1), is(bomb));
 
-        player.roll(dice);
+        CommandFactory.Roll(dice).execute(player);
 
         assertThat(player.getCurrentPlace(), is(hospital));
         assertThat(map.places.get(1), is(prison));
@@ -148,7 +149,7 @@ public class DefaultGameMapTest {
         assertThat(player.getCurrentPlace(), is(estate3));
         assertThat(map.places.get(1), is(block));
 
-        player.roll(dice);
+        CommandFactory.Roll(dice).execute(player);
 
         assertThat(player.getCurrentPlace(), is(prison));
         assertThat(player.getStuckDays(), is(2));

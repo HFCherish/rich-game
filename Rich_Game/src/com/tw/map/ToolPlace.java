@@ -16,5 +16,5 @@ public abstract class ToolPlace implements Place {
         return basePlace;
     }
 
-    public abstract void comeHere(Player player);
+    public abstract Player.Status comeHere(Player player);
 }

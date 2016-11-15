@@ -11,9 +11,9 @@ public class BombPlace extends ToolPlace {
     }
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(player.getMap().getHospital());
         player.stuckFor(Hospital.HOSPITAL_DAYS);
-        player.endTurn();
+        return player.endTurn();
     }
 }

@@ -13,13 +13,9 @@ public class GiftHouse extends House {
         super(gifts);
     }
 
-//    public AssistancePower getItemByIndex(int giftIndex_startFrom1) {
-//        return null;
-//    }
-
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(this);
-        player.waitForResponse();
+        return player.waitForResponse();
     }
 }

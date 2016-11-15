@@ -8,7 +8,8 @@ import com.tw.player.Player;
 public class Starting implements Place {
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(this);
+        return player.endTurn();
     }
 }

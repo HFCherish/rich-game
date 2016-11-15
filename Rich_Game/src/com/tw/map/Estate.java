@@ -15,16 +15,14 @@ public class Estate implements Place {
         level = EstateLevel.EMPTY;
     }
 
-    public void passOthersEstate(Player player, Estate estate) {
+    public Player.Status passOthersEstate(Player player, Estate estate) {
         if (!player.isLucky()) {
             player.chargeFunds(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1));
             if(player.getFunds() < 0) {
-                player.bankrupt();
-                return;
+                return player.bankrupt();
             }
         }
-        player.endTurn();
-        return;
+        return player.endTurn();
     }
 
     public int getEmptyPrice() {
@@ -46,27 +44,23 @@ public class Estate implements Place {
     }
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(this);
         Estate estate = this;
         EstateType type = estate.typeFor(player);
         if (type.equals(EstateType.OTHER)) {
-            passOthersEstate(player, estate);
+            return passOthersEstate(player, estate);
         }
         else if (player.getFunds() < estate.getEmptyPrice()) {
-            player.endTurn();
+            return player.endTurn();
         }
         else {
-            player.waitForResponse();
+            return player.waitForResponse();
         }
     }
 
     public void setOwner(Player owner) {
         this.owner = owner;
-    }
-
-    public static Estate createEstateWith_Position_and_funds(Position position, int emptyPrice) {
-        return new Estate(emptyPrice);
     }
 
     public enum EstateLevel {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}

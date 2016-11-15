@@ -18,13 +18,13 @@ public class ToolHouse extends House {
     }
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(this);
         if ((!canAffordWith(player.getPoints()) || player.getTools().values().stream().reduce(0, (a, b) -> a+b) == 10)) {
-            player.endTurn();
+            return player.endTurn();
         }
         else {
-            player.waitForResponse();
+            return player.waitForResponse();
         }
     }
 }

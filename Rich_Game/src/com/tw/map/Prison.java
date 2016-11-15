@@ -10,9 +10,9 @@ public class Prison implements Place {
     public static final int PRISON_DAYS = 2;
 
     @Override
-    public void comeHere(Player player) {
+    public Player.Status comeHere(Player player) {
         player.moveTo(this);
         player.stuckFor(PRISON_DAYS);
-        player.endTurn();
+        return player.endTurn();
     }
 }

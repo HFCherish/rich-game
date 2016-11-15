@@ -2,11 +2,11 @@ package com.tw.player;
 
 import com.tw.Dice;
 import com.tw.Game;
+import com.tw.commands.CommandFactory;
 import com.tw.map.Estate;
 import com.tw.map.GameMap;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -41,7 +41,7 @@ public class PlayerRollToOwnEstateTest {
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
     }
 
@@ -52,7 +52,7 @@ public class PlayerRollToOwnEstateTest {
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
 
@@ -62,7 +62,7 @@ public class PlayerRollToOwnEstateTest {
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(ownEstate.getLevel(), is(Estate.EstateLevel.EMPTY));
 
@@ -78,7 +78,7 @@ public class PlayerRollToOwnEstateTest {
         currentPlayer.buyEstate(ownEstate);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
 
-        currentPlayer.roll(dice);
+        CommandFactory.Roll(dice).execute(currentPlayer);
 
         currentPlayer.sayNo();
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
