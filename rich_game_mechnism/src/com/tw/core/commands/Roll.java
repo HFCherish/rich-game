@@ -16,5 +16,5 @@ public class Roll implements Command {
     @Override
     public Player.Status execute(Player player) {
         return player.getGame().getMap().move(player.getCurrentPlace(), dice.next()).comeHere(player);
-    }≠
+    }
 }
