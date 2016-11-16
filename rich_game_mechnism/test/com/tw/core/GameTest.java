@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
@@ -79,6 +80,7 @@ public class GameTest {
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.execute(command), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(game.lastCommand, is(command));
     }
 
     @Test
@@ -94,6 +96,7 @@ public class GameTest {
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.execute(command), is(Player.Status.WAIT_FOR_RESPONSE));
+        assertThat(game.lastCommand, is(not(command)));
     }
 
     @Test

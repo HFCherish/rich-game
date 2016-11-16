@@ -14,7 +14,7 @@ public class Game {
     private List<Player> players;
     private Status status;
     private int currentPlayerIndex;
-    private Command currentCommand;
+    protected Command lastCommand;
 
     public Game(GameMap map) {
         status = Status.START;
@@ -39,7 +39,12 @@ public class Game {
     }
 
     public Player.Status execute(Command command) {
-        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_COMMAND) ? currentPlayer().execute(command) : currentPlayer().getStatus();
+        Player.Status playerStatus = currentPlayer().getStatus();
+        if( playerStatus.equals(Player.Status.WAIT_FOR_COMMAND)) {
+            lastCommand = command;
+            return currentPlayer().execute(command);
+        }
+        return playerStatus;
     }
 
     private Player currentPlayer() {
@@ -47,7 +52,7 @@ public class Game {
     }
 
     public Player.Status respond(Response response) {
-        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response, currentCommand) : currentPlayer().getStatus();
+        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response, lastCommand) : currentPlayer().getStatus();
     }
 
     public enum Status {END, START}
