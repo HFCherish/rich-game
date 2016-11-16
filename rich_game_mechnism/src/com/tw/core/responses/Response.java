@@ -5,4 +5,5 @@ package com.tw.core.responses;
  */
 public class Response {
     public static Response Yes = new Response();
+    public static Response No = new Response();
 }

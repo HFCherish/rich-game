@@ -39,9 +39,11 @@ public class Roll implements Command {
 
         @Override
         public Player.Status respond(Response response, Player player) {
-            player.getAsests().decreaseFunds(estate.getEmptyPrice());
-            player.getAsests().addEstate(estate);
-            estate.sellTo(player);
+            if(response.equals(Response.Yes)) {
+                player.getAsests().decreaseFunds(estate.getEmptyPrice());
+                player.getAsests().addEstate(estate);
+                estate.sellTo(player);
+            }
             return Player.Status.WAIT_FOR_TURN;
         }
     }
