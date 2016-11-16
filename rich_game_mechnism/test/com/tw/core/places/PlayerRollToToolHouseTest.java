@@ -80,7 +80,7 @@ public class PlayerRollToToolHouseTest {
 
         player.execute(roll);
 
-        player.respond(Response.GetTool(Tool.BLOCK));
+        player.respond(Response.GetAssistencePower(Tool.BLOCK));
 
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
@@ -102,7 +102,7 @@ public class PlayerRollToToolHouseTest {
 
         player.execute(roll);
 
-        player.respond(Response.GetTool(Tool.BLOCK));
+        player.respond(Response.GetAssistencePower(Tool.BLOCK));
 
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));

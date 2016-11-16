@@ -7,8 +7,8 @@ import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
+import com.tw.core.responses.Response;
 import com.tw.core.tools.Gift;
-import com.tw.core.tools.Tool;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +49,25 @@ public class PlayerRollToGiftHouseTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
         assertThat(player.getCurrentPlace(), is(giftHouse));
+        assertThat(player.lastCommand() instanceof Roll.SelectGift, is(true));
+    }
+
+    @Test
+    public void should_get_gift_and_end_turn() {
+        when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
+
+        player.respond(Response.GetAssistencePower(Gift.FUNDS));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getCurrentPlace(), is(giftHouse));
+        assertThat(player.getAsests().getFunds(), is(INITIAL_FUND + Gift.FUNDS.getValue()));
         assertThat(player.lastCommand() instanceof Roll.SelectGift, is(true));
     }
 }

@@ -2,6 +2,8 @@ package com.tw.core;
 
 import com.sun.tools.javac.main.Option;
 import com.tw.core.places.Estate;
+import com.tw.core.tools.AssistentPower;
+import com.tw.core.tools.Gift;
 import com.tw.core.tools.Tool;
 
 import java.util.*;
@@ -21,7 +23,7 @@ public class Asest {
     }
 
     public void addFund(int bonus) {
-        funds = bonus;
+        funds += bonus;
     }
 
     public int getFunds() {
@@ -57,4 +59,5 @@ public class Asest {
         tools.compute(tool, (k,v) -> v == null ? 1 : v+1);
         points -= tool.getValue();
     }
+
 }

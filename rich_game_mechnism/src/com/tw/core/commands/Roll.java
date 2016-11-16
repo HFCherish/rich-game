@@ -5,6 +5,7 @@ import com.tw.core.Player;
 import com.tw.core.places.Estate;
 import com.tw.core.places.ToolHouse;
 import com.tw.core.responses.Response;
+import com.tw.core.tools.Gift;
 import com.tw.core.tools.Tool;
 
 /**
@@ -84,7 +85,7 @@ public class Roll implements Command {
             if(response.equals(Response.Quit)) {
                 return Player.Status.WAIT_FOR_TURN;
             }
-            player.getAsests().addTool(response.getTool());
+            player.getAsests().addTool((Tool)response.getItem());
             if(((ToolHouse)player.getCurrentPlace()).canNotAffordAnyToolWith(player.getAsests().getPoints())) {
                 return Player.Status.WAIT_FOR_TURN;
             }
@@ -100,7 +101,13 @@ public class Roll implements Command {
 
         @Override
         public Player.Status respond(Response response, Player player) {
-            return null;
+            if(response.getItem() != null) {
+                Gift item = (Gift) response.getItem();
+                if(item.equals(Gift.FUNDS)) player.getAsests().addFund(item.getValue());
+                else if(item.equals(Gift.LUCKY_GOD)) player.getLuckyGod();
+                else if(item.equals(Gift.POINTS)) player.getAsests().addPoints(item.getValue());
+            }
+            return Player.Status.WAIT_FOR_TURN;
         }
     }
 }
