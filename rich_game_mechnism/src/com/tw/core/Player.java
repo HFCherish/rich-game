@@ -21,5 +21,10 @@ public class Player {
         return command.execute(this);
     }
 
+    public Status inTurn() {
+        status = Status.WAIT_FOR_COMMAND;
+        return status;
+    }
+
     public enum Status {WAIT_FOR_COMMAND, WAIT_FOR_TURN}
 }
