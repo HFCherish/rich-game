@@ -28,7 +28,7 @@ public class Game {
     }
 
     public Status getStatus() {
-        if(players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1) {
+        if (players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1) {
             status = Status.END;
         }
         return status;
@@ -40,7 +40,7 @@ public class Game {
 
     public Player.Status execute(Command command) {
         Player.Status playerStatus = currentPlayer().getStatus();
-        if( playerStatus.equals(Player.Status.WAIT_FOR_COMMAND)) {
+        if (playerStatus.equals(Player.Status.WAIT_FOR_COMMAND)) {
             lastCommand = command;
             return currentPlayer().execute(command);
         }
@@ -56,7 +56,9 @@ public class Game {
     }
 
     public void nextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        do {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT));
     }
 
     public enum Status {END, START}

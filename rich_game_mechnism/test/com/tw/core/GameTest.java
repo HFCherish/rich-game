@@ -136,9 +136,27 @@ public class GameTest {
         game.initialPlayers(player, player1);
 
         assertThat(game.currentPlayer(), is(player));
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         game.nextPlayer();
 
         assertThat(game.currentPlayer(), is(player1));
+    }
+
+    @Test
+    public void should_shift_to_player_after_next_player_if_next_player_bankrupt() {
+        Game game = new Game(map);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(player1.getStatus()).thenReturn(Player.Status.BANKRUPT);
+        assertThat(game.currentPlayer(), is(player));
+
+        game.nextPlayer();
+
+        assertThat(game.currentPlayer(), is(player));
     }
 }
