@@ -20,8 +20,9 @@ public class Estate implements Place{
 
     @Override
     public Player.Status comeHere(Player player) {
-        player.setLastCommand(CommandFactory.BuyEstate(this));
         player.moveTo(this);
+        if(player.getAsests().getFunds() < emptyPrice)  return Player.Status.WAIT_FOR_TURN;
+        player.setLastCommand(CommandFactory.BuyEstate(this));
         return Player.Status.WAIT_FOR_RESPONSE;
     }
 
