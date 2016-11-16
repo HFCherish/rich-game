@@ -91,4 +91,16 @@ public class Roll implements Command {
             return Player.Status.WAIT_FOR_RESPONSE;
         }
     }
+
+    public static class SelectGift implements Command{
+        @Override
+        public Player.Status execute(Player player) {
+            return null;
+        }
+
+        @Override
+        public Player.Status respond(Response response, Player player) {
+            return null;
+        }
+    }
 }

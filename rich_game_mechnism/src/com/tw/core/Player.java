@@ -3,7 +3,7 @@ package com.tw.core;
 import com.tw.core.commands.Command;
 import com.tw.core.places.Place;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.LuckyGod;
+import com.tw.core.tools.Gift;
 
 /**
  * Created by pzzheng on 11/16/16.
@@ -83,7 +83,7 @@ public class Player {
     }
 
     public void getLuckyGod() {
-        luckyDays = LuckyGod.LUCKY_DAYS;
+        luckyDays = Gift.LUCKY_GOD.getValue();
     }
 
     public boolean isLucky() {

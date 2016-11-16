@@ -7,6 +7,7 @@ import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
+import com.tw.core.tools.Gift;
 import com.tw.core.tools.Tool;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,22 +33,22 @@ public class PlayerRollToGiftHouseTest {
     public void setUp() {
         map = mock(GameMap.class);
         dice = mock(Dice.class);
-//        giftHouse = new GiftHouse(Tool.BLOCK, Tool.BOMB, Tool.ROBOT_DULL);
+        giftHouse = new GiftHouse(Gift.FUNDS, Gift.POINTS, Gift.LUCKY_GOD);
     }
 
     @Test
     public void should_wait_for_response() {
-//        when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
-//        Game game = new Game(map);
-//        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-//
-//        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-//
-//        Command roll = CommandFactory.Roll(dice);
-//        player.execute(roll);
-//
-//        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
-//        assertThat(player.getCurrentPlace(), is(giftHouse));
-//        assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
+        when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        assertThat(player.getCurrentPlace(), is(giftHouse));
+        assertThat(player.lastCommand() instanceof Roll.SelectGift, is(true));
     }
 }
