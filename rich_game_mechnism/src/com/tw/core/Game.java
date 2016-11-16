@@ -54,7 +54,7 @@ public class Game {
     }
 
     public Player.Status respond(Response response) {
-        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response, lastCommand) : currentPlayer().getStatus();
+        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response) : currentPlayer().getStatus();
     }
 
     public void nextPlayer() {

@@ -1,7 +1,9 @@
 package com.tw.core.places;
 
 import com.tw.core.*;
+import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
+import com.tw.core.commands.Roll;
 import com.tw.core.places.Estate;
 import com.tw.core.places.Place;
 import org.junit.Before;
@@ -38,8 +40,11 @@ public class PlayerRollToEmptyEstateTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        player.execute(CommandFactory.Roll(dice));
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        System.out.println(player.lastCommand());
+        assertThat(player.lastCommand() instanceof Roll.BuyEstate, is(true));
     }
 }

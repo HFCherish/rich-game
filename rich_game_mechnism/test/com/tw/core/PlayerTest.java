@@ -1,11 +1,6 @@
 package com.tw.core;
 
-import com.tw.core.Dice;
-import com.tw.core.Game;
-import com.tw.core.GameMap;
-import com.tw.core.Player;
 import com.tw.core.commands.Command;
-import com.tw.core.places.Place;
 import com.tw.core.responses.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +49,7 @@ public class PlayerTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
         when(command.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
 
-        player.respond(response, command);
+        player.respond(response);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }

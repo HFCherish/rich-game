@@ -104,7 +104,7 @@ public class GameTest {
         game.initialPlayers(player, player1);
 
         when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
-        when(player.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player.respond(anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.respond(response), is(Player.Status.WAIT_FOR_TURN));
@@ -119,7 +119,7 @@ public class GameTest {
         game.initialPlayers(player, player1);
 
         when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
-        when(player.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player.respond(anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.respond(response), is(Player.Status.WAIT_FOR_COMMAND));
     }

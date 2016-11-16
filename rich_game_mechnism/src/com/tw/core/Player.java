@@ -13,6 +13,7 @@ public class Player {
     private int initialFund;
     private Game game;
     private Place currentPlace;
+    private Command lastCommand;
 
     private Player() {
         status = Status.WAIT_FOR_TURN;
@@ -24,6 +25,7 @@ public class Player {
 
     public Status execute(Command command) {
         if(status.equals(Status.WAIT_FOR_COMMAND)) {
+            lastCommand = command;
             status = command.execute(this);
         }
         return status;
@@ -34,7 +36,7 @@ public class Player {
         return status;
     }
 
-    public Status respond(Response response, Command lastCommand) {
+    public Status respond(Response response) {
         if(status.equals(Status.WAIT_FOR_RESPONSE)) {
             status = lastCommand.respond(response, this);
         }
@@ -59,6 +61,14 @@ public class Player {
 
     public Game getGame() {
         return game;
+    }
+
+    public Command lastCommand() {
+        return lastCommand;
+    }
+
+    public void setLastCommand(Command lastCommand) {
+        this.lastCommand = lastCommand;
     }
 
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
