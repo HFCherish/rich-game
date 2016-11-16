@@ -3,6 +3,7 @@ package com.tw.core.commands;
 import com.tw.core.Dice;
 import com.tw.core.Player;
 import com.tw.core.places.Estate;
+import com.tw.core.places.ToolHouse;
 import com.tw.core.responses.Response;
 import com.tw.core.tools.Tool;
 
@@ -81,6 +82,9 @@ public class Roll implements Command {
         @Override
         public Player.Status respond(Response response, Player player) {
             player.getAsests().addTool(response.getTool());
+            if(((ToolHouse)player.getCurrentPlace()).canNotAffordAnyToolWith(player.getAsests().getPoints())) {
+                return Player.Status.WAIT_FOR_TURN;
+            }
             return Player.Status.WAIT_FOR_RESPONSE;
         }
     }
