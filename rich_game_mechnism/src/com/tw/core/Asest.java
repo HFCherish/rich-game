@@ -18,7 +18,6 @@ public class Asest {
     public Asest() {
         estates = new ArrayList<>();
         tools = new HashMap();
-        Arrays.asList(Tool.values()).forEach((tool -> tools.compute(tool, (k,v) -> 0)));
     }
 
     public void addFund(int bonus) {
@@ -49,12 +48,13 @@ public class Asest {
         return points;
     }
 
-    public Map<Tool, Integer> getTools() {
-        return tools;
+    public boolean hasTool(Tool tool) {
+        tools.compute(tool, (k,v) -> v == null ? 0 : v);
+        return tools.get(tool) > 0;
     }
 
     public void addTool(Tool tool) {
-        tools.compute(tool, (k,v) -> v+1);
+        tools.compute(tool, (k,v) -> v == null ? 1 : v+1);
         points -= tool.getValue();
     }
 }

@@ -86,7 +86,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
-        assertThat(player.getAsests().getTools().get(Tool.BLOCK), is(1));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 
@@ -108,7 +108,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(0));
-        assertThat(player.getAsests().getTools().get(Tool.BLOCK), is(1));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 
@@ -130,7 +130,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
-        assertThat(player.getAsests().getTools().get(Tool.BLOCK), is(0));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 

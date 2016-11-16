@@ -4,17 +4,14 @@ import com.tw.core.Player;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.tools.Tool;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by pzzheng on 11/16/16.
  */
-public class ToolHouse implements Place {
-    private final List<Tool> tools;
+public class ToolHouse extends House {
 
-    public ToolHouse(Tool... tools) {
-        this.tools = Arrays.asList(tools);
+
+    public ToolHouse(Tool... items) {
+        super(items);
     }
 
 
@@ -30,6 +27,6 @@ public class ToolHouse implements Place {
     }
 
     public boolean canNotAffordAnyToolWith(int points) {
-        return tools.stream().min((a, b) -> a.getValue() - b.getValue()).get().getValue() > points;
+        return items.stream().min((a, b) -> a.getValue() - b.getValue()).get().getValue() > points;
     }
 }
