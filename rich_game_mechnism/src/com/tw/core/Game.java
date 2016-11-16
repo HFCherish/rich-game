@@ -1,6 +1,7 @@
 package com.tw.core;
 
 import com.tw.core.commands.Command;
+import com.tw.core.responses.Response;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ public class Game {
     private List<Player> players;
     private Status status;
     private int currentPlayerIndex;
+    private Command currentCommand;
 
     public Game(GameMap map) {
         status = Status.START;
@@ -42,6 +44,10 @@ public class Game {
 
     private Player currentPlayer() {
         return players.get(currentPlayerIndex);
+    }
+
+    public Player.Status respond(Response response) {
+        return currentPlayer().respond(response, currentCommand);
     }
 
     public enum Status {END, START}

@@ -1,6 +1,7 @@
 package com.tw.core;
 
 import com.tw.core.commands.Command;
+import com.tw.core.responses.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -93,5 +94,20 @@ public class GameTest {
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.execute(command), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_can_respond_if_current_player_wait_for_response() {
+        Game game = new Game(map);
+        Response command = mock(Response.class);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        when(player.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
+
+        assertThat(game.respond(command), is(Player.Status.WAIT_FOR_TURN));
     }
 }
