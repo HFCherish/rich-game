@@ -47,12 +47,16 @@ public class Game {
         return playerStatus;
     }
 
-    private Player currentPlayer() {
+    public Player currentPlayer() {
         return players.get(currentPlayerIndex);
     }
 
     public Player.Status respond(Response response) {
         return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response, lastCommand) : currentPlayer().getStatus();
+    }
+
+    public void nextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 
     public enum Status {END, START}

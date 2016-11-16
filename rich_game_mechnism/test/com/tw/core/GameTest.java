@@ -127,4 +127,18 @@ public class GameTest {
 
         assertThat(game.respond(response), is(Player.Status.WAIT_FOR_COMMAND));
     }
+
+    @Test
+    public void should_able_to_shift_player() {
+        Game game = new Game(map);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        assertThat(game.currentPlayer(), is(player));
+
+        game.nextPlayer();
+
+        assertThat(game.currentPlayer(), is(player1));
+    }
 }
