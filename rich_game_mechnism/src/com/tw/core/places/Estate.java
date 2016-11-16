@@ -8,6 +8,7 @@ import com.tw.core.commands.CommandFactory;
  */
 public class Estate implements Place{
     private int emptyPrice;
+    private Player owner;
 
     public Estate(int emptyPrice) {
         this.emptyPrice = emptyPrice;
@@ -20,6 +21,19 @@ public class Estate implements Place{
     @Override
     public Player.Status comeHere(Player player) {
         player.setLastCommand(CommandFactory.BuyEstate(this));
+        player.moveTo(this);
         return Player.Status.WAIT_FOR_RESPONSE;
     }
+
+    public EstateType typeFor(Player player) {
+        if( owner == null ) return EstateType.EMPTY;
+        if( owner.equals(player)) return EstateType.OWNER;
+        return EstateType.OTHER;
+    }
+
+    public void sellTo(Player player) {
+        owner = player;
+    }
+
+    public enum EstateType {EMPTY, OTHER, OWNER}
 }

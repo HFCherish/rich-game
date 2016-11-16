@@ -26,7 +26,10 @@ public class Roll implements Command {
     }
 
     public static class BuyEstate implements Command {
+        private Estate estate;
+
         public BuyEstate(Estate estate) {
+            this.estate = estate;
         }
 
         @Override
@@ -36,7 +39,10 @@ public class Roll implements Command {
 
         @Override
         public Player.Status respond(Response response, Player player) {
-            return null;
+            player.getAsests().decreaseFunds(estate.getEmptyPrice());
+            player.getAsests().addEstate(estate);
+            estate.sellTo(player);
+            return Player.Status.WAIT_FOR_TURN;
         }
     }
 }
