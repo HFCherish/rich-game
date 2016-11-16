@@ -6,7 +6,7 @@ import com.tw.core.commands.CommandFactory;
 /**
  * Created by pzzheng on 11/16/16.
  */
-public class Estate implements Place{
+public class Estate implements Place {
     private int emptyPrice;
     private Player owner;
 
@@ -21,14 +21,12 @@ public class Estate implements Place{
     @Override
     public Player.Status comeHere(Player player) {
         player.moveTo(this);
-        if(player.getAsests().getFunds() < emptyPrice)  return Player.Status.WAIT_FOR_TURN;
-        player.setLastCommand(CommandFactory.BuyEstate(this));
-        return Player.Status.WAIT_FOR_RESPONSE;
+        return estateType(player).action(player, this);
     }
 
-    public EstateType typeFor(Player player) {
-        if( owner == null ) return EstateType.EMPTY;
-        if( owner.equals(player)) return EstateType.OWNER;
+    public EstateType estateType(Player player) {
+        if (owner == null) return EstateType.EMPTY;
+        if (owner.equals(player)) return EstateType.OWNER;
         return EstateType.OTHER;
     }
 
@@ -36,5 +34,27 @@ public class Estate implements Place{
         owner = player;
     }
 
-    public enum EstateType {EMPTY, OTHER, OWNER}
+    public enum EstateType {
+        EMPTY {
+            @Override
+            Player.Status action(Player player, Estate estate) {
+                if (player.getAsests().getFunds() < estate.emptyPrice) return Player.Status.WAIT_FOR_TURN;
+                player.setLastCommand(CommandFactory.BuyEstate(estate));
+                return Player.Status.WAIT_FOR_RESPONSE;
+            }
+        }, OTHER {
+            @Override
+            Player.Status action(Player player, Estate estate) {
+                return null;
+            }
+        }, OWNER {
+            @Override
+            Player.Status action(Player player, Estate estate) {
+                if (player.getAsests().getFunds() < estate.emptyPrice) return Player.Status.WAIT_FOR_TURN;
+                player.setLastCommand(CommandFactory.UpgradeEstate(estate));
+                return Player.Status.WAIT_FOR_RESPONSE;
+            }
+        };
+        abstract Player.Status action(Player player, Estate estate);
+    }
 }

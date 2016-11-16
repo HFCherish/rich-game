@@ -47,4 +47,22 @@ public class Roll implements Command {
             return Player.Status.WAIT_FOR_TURN;
         }
     }
+
+    public static class UpgradeEstate implements Command{
+        private Estate estate;
+
+        public UpgradeEstate(Estate estate) {
+            this.estate = estate;
+        }
+
+        @Override
+        public Player.Status execute(Player player) {
+            return null;
+        }
+
+        @Override
+        public Player.Status respond(Response response, Player player) {
+            return null;
+        }
+    }
 }

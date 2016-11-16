@@ -14,4 +14,8 @@ public class CommandFactory {
     public static Command BuyEstate(Estate estate) {
         return new Roll.BuyEstate(estate);
     }
+
+    public static Command UpgradeEstate(Estate estate) {
+        return new Roll.UpgradeEstate(estate);
+    }
 }
