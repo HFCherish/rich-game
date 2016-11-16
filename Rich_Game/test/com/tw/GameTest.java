@@ -1,8 +1,9 @@
 package com.tw;
 
-import com.tw.commands.CommandFactory;
-import com.tw.map.*;
-import com.tw.player.Player;
+import com.tw.core.Game;
+import com.tw.core.commands.CommandFactory;
+import com.tw.core.map.*;
+import com.tw.core.player.Player;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,7 +20,7 @@ public class GameTest {
         Game game = new Game(map);
         Player player = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
         Player player1 = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
-        game.initialPlayers(player, player1);
+        game.initPlayers(player, player1);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player1.getStatus(), is(Player.Status.WAIT_FOR_TURN));
@@ -43,7 +44,7 @@ public class GameTest {
         Game game = new Game(map);
         Player player = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
         Player player1 = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
-        game.initialPlayers(player, player1);
+        game.initPlayers(player, player1);
 
         assertThat(game.getStatus(), is(Game.Status.GAME_START));
 
@@ -58,7 +59,7 @@ public class GameTest {
         Game game = new Game(map);
         Player player = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
         Player player1 = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
-        game.initialPlayers(player, player1);
+        game.initPlayers(player, player1);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player1.getStatus(), is(Player.Status.WAIT_FOR_TURN));
@@ -76,7 +77,7 @@ public class GameTest {
         Player player = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
         Player player1 = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
         Player player2 = Player.createPlayerWith_Fund_Map_WAIT_TURN_STATE(map, 10000);
-        game.initialPlayers(player, player1, player2);
+        game.initPlayers(player, player1, player2);
 
         player.bankrupt();
         player1.bankrupt();
