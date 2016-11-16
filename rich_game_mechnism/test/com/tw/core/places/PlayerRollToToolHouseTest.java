@@ -7,6 +7,7 @@ import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
+import com.tw.core.responses.Response;
 import com.tw.core.tools.Tool;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,5 +66,27 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.lastCommand() instanceof Roll, is(true));
+    }
+
+    @Test
+    public void should_buy_the_tool_after_response() {
+        when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+        player.getAsests().addPoints(Tool.BLOCK.getValue() * 2);
+        Command roll = CommandFactory.Roll(dice);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(roll);
+
+        player.respond(Response.GetTool(Tool.BLOCK));
+
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        assertThat(player.getCurrentPlace(), is(toolHouse));
+        assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
+        assertThat(player.getAsests().getTools().get(Tool.BLOCK), is(1));
+        assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 }

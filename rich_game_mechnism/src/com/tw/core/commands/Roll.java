@@ -80,7 +80,8 @@ public class Roll implements Command {
 
         @Override
         public Player.Status respond(Response response, Player player) {
-            return null;
+            player.getAsests().addTool(response.getTool());
+            return Player.Status.WAIT_FOR_RESPONSE;
         }
     }
 }

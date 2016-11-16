@@ -1,9 +1,10 @@
 package com.tw.core;
 
+import com.sun.tools.javac.main.Option;
 import com.tw.core.places.Estate;
+import com.tw.core.tools.Tool;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pzzheng on 11/16/16.
@@ -12,9 +13,12 @@ public class Asest {
     private int funds;
     private List<Estate> estates;
     private int points;
+    private Map<Tool, Integer> tools;
 
     public Asest() {
         estates = new ArrayList<>();
+        tools = new HashMap();
+        Arrays.asList(Tool.values()).forEach((tool -> tools.compute(tool, (k,v) -> 0)));
     }
 
     public void addFund(int bonus) {
@@ -43,5 +47,14 @@ public class Asest {
 
     public int getPoints() {
         return points;
+    }
+
+    public Map<Tool, Integer> getTools() {
+        return tools;
+    }
+
+    public void addTool(Tool tool) {
+        tools.compute(tool, (k,v) -> v+1);
+        points -= tool.getValue();
     }
 }
