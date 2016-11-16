@@ -81,6 +81,9 @@ public class Roll implements Command {
 
         @Override
         public Player.Status respond(Response response, Player player) {
+            if(response.equals(Response.Quit)) {
+                return Player.Status.WAIT_FOR_TURN;
+            }
             player.getAsests().addTool(response.getTool());
             if(((ToolHouse)player.getCurrentPlace()).canNotAffordAnyToolWith(player.getAsests().getPoints())) {
                 return Player.Status.WAIT_FOR_TURN;
