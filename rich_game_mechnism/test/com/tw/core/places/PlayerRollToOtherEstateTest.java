@@ -71,6 +71,24 @@ public class PlayerRollToOtherEstateTest {
         assertThat(player.lastCommand() instanceof Roll, is(true));
     }
 
+    @Test
+    public void should_end_turn_if_has_lucky_god() {
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+        player.getLuckyGod();
+        otherEstate.setOwner(Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getAsests().getFunds(), is(0));
+        assertThat(player.getCurrentPlace(), is(otherEstate));
+        assertThat(player.lastCommand() instanceof Roll, is(true));
+    }
+
 //        @Test
 //        public void should_end_turn_if_not_has_enough_money() {
 //            otherEstate = new Estate(200);

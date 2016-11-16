@@ -1,9 +1,9 @@
 package com.tw.core;
 
 import com.tw.core.commands.Command;
-import com.tw.core.places.Estate;
 import com.tw.core.places.Place;
 import com.tw.core.responses.Response;
+import com.tw.core.tools.LuckyGod;
 
 /**
  * Created by pzzheng on 11/16/16.
@@ -15,6 +15,7 @@ public class Player {
     private Place currentPlace;
     private Command lastCommand;
     private Asest asests;
+    private int luckyDays;
 
     private Player() {
         status = Status.WAIT_FOR_TURN;
@@ -79,6 +80,14 @@ public class Player {
 
     public void moveTo(Place place) {
         currentPlace = place;
+    }
+
+    public void getLuckyGod() {
+        luckyDays = LuckyGod.LUCKY_DAYS;
+    }
+
+    public boolean isLucky() {
+        return luckyDays > 0;
     }
 
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
