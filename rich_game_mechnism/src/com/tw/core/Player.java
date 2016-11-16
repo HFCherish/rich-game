@@ -26,5 +26,5 @@ public class Player {
         return status;
     }
 
-    public enum Status {WAIT_FOR_COMMAND, WAIT_FOR_TURN}
+    public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_TURN}
 }

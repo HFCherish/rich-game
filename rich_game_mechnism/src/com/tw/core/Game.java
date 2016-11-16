@@ -1,5 +1,6 @@
 package com.tw.core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Game {
 
     public Game(GameMap map) {
         status = Status.START;
+        players = new ArrayList<>();
     }
 
     public void initialPlayers(Player... players) {
@@ -20,6 +22,9 @@ public class Game {
     }
 
     public Status getStatus() {
+        if(players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1) {
+            status = Status.END;
+        }
         return status;
     }
 
