@@ -89,21 +89,23 @@ public class PlayerRollToOwnEstateTest {
             assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
         }
 
-//        @Test
-//        public void should_buy_estate_if_say_no() {
-//            ownEstate = new Estate(200);
-//            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-//            Game game = new Game(map);
-//            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-//
-//            Command roll = CommandFactory.Roll(dice);
-//            player.execute(roll);
-//
-//            player.respond(Response.No);
-//
-//            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-//            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
-//            assertThat(player.getAsests().getEstates().size(), is(0));
-//            assertThat(ownEstate.estateType(player), is(Estate.Type.EMPTY));
-//        }
+        @Test
+        public void should_not_upgrade_estate_if_say_no() {
+            ownEstate = new Estate(200);
+            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+            Game game = new Game(map);
+            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+            player.getAsests().addEstate(ownEstate);
+            ownEstate.setOwner(player);
+            Command roll = CommandFactory.Roll(dice);
+
+            player.execute(roll);
+
+            player.respond(Response.No);
+
+            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
+            assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.EMPTY));
+            assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
+        }
 }

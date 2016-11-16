@@ -88,7 +88,7 @@ public class PlayerRollToEmptyEstateTest {
     }
 
     @Test
-    public void should_buy_estate_if_say_no() {
+    public void should_not_buy_estate_if_say_no() {
         emptyEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(emptyEstate);
         Game game = new Game(map);
