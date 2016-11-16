@@ -20,10 +20,10 @@ public class ToolHouse extends House {
     public Player.Status comeHere(Player player) {
         player.moveTo(this);
         if(canNotAffordAnyToolWith(player.getAsests().getPoints())) {
-            return Player.Status.WAIT_FOR_TURN;
+            return player.endTurn();
         }
         player.setLastCommand(CommandFactory.BuyTool);
-        return Player.Status.WAIT_FOR_RESPONSE;
+        return player.waitForResponse();
     }
 
     public boolean canNotAffordAnyToolWith(int points) {

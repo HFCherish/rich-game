@@ -47,7 +47,7 @@ public class Roll implements Command {
                 player.getAsests().addEstate(estate);
                 estate.setOwner(player);
             }
-            return Player.Status.WAIT_FOR_TURN;
+            return player.endTurn();
         }
     }
 
@@ -69,7 +69,7 @@ public class Roll implements Command {
                 player.getAsests().decreaseFunds(estate.getEmptyPrice());
                 estate.upgrade();
             }
-            return Player.Status.WAIT_FOR_TURN;
+            return player.endTurn();
         }
     }
 
@@ -83,13 +83,13 @@ public class Roll implements Command {
         @Override
         public Player.Status respond(Response response, Player player) {
             if(response.equals(Response.Quit)) {
-                return Player.Status.WAIT_FOR_TURN;
+                return player.endTurn();
             }
             player.getAsests().addTool((Tool)response.getItem());
             if(((ToolHouse)player.getCurrentPlace()).canNotAffordAnyToolWith(player.getAsests().getPoints())) {
-                return Player.Status.WAIT_FOR_TURN;
+                return player.endTurn();
             }
-            return Player.Status.WAIT_FOR_RESPONSE;
+            return player.waitForResponse();
         }
     }
 
@@ -107,7 +107,7 @@ public class Roll implements Command {
                 else if(item.equals(Gift.LUCKY_GOD)) player.getLuckyGod();
                 else if(item.equals(Gift.POINTS)) player.getAsests().addPoints(item.getValue());
             }
-            return Player.Status.WAIT_FOR_TURN;
+            return player.endTurn();
         }
     }
 }

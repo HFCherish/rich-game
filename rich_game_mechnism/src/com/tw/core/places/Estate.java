@@ -52,9 +52,9 @@ public class Estate implements Place {
         EMPTY {
             @Override
             Player.Status action(Player player, Estate estate) {
-                if (player.getAsests().getFunds() < estate.emptyPrice) return Player.Status.WAIT_FOR_TURN;
+                if (player.getAsests().getFunds() < estate.emptyPrice) return player.endTurn();
                 player.setLastCommand(CommandFactory.BuyEstate(estate));
-                return Player.Status.WAIT_FOR_RESPONSE;
+                return player.waitForResponse();
             }
         }, OTHER {
             @Override
@@ -62,16 +62,16 @@ public class Estate implements Place {
                 if (!player.isLucky() && !estate.getOwner().isStucked()) {
                     int charge = (int) (1.0 * estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) / 2);
                     player.getAsests().decreaseFunds(charge);
-                    if (player.getAsests().getFunds() < 0) return Player.Status.BANKRUPT;
+                    if (player.getAsests().getFunds() < 0) return player.bankrupt();
                 }
-                return Player.Status.WAIT_FOR_TURN;
+                return player.endTurn();
             }
         }, OWNER {
             @Override
             Player.Status action(Player player, Estate estate) {
-                if (player.getAsests().getFunds() < estate.emptyPrice) return Player.Status.WAIT_FOR_TURN;
+                if (player.getAsests().getFunds() < estate.emptyPrice) return player.endTurn();
                 player.setLastCommand(CommandFactory.UpgradeEstate(estate));
-                return Player.Status.WAIT_FOR_RESPONSE;
+                return player.waitForResponse();
             }
         };
         abstract Player.Status action(Player player, Estate estate);

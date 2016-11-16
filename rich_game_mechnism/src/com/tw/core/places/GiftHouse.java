@@ -17,6 +17,6 @@ public class GiftHouse extends House{
     public Player.Status comeHere(Player player) {
         player.moveTo(this);
         player.setLastCommand(CommandFactory.SelectGift);
-        return Player.Status.WAIT_FOR_RESPONSE;
+        return player.waitForResponse();
     }
 }

@@ -39,6 +39,22 @@ public class Player {
         return status;
     }
 
+    public Status endTurn() {
+        status = Status.WAIT_FOR_TURN;
+        if(luckyDays > 0)   luckyDays--;
+        return status;
+    }
+
+    public Status waitForResponse() {
+        status = Status.WAIT_FOR_RESPONSE;
+        return status;
+    }
+
+    public  Status bankrupt() {
+        status = Status.BANKRUPT;
+        return status;
+    }
+
     public Status respond(Response response) {
         if(status.equals(Status.WAIT_FOR_RESPONSE)) {
             status = lastCommand.respond(response, this);
@@ -83,7 +99,7 @@ public class Player {
     }
 
     public void getLuckyGod() {
-        luckyDays = Gift.LUCKY_GOD.getValue();
+        luckyDays = Gift.LUCKY_GOD.getValue() + 1   ;
     }
 
     public boolean isLucky() {
