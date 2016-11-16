@@ -58,7 +58,7 @@ public class Game {
     public void nextPlayer() {
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT));
+        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().getStuckDays() > 0);
     }
 
     public enum Status {END, START}

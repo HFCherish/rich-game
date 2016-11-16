@@ -159,4 +159,22 @@ public class GameTest {
 
         assertThat(game.currentPlayer(), is(player));
     }
+
+    @Test
+    public void should_shift_to_player_after_next_player_if_next_player_in_hospital_or_prison() {
+        Game game = new Game(map);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player1.getStuckDays()).thenReturn(1);
+        assertThat(game.currentPlayer(), is(player));
+
+        game.nextPlayer();
+
+        assertThat(game.currentPlayer(), is(player));
+    }
+
 }

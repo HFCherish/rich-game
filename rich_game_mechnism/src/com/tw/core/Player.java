@@ -8,6 +8,7 @@ import com.tw.core.responses.Response;
  */
 public class Player {
     private Status status;
+    private int stuckDays;
 
     public Player() {
         status = Status.WAIT_FOR_TURN;
@@ -29,6 +30,10 @@ public class Player {
 
     public Status respond(Response response, Command currentCommand) {
         return null;
+    }
+
+    public int getStuckDays() {
+        return stuckDays;
     }
 
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
