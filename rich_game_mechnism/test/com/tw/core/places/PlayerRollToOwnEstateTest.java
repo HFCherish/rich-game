@@ -34,38 +34,39 @@ public class PlayerRollToOwnEstateTest {
 
     @Test
     public void should_wait_for_response_if_has_enough_money() {
-//        ownEstate = new Estate(200);
-//        when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-//        Game game = new Game(map);
-//        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-//        ownEstate.sellTo(player);
-//
-//        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-//
-//        Command roll = CommandFactory.Roll(dice);
-//        player.execute(roll);
-//
-//        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
-//        assertThat(player.getCurrentPlace(), is(ownEstate));
-//        assertThat(player.lastCommand() instanceof Roll.UpgradeEstate, is(true));
+        ownEstate = new Estate(200);
+        when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+        ownEstate.sellTo(player);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        assertThat(player.getCurrentPlace(), is(ownEstate));
+        assertThat(player.lastCommand() instanceof Roll.UpgradeEstate, is(true));
     }
 
-//        @Test
-//        public void should_end_turn_if_not_has_enough_money() {
-//            ownEstate = new Estate(INITIAL_FUND + 1);
-//            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-//            Game game = new Game(map);
-//            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-//
-//            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-//
-//            Command roll = CommandFactory.Roll(dice);
-//            player.execute(roll);
-//
-//            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-//            assertThat(player.getCurrentPlace(), is(ownEstate));
-//            assertThat(player.lastCommand() instanceof Roll, is(true));
-//        }
+        @Test
+        public void should_end_turn_if_not_has_enough_money() {
+            ownEstate = new Estate(200);
+            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+            Game game = new Game(map);
+            Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+            ownEstate.sellTo(player);
+
+            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+            Command roll = CommandFactory.Roll(dice);
+            player.execute(roll);
+
+            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+            assertThat(player.getCurrentPlace(), is(ownEstate));
+            assertThat(player.lastCommand() instanceof Roll, is(true));
+        }
 
 //        @Test
 //        public void should_buy_estate_if_say_yes() {
