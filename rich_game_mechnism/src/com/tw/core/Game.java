@@ -47,7 +47,7 @@ public class Game {
     }
 
     public Player.Status respond(Response response) {
-        return currentPlayer().respond(response, currentCommand);
+        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_RESPONSE) ? currentPlayer().respond(response, currentCommand) : currentPlayer().getStatus();
     }
 
     public enum Status {END, START}

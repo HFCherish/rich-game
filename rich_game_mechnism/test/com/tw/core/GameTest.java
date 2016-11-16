@@ -99,7 +99,7 @@ public class GameTest {
     @Test
     public void should_can_respond_if_current_player_wait_for_response() {
         Game game = new Game(map);
-        Response command = mock(Response.class);
+        Response response = mock(Response.class);
         Player player = mock(Player.class);
         Player player1 = mock(Player.class);
         game.initialPlayers(player, player1);
@@ -108,6 +108,20 @@ public class GameTest {
         when(player.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
-        assertThat(game.respond(command), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(game.respond(response), is(Player.Status.WAIT_FOR_TURN));
+    }
+
+    @Test
+    public void should_can_not_respond_if_current_player_not_waiting_for_response() {
+        Game game = new Game(map);
+        Response response = mock(Response.class);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(player.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+
+        assertThat(game.respond(response), is(Player.Status.WAIT_FOR_COMMAND));
     }
 }
