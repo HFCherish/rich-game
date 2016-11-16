@@ -84,7 +84,7 @@ public class PlayerRollToEmptyEstateTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getAsests().getFunds(), is(INITIAL_FUND - 200));
         assertThat(player.getAsests().getEstates().size(), is(1));
-        assertThat(emptyEstate.estateType(player), is(Estate.EstateType.OWNER));
+        assertThat(emptyEstate.estateType(player), is(Estate.Type.OWNER));
     }
 
     @Test
@@ -102,6 +102,6 @@ public class PlayerRollToEmptyEstateTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
         assertThat(player.getAsests().getEstates().size(), is(0));
-        assertThat(emptyEstate.estateType(player), is(Estate.EstateType.EMPTY));
+        assertThat(emptyEstate.estateType(player), is(Estate.Type.EMPTY));
     }
 }

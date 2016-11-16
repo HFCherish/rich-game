@@ -7,6 +7,7 @@ import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
+import com.tw.core.responses.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class PlayerRollToOwnEstateTest {
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
         Game game = new Game(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-        ownEstate.sellTo(player);
+        ownEstate.setOwner(player);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
@@ -56,7 +57,7 @@ public class PlayerRollToOwnEstateTest {
             when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
             Game game = new Game(map);
             Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
-            ownEstate.sellTo(player);
+            ownEstate.setOwner(player);
 
             assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
@@ -68,23 +69,25 @@ public class PlayerRollToOwnEstateTest {
             assertThat(player.lastCommand() instanceof Roll, is(true));
         }
 
-//        @Test
-//        public void should_buy_estate_if_say_yes() {
-//            ownEstate = new Estate(200);
-//            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-//            Game game = new Game(map);
-//            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-//
-//            Command roll = CommandFactory.Roll(dice);
-//            player.execute(roll);
-//
-//            player.respond(Response.Yes);
-//
-//            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-//            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND - 200));
-//            assertThat(player.getAsests().getEstates().size(), is(1));
-//            assertThat(ownEstate.estateType(player), is(Estate.EstateType.OWNER));
-//        }
+        @Test
+        public void should_upgrade_estate_if_say_yes() {
+            ownEstate = new Estate(200);
+            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+            Game game = new Game(map);
+            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+            player.getAsests().addEstate(ownEstate);
+            ownEstate.setOwner(player);
+            Command roll = CommandFactory.Roll(dice);
+
+            player.execute(roll);
+
+            player.respond(Response.Yes);
+
+            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND - 200));
+            assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.THATCH));
+            assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
+        }
 
 //        @Test
 //        public void should_buy_estate_if_say_no() {
@@ -101,6 +104,6 @@ public class PlayerRollToOwnEstateTest {
 //            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
 //            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
 //            assertThat(player.getAsests().getEstates().size(), is(0));
-//            assertThat(ownEstate.estateType(player), is(Estate.EstateType.EMPTY));
+//            assertThat(ownEstate.estateType(player), is(Estate.Type.EMPTY));
 //        }
 }

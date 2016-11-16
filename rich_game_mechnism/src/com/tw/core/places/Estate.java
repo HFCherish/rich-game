@@ -9,9 +9,11 @@ import com.tw.core.commands.CommandFactory;
 public class Estate implements Place {
     private int emptyPrice;
     private Player owner;
+    private Level level;
 
     public Estate(int emptyPrice) {
         this.emptyPrice = emptyPrice;
+        level = Level.EMPTY;
     }
 
     public int getEmptyPrice() {
@@ -24,17 +26,25 @@ public class Estate implements Place {
         return estateType(player).action(player, this);
     }
 
-    public EstateType estateType(Player player) {
-        if (owner == null) return EstateType.EMPTY;
-        if (owner.equals(player)) return EstateType.OWNER;
-        return EstateType.OTHER;
+    public Type estateType(Player player) {
+        if (owner == null) return Type.EMPTY;
+        if (owner.equals(player)) return Type.OWNER;
+        return Type.OTHER;
     }
 
-    public void sellTo(Player player) {
+    public void setOwner(Player player) {
         owner = player;
     }
 
-    public enum EstateType {
+    public Level getLevel() {
+        return level;
+    }
+
+    public void upgrade() {
+        level =  Level.values()[level.ordinal() + 1];
+    }
+
+    public enum Type {
         EMPTY {
             @Override
             Player.Status action(Player player, Estate estate) {
@@ -57,4 +67,6 @@ public class Estate implements Place {
         };
         abstract Player.Status action(Player player, Estate estate);
     }
+
+    public enum Level {EMPTY, THATCH}
 }
