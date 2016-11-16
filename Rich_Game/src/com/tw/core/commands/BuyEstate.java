@@ -30,9 +30,11 @@ public class BuyEstate implements Responsive {
 
     @Override
     public Player.Status respond(Player player, Response response) {
-        player.decreaseFunds(emptyEstate.getEmptyPrice());
-        emptyEstate.setOwner(player);
-        player.getEstates().add(emptyEstate);
+        if(response.equals(Response.Yes)) {
+            player.decreaseFunds(emptyEstate.getEmptyPrice());
+            emptyEstate.setOwner(player);
+            player.getEstates().add(emptyEstate);
+        }
         return player.endTurn();
 
     }

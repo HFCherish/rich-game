@@ -9,7 +9,7 @@ import com.tw.core.report.StaticReport;
 public class Query implements Command {
     @Override
     public Player.Status execute(Player player) {
-        System.out.println(StaticReport.reportAsString(player.getFunds(), player.getPoints(), player.getEstates(), player.getTools()));
+        StaticReport.printReportAsString(player.getFunds(), player.getPoints(), player.getEstates(), player.getTools());
         return Player.Status.WAIT_FOR_COMMAND;
     }
 }

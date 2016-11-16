@@ -1,7 +1,9 @@
 package com.tw.core.player;
 
 import com.tw.core.Game;
+import com.tw.core.commands.Response;
 import com.tw.core.commands.Responsive;
+import com.tw.core.commands.ResponsiveFactory;
 import com.tw.core.giftHouse.LuckyGod;
 import com.tw.core.map.Estate;
 import com.tw.core.map.GameMap;
@@ -107,10 +109,6 @@ public class Player {
         Player player = new Player(map, initialFund);
         player.enterGame(game);
         return player;
-    }
-
-    public void sayNo() {
-        endTurn();
     }
 
     public void addPoint(int addedPoints) {

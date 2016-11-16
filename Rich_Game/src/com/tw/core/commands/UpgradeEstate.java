@@ -35,8 +35,10 @@ public class UpgradeEstate implements Responsive {
 
     @Override
     public Player.Status respond(Player player, Response response) {
-        player.decreaseFunds(estate.getEmptyPrice());
-        estate.upgrade();
+        if( response.equals(Response.Yes)) {
+            player.decreaseFunds(estate.getEmptyPrice());
+            estate.upgrade();
+        }
         return player.endTurn();
     }
 }

@@ -13,12 +13,13 @@ import java.util.List;
 public class StaticReport {
     private static StringBuilder res;
 
-    public static String reportAsString(int funds, int points, final List<Estate> estates, final HashMap<Tool, Integer> tools) {
+    public static String printReportAsString(int funds, int points, final List<Estate> estates, final HashMap<Tool, Integer> tools) {
         res = new StringBuilder();
         res.append("资金: " + funds + "元\n");
         res.append("点数: " + points + "点\n");
         appendEstateInfo(estates);
         appendToolInfo(tools);
+        System.out.println(res.toString());
         return res.toString();
     }
 

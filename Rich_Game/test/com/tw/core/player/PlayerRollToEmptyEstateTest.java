@@ -71,7 +71,7 @@ public class PlayerRollToEmptyEstateTest {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10, game);
 
         CommandFactory.Roll(dice).execute(currentPlayer);
-        currentPlayer.sayNo();
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.No);
 
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));

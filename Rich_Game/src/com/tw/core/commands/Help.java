@@ -10,7 +10,7 @@ public class Help implements Command {
 
     @Override
     public Player.Status execute(Player player) {
-        System.out.println(GameHelp.getHelpAsString());
+        GameHelp.printHelpAsString();
         return Player.Status.WAIT_FOR_COMMAND;
     }
 }

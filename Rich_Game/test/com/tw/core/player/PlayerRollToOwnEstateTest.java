@@ -64,8 +64,8 @@ public class PlayerRollToOwnEstateTest {
     @Test
     public void should_upgrade_own_estate_if_say_yes_to_upgrade() {
         currentPlayer = Player.createPlayerWith_Fund_Map_command_state_in_game(map, INITIAL_FUND_10 + EMPTY_ESTATE_PRICE_5, game);
-        ResponsiveFactory.BuyEstate(ownEstate).respond(currentPlayer, Response.Yes);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+        ResponsiveFactory.BuyEstate(ownEstate).respond(currentPlayer, Response.Yes);
 
         CommandFactory.Roll(dice).execute(currentPlayer);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
@@ -85,7 +85,7 @@ public class PlayerRollToOwnEstateTest {
 
         CommandFactory.Roll(dice).execute(currentPlayer);
 
-        currentPlayer.sayNo();
+        currentPlayer.getResponseCommand().respond(currentPlayer, Response.No);
         assertThat(currentPlayer.getFunds(), is(INITIAL_FUND_10));
         assertThat(ownEstate.getLevel(), is(Estate.EstateLevel.EMPTY));
         assertThat(currentPlayer.getStatus(), is(Player.Status.WAIT_FOR_TURN));
