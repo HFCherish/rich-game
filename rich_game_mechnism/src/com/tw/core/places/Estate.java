@@ -55,7 +55,10 @@ public class Estate implements Place {
         }, OTHER {
             @Override
             Player.Status action(Player player, Estate estate) {
-                return null;
+                int charge = (int)(1.0 * estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) / 2);
+                if (player.getAsests().getFunds() < charge) return Player.Status.BANKRUPT;
+                player.getAsests().decreaseFunds(charge);
+                return Player.Status.WAIT_FOR_TURN;
             }
         }, OWNER {
             @Override
