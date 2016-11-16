@@ -165,7 +165,7 @@ public class GameTest {
 
         when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
-        when(player1.getStuckDays()).thenReturn(1);
+        when(player1.isStucked()).thenReturn(true);
         assertThat(game.currentPlayer(), is(player));
 
         game.nextPlayer();

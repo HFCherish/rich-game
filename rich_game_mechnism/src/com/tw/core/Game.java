@@ -60,7 +60,7 @@ public class Game {
     public void nextPlayer() {
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().getStuckDays() > 0);
+        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().isStucked());
     }
 
     public GameMap getMap() {

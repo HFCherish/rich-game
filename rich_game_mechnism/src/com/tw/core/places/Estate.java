@@ -44,6 +44,10 @@ public class Estate implements Place {
         level =  Level.values()[level.ordinal() + 1];
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
     public enum Type {
         EMPTY {
             @Override
@@ -55,7 +59,7 @@ public class Estate implements Place {
         }, OTHER {
             @Override
             Player.Status action(Player player, Estate estate) {
-                if(!player.isLucky()) {
+                if (!player.isLucky() && !estate.getOwner().isStucked()) {
                     int charge = (int) (1.0 * estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) / 2);
                     player.getAsests().decreaseFunds(charge);
                     if (player.getAsests().getFunds() < 0) return Player.Status.BANKRUPT;

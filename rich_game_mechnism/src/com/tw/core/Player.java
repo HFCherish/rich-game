@@ -46,8 +46,8 @@ public class Player {
         return status;
     }
 
-    public int getStuckDays() {
-        return stuckDays;
+    public boolean isStucked() {
+        return stuckDays > 0;
     }
 
     public static Player createPlayerWithGame_Fund_CommandState(Game game, int initialFund) {
@@ -88,6 +88,10 @@ public class Player {
 
     public boolean isLucky() {
         return luckyDays > 0;
+    }
+
+    public void stuckFor(int stuckDays) {
+        this.stuckDays = stuckDays;
     }
 
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
