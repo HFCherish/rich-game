@@ -31,7 +31,7 @@ public class PlayerRollToToolHouseTest {
     public void setUp() {
         map = mock(GameMap.class);
         dice = mock(Dice.class);
-        toolHouse = new ToolHouse();
+        toolHouse = new ToolHouse(Tool.BLOCK, Tool.BOMB, Tool.ROBOT_DULL);
     }
 
     @Test
@@ -49,5 +49,21 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
+    }
+
+    @Test
+    public void should_end_turn_if_not_has_enough_points() {
+        when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getCurrentPlace(), is(toolHouse));
+        assertThat(player.lastCommand() instanceof Roll, is(true));
     }
 }
