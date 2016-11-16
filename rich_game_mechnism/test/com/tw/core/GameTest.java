@@ -27,16 +27,12 @@ public class GameTest {
     @Test
     public void should_the_first_player_is_the_present_player() {
         Game game = new Game(map);
-        Player player = new Player();
-        Player player1 = new Player();
-
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-        assertThat(player1.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
 
         game.initialPlayers(player, player1);
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player1.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(game.currentPlayer(), is(player));
     }
 
     @Test

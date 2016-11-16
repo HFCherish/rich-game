@@ -15,8 +15,10 @@ public class Game {
     private Status status;
     private int currentPlayerIndex;
     protected Command lastCommand;
+    private GameMap map;
 
     public Game(GameMap map) {
+        this.map = map;
         status = Status.START;
         players = new ArrayList<>();
     }
@@ -59,6 +61,10 @@ public class Game {
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().getStuckDays() > 0);
+    }
+
+    public GameMap getMap() {
+        return map;
     }
 
     public enum Status {END, START}
