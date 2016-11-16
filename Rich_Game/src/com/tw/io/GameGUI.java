@@ -26,23 +26,26 @@ public class GameGUI {
             System.out.println("请选择2~4位不重复玩家，输入编号即可(1.钱夫人; 2.阿土伯; 3.孙小美; 4.金贝贝), eg: 12:");
             game.initPlayers(initialFund, Converter.convertToPlayers(in.next()));
             System.out.println("游戏开始,请按要求输入指令.");
+            in.nextLine();
             String command = null;
             String response = null;
             do {
                 MapGUI.flush(game.getMap());
                 Player currentPlayer = game.currentPlayer();
                 System.out.print(currentPlayer.getName() + ">");
-                if(isQuit(command = in.next())) return;
+                if(isQuit(command = in.nextLine())) return;
 
                 if (currentPlayer.getStatus().equals(Player.Status.WAIT_FOR_COMMAND)) {
                     Command commandObj = Converter.convertToCommand(command, game.getMap());
-                    if(commandObj == null) continue;
+                    if(commandObj == null) {
+                        continue;
+                    }
                     game.execute(commandObj);
                     if(game.getStatus().equals(Game.Status.GAME_END))   return;
 
                     while (currentPlayer.getStatus().equals(Player.Status.WAIT_FOR_RESPONSE)) {
                         Converter.showHint(currentPlayer.getResponseCommand());
-                        if(isQuit(response = in.next())) return;
+                        if(isQuit(response = in.nextLine())) return;
                         Response responseObj = Converter.convertToResponse(response);
                         if(responseObj == null) continue;
                         game.respond(responseObj);

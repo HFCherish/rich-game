@@ -32,22 +32,24 @@ public class Converter {
         command = command.toLowerCase();
         if (command.equals("roll")) return CommandFactory.Roll(DefaultDice.dice);
         if (command.equals("query")) return CommandFactory.Query;
-        if (command.equals("block n")) {
+        if (command.matches("block \\d")) {
             return CommandFactory.Block(Integer.valueOf(command.split(" ")[1]));
         }
-        if (command.equals("bomb n")) {
+        if (command.matches("bomb \\d")) {
             return CommandFactory.Bomb(Integer.valueOf(command.split(" ")[1]));
         }
         if (command.equals("robot")) return CommandFactory.RobotDull;
-        if (command.equals("sell x")) {
-            Estate estate = map.getEstate(Integer.valueOf(command.split(" ")[1]));
+        if (command.matches("sell \\d")) {
+            Integer index = Integer.valueOf(command.split(" ")[1]);
+            System.out.println("the index: " + index);
+            Estate estate = map.getEstate(index);
             if(estate == null) {
                 System.out.println("这处房产不为你所有, 请购买后再卖.");
                 return null;
             }
             return CommandFactory.SellEstate(estate);
         }
-        if (command.equals("selltool x")) {
+        if (command.matches("selltool \\d")) {
             Integer index = Integer.valueOf(command.split(" ")[1]);
             if(index > 3 || index<1) {
                 System.out.println("这个工具不存在.");

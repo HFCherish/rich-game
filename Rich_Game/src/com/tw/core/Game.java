@@ -31,7 +31,7 @@ public class Game {
 
     public void initPlayers(int initialFund, List<Map<String, String>> playerInfos) {
         List<Player> players = new ArrayList<>();
-        playerInfos.stream().forEach(info -> players.add(new Player(info.get("id"), info.get("name"), initialFund, map, this)));
+        playerInfos.stream().forEach(info -> players.add(new Player(info.get("id"), info.get("name"), initialFund, map, this, map.getStarting())));
         initPlayers(players.toArray(new Player[players.size()]));
     }
 

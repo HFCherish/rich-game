@@ -49,13 +49,14 @@ public class Player {
         funds = initialFund;
     }
 
-    public Player(String id, String name, int initialFund, GameMap map, Game game) {
+    public Player(String id, String name, int initialFund, GameMap map, Game game, Place starting) {
         this();
         this.id = id;
         this.name = name;
         this.funds = initialFund;
         this.map = map;
         this.game = game;
+        currentPlace = starting;
     }
 
     public void setResponseCommand(Responsive responseCommand) {

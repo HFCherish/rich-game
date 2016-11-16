@@ -76,6 +76,11 @@ public class GameMapImpl implements GameMap {
     }
 
     @Override
+    public Place getStarting() {
+        return places.stream().filter(place -> place instanceof Starting).findAny().get();
+    }
+
+    @Override
     public boolean setTool(Tool tool, int steps, Place start) {
         if (tool.equals(ToolType.RobotDull)) {
             useRobot(start);

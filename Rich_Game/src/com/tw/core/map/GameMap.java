@@ -24,4 +24,6 @@ public interface GameMap {
     List<Place> getPlaces();
 
     Estate getEstate(int index);
+
+    Place getStarting();
 }
