@@ -1,5 +1,7 @@
 package com.tw.core;
 
+import com.tw.core.commands.Command;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 public class Game {
     private List<Player> players;
     private Status status;
+    private int currentPlayerIndex;
 
     public Game(GameMap map) {
         status = Status.START;
@@ -19,6 +22,7 @@ public class Game {
     public void initialPlayers(Player... players) {
         this.players = Arrays.asList(players);
         this.players.get(0).inTurn();
+        currentPlayerIndex = 0;
     }
 
     public Status getStatus() {
@@ -30,6 +34,10 @@ public class Game {
 
     public void quit() {
         status = Status.END;
+    }
+
+    public Player.Status execute(Command command) {
+        return players.get(currentPlayerIndex).execute(command);
     }
 
     public enum Status {END, START}

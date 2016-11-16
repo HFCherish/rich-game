@@ -1,10 +1,13 @@
 package com.tw.core;
 
+import com.tw.core.commands.Command;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -60,5 +63,20 @@ public class GameTest {
         when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         assertThat(game.getStatus(), is(Game.Status.END));
+    }
+
+    @Test
+    public void should_can_execute_command_if_current_player_wait_for_command() {
+        Game game = new Game(map);
+        Command command = mock(Command.class);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(player.execute(anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
+
+        assertThat(game.execute(command), is(Player.Status.WAIT_FOR_TURN));
     }
 }
