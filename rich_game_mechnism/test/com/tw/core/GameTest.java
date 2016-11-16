@@ -79,4 +79,19 @@ public class GameTest {
 
         assertThat(game.execute(command), is(Player.Status.WAIT_FOR_TURN));
     }
+
+    @Test
+    public void should_can_not_execute_command_if_current_player_not_waiting_for_command() {
+        Game game = new Game(map);
+        Command command = mock(Command.class);
+        Player player = mock(Player.class);
+        Player player1 = mock(Player.class);
+        game.initialPlayers(player, player1);
+
+        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        when(player.execute(anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
+
+        assertThat(game.execute(command), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
 }

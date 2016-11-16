@@ -37,7 +37,11 @@ public class Game {
     }
 
     public Player.Status execute(Command command) {
-        return players.get(currentPlayerIndex).execute(command);
+        return currentPlayer().getStatus().equals(Player.Status.WAIT_FOR_COMMAND) ? currentPlayer().execute(command) : currentPlayer().getStatus();
+    }
+
+    private Player currentPlayer() {
+        return players.get(currentPlayerIndex);
     }
 
     public enum Status {END, START}
