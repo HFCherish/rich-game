@@ -7,6 +7,8 @@ import com.tw.core.places.Estate;
  * Created by pzzheng on 11/16/16.
  */
 public class CommandFactory {
+    public static Command BuyTool = new Roll.BuyTool();
+
     public static Command Roll(Dice dice) {
         return new Roll(dice);
     }

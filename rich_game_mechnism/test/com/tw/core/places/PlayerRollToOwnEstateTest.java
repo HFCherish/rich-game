@@ -51,61 +51,61 @@ public class PlayerRollToOwnEstateTest {
         assertThat(player.lastCommand() instanceof Roll.UpgradeEstate, is(true));
     }
 
-        @Test
-        public void should_end_turn_if_not_has_enough_money() {
-            ownEstate = new Estate(200);
-            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-            Game game = new Game(map);
-            Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
-            ownEstate.setOwner(player);
+    @Test
+    public void should_end_turn_if_not_has_enough_money() {
+        ownEstate = new Estate(200);
+        when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+        ownEstate.setOwner(player);
 
-            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-            Command roll = CommandFactory.Roll(dice);
-            player.execute(roll);
+        Command roll = CommandFactory.Roll(dice);
+        player.execute(roll);
 
-            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-            assertThat(player.getCurrentPlace(), is(ownEstate));
-            assertThat(player.lastCommand() instanceof Roll, is(true));
-        }
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getCurrentPlace(), is(ownEstate));
+        assertThat(player.lastCommand() instanceof Roll, is(true));
+    }
 
-        @Test
-        public void should_upgrade_estate_if_say_yes() {
-            ownEstate = new Estate(200);
-            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-            Game game = new Game(map);
-            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-            player.getAsests().addEstate(ownEstate);
-            ownEstate.setOwner(player);
-            Command roll = CommandFactory.Roll(dice);
+    @Test
+    public void should_upgrade_estate_if_say_yes() {
+        ownEstate = new Estate(200);
+        when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+        player.getAsests().addEstate(ownEstate);
+        ownEstate.setOwner(player);
+        Command roll = CommandFactory.Roll(dice);
 
-            player.execute(roll);
+        player.execute(roll);
 
-            player.respond(Response.Yes);
+        player.respond(Response.Yes);
 
-            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND - 200));
-            assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.THATCH));
-            assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
-        }
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getAsests().getFunds(), is(INITIAL_FUND - 200));
+        assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.THATCH));
+        assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
+    }
 
-        @Test
-        public void should_not_upgrade_estate_if_say_no() {
-            ownEstate = new Estate(200);
-            when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-            Game game = new Game(map);
-            Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
-            player.getAsests().addEstate(ownEstate);
-            ownEstate.setOwner(player);
-            Command roll = CommandFactory.Roll(dice);
+    @Test
+    public void should_not_upgrade_estate_if_say_no() {
+        ownEstate = new Estate(200);
+        when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+        player.getAsests().addEstate(ownEstate);
+        ownEstate.setOwner(player);
+        Command roll = CommandFactory.Roll(dice);
 
-            player.execute(roll);
+        player.execute(roll);
 
-            player.respond(Response.No);
+        player.respond(Response.No);
 
-            assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-            assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
-            assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.EMPTY));
-            assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
-        }
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+        assertThat(player.getAsests().getFunds(), is(INITIAL_FUND));
+        assertThat(player.getAsests().getEstates().get(0).getLevel(), is(Estate.Level.EMPTY));
+        assertThat(ownEstate.estateType(player), is(Estate.Type.OWNER));
+    }
 }

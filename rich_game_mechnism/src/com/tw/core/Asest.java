@@ -11,6 +11,7 @@ import java.util.List;
 public class Asest {
     private int funds;
     private List<Estate> estates;
+    private int points;
 
     public Asest() {
         estates = new ArrayList<>();
@@ -34,5 +35,13 @@ public class Asest {
 
     public void addEstate(Estate estate) {
         estates.add(estate);
+    }
+
+    public void addPoints(int value) {
+        points += value;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }
