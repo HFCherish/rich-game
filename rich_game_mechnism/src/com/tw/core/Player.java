@@ -8,7 +8,7 @@ import com.tw.core.responses.Response;
  * Created by pzzheng on 11/16/16.
  */
 public class Player {
-    private Status status;
+    protected Status status;
     private int stuckDays;
     private int initialFund;
     private Game game;
@@ -34,8 +34,11 @@ public class Player {
         return status;
     }
 
-    public Status respond(Response response, Command currentCommand) {
-        return null;
+    public Status respond(Response response, Command lastCommand) {
+        if(status.equals(Status.WAIT_FOR_RESPONSE)) {
+            status = lastCommand.respond(response, this);
+        }
+        return status;
     }
 
     public int getStuckDays() {

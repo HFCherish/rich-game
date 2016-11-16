@@ -1,4 +1,4 @@
-package com.tw.core.player;
+package com.tw.core;
 
 import com.tw.core.Dice;
 import com.tw.core.Game;
@@ -6,6 +6,7 @@ import com.tw.core.GameMap;
 import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.places.Place;
+import com.tw.core.responses.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +38,23 @@ public class PlayerTest {
         when(command.execute(anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
 
         player.execute(command);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
+    }
+
+    @Test
+    public void should_can_respond_command_when_waiting_for_response() {
+        Command command = mock(Command.class);
+        Response response = mock(Response.class);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+
+        when(command.execute(anyObject())).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        player.execute(command);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+        when(command.respond(anyObject(), anyObject())).thenReturn(Player.Status.WAIT_FOR_TURN);
+
+        player.respond(response, command);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
     }
