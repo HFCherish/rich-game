@@ -11,7 +11,13 @@ class ParkingLot
   end
 
   def park(car)
+    return false if !isAvailable
     @cars << car
+    return true
+  end
+
+  def unpark(car)
+    @cars.delete(car) {return false}
     return true
   end
 end
