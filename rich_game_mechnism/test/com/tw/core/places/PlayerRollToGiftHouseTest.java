@@ -55,7 +55,8 @@ public class PlayerRollToGiftHouseTest {
     @Test
     public void should_get_gift_and_end_turn() {
         when(map.move(anyObject(), anyInt())).thenReturn(giftHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

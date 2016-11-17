@@ -56,7 +56,8 @@ public class PlayerRollToEmptyEstateTest {
     public void should_end_turn_if_not_has_enough_money() {
         emptyEstate = new Estate(INITIAL_FUND + 1);
         when(map.move(anyObject(), anyInt())).thenReturn(emptyEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -73,7 +74,8 @@ public class PlayerRollToEmptyEstateTest {
     public void should_buy_estate_if_say_yes() {
         emptyEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(emptyEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         Command roll = CommandFactory.Roll(dice);
@@ -91,7 +93,8 @@ public class PlayerRollToEmptyEstateTest {
     public void should_not_buy_estate_if_say_no() {
         emptyEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(emptyEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         Command roll = CommandFactory.Roll(dice);

@@ -35,7 +35,8 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_wait_for_response_if_has_enough_points() {
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addPoints(Tool.BLOCK.getValue());
 
@@ -52,7 +53,8 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_end_turn_if_not_has_enough_points() {
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -68,7 +70,8 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_buy_the_tool_after_response() {
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addPoints(Tool.BLOCK.getValue() * 2);
         Command roll = CommandFactory.Roll(dice);
@@ -90,7 +93,8 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_end_turn_if_no_enough_points_after_buying() {
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addPoints(Tool.BLOCK.getValue());
         Command roll = CommandFactory.Roll(dice);
@@ -112,7 +116,8 @@ public class PlayerRollToToolHouseTest {
     @Test
     public void should_end_turn_if_quit_manualy_in_response() {
         when(map.move(anyObject(), anyInt())).thenReturn(toolHouse);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addPoints(Tool.BLOCK.getValue());
         Command roll = CommandFactory.Roll(dice);

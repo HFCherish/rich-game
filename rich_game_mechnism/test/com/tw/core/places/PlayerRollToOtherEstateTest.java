@@ -38,7 +38,8 @@ public class PlayerRollToOtherEstateTest {
 
     @Test
     public void should_charge_and_end_turn_if_has_enough_money() {
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         otherEstate.upgrade();
         otherEstate.setOwner(Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND));
@@ -56,7 +57,8 @@ public class PlayerRollToOtherEstateTest {
 
     @Test
     public void should_bankrupt_if_not_has_enough_money() {
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
         otherEstate.upgrade();
         otherEstate.setOwner(Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND));
@@ -73,7 +75,8 @@ public class PlayerRollToOtherEstateTest {
 
     @Test
     public void should_end_turn_if_has_lucky_god() {
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
         player.getLuckyGod();
         otherEstate.setOwner(Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND));
@@ -91,7 +94,8 @@ public class PlayerRollToOtherEstateTest {
 
     @Test
     public void should_end_turn_if_has_the_owner_of_other_estate_is_in_prison_or_hospital() {
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
         Player anotherPlayer = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         anotherPlayer.stuckFor(1);

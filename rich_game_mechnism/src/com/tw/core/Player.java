@@ -43,6 +43,7 @@ public class Player {
         status = Status.WAIT_FOR_TURN;
         if (luckyDays > 0) luckyDays--;
         if (stuckDays > 0) stuckDays--;
+        game.nextPlayer();
         return status;
     }
 

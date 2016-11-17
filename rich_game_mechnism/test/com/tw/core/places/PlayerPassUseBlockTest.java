@@ -39,7 +39,8 @@ public class PlayerPassUseBlockTest {
     public void should_end_turn_and_go_to_place_behind_block() {
         when(map.move(anyObject(), anyInt())).thenReturn(blockPlace);
         when(map.getPrison()).thenReturn(prison);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

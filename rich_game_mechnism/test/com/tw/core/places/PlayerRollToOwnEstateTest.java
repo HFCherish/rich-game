@@ -37,7 +37,7 @@ public class PlayerRollToOwnEstateTest {
     public void should_wait_for_response_if_has_enough_money() {
         ownEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);         when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         ownEstate.setOwner(player);
 
@@ -55,7 +55,7 @@ public class PlayerRollToOwnEstateTest {
     public void should_end_turn_if_not_has_enough_money() {
         ownEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);         when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
         ownEstate.setOwner(player);
 
@@ -73,7 +73,7 @@ public class PlayerRollToOwnEstateTest {
     public void should_upgrade_estate_if_say_yes() {
         ownEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);         when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addEstate(ownEstate);
         ownEstate.setOwner(player);
@@ -93,7 +93,7 @@ public class PlayerRollToOwnEstateTest {
     public void should_not_upgrade_estate_if_say_no() {
         ownEstate = new Estate(200);
         when(map.move(anyObject(), anyInt())).thenReturn(ownEstate);
-        Game game = new Game(map);
+        Game game = mock(Game.class);         when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
         player.getAsests().addEstate(ownEstate);
         ownEstate.setOwner(player);

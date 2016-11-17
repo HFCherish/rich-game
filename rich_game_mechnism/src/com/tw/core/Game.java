@@ -57,9 +57,10 @@ public class Game {
     }
 
     public void nextPlayer() {
-        do {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        } while (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().isStucked());
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if (currentPlayer().getStatus().equals(Player.Status.BANKRUPT) || currentPlayer().isStucked()) {
+            currentPlayer().endTurn();
+        }
     }
 
     public GameMap getMap() {
@@ -67,7 +68,7 @@ public class Game {
     }
 
     public void inform(Player.Status status) {
-        if( status.equals(Player.Status.BANKRUPT) && players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1 ) {
+        if (status.equals(Player.Status.BANKRUPT) && players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1) {
             this.status = Status.END;
         }
     }

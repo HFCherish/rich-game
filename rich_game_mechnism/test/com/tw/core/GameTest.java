@@ -122,6 +122,20 @@ public class GameTest {
     }
 
     @Test
+    public void shoul_shift_to_next_player_if_current_player_end_turn() {
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        Player player1 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        game.initialPlayers(player, player1);
+
+        assertThat(game.currentPlayer(), is(player));
+
+        player.endTurn();
+
+        assertThat(game.currentPlayer(), is(player1));
+    }
+
+    @Test
     public void should_able_to_shift_player() {
         Game game = new Game(map);
         Player player = mock(Player.class);
@@ -140,30 +154,28 @@ public class GameTest {
     @Test
     public void should_shift_to_player_after_next_player_if_next_player_bankrupt() {
         Game game = new Game(map);
-        Player player = mock(Player.class);
-        Player player1 = mock(Player.class);
-        game.initialPlayers(player, player1);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        Player player1 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        Player player2 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        game.initialPlayers(player, player1, player2);
 
-        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
-        when(player1.getStatus()).thenReturn(Player.Status.BANKRUPT);
         assertThat(game.currentPlayer(), is(player));
+        player1.bankrupt();
 
         game.nextPlayer();
 
-        assertThat(game.currentPlayer(), is(player));
+        assertThat(game.currentPlayer(), is(player2));
     }
 
     @Test
     public void should_shift_to_player_after_next_player_if_next_player_in_hospital_or_prison() {
         Game game = new Game(map);
-        Player player = mock(Player.class);
-        Player player1 = mock(Player.class);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        Player player1 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
         game.initialPlayers(player, player1);
 
-        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
-        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
-        when(player1.isStucked()).thenReturn(true);
         assertThat(game.currentPlayer(), is(player));
+        player1.stuckFor(1);
 
         game.nextPlayer();
 

@@ -36,7 +36,8 @@ public class PlayerRollToPrisonTest {
     @Test
     public void should_get_into_prison_for_2_days_and_end_turn() {
         when(map.move(anyObject(), anyInt())).thenReturn(prison);
-        Game game = new Game(map);
+        Game game = mock(Game.class);
+        when(game.getMap()).thenReturn(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
