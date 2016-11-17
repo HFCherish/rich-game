@@ -54,11 +54,13 @@ public class GameMap {
     }
 
     public boolean putBlock(Place start, int steps) {
-        return false;
+        places.get(nextIndex(places.indexOf(start), steps)).putTool(Tool.BLOCK);
+        return true;
     }
 
     public boolean putBomb(Place start, int steps) {
-        return false;
+        places.get(nextIndex(places.indexOf(start), steps)).putTool(Tool.BOMB);
+        return true;
     }
 
     public boolean useRobot(Place start) {

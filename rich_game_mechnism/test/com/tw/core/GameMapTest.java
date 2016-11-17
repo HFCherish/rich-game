@@ -6,6 +6,7 @@ import org.junit.Test;
 import sun.dc.pr.PRError;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -53,5 +54,20 @@ public class GameMapTest {
         assertThat(prison.getToolOnThePlace(), is(Tool.BLOCK));
         assertThat(map.move(prison, -3) instanceof BlockPlace, is(true));
         assertThat(prison.getToolOnThePlace(), is(nullValue()));
+    }
+
+    @Test
+    public void should_able_to_put_block_or_bomb_on_map() {
+        Starting starting = new Starting();
+        Estate estate = new Estate(10);
+        Prison prison = new Prison();
+        Estate estate2 = new Estate(10);
+        GameMap map = new GameMap(starting, estate, prison, estate2);
+
+        assertThat(map.putBlock(starting, 1), is(true));
+        assertThat(estate.getToolOnThePlace(), is(notNullValue()));
+
+        assertThat(map.putBomb(starting, -5), is(true));
+        assertThat(estate2.getToolOnThePlace(), is(notNullValue()));
     }
 }
