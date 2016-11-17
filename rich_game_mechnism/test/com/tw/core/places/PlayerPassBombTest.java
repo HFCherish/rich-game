@@ -7,8 +7,6 @@ import com.tw.core.Player;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
-import com.tw.core.responses.Response;
-import com.tw.core.tools.Gift;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,23 +20,25 @@ import static org.mockito.Mockito.when;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class PlayerRollToMagicHouseHouseTest {
-
+public class PlayerPassBombTest {
     public static final int INITIAL_FUND = 10000;
     private GameMap map;
     private Dice dice;
-    private MagicHouse magicHouse;
+    private Hospital hosipital;
+    private BombPlace bombPlace;
 
     @Before
     public void setUp() {
         map = mock(GameMap.class);
         dice = mock(Dice.class);
-        magicHouse = new MagicHouse();
+        hosipital = new Hospital();
+        bombPlace = new BombPlace(hosipital);
     }
 
     @Test
-    public void should_end_turn() {
-        when(map.move(anyObject(), anyInt())).thenReturn(magicHouse);
+    public void should_end_turn_and_go_to_hospital() {
+        when(map.move(anyObject(), anyInt())).thenReturn(bombPlace);
+        when(map.getHospital()).thenReturn(hosipital);
         Game game = new Game(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
@@ -48,7 +48,9 @@ public class PlayerRollToMagicHouseHouseTest {
         player.execute(roll);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
-        assertThat(player.getCurrentPlace(), is(magicHouse));
+        assertThat(player.getCurrentPlace(), is(hosipital));
+        assertThat(player.isStucked(), is(true));
         assertThat(player.lastCommand() instanceof Roll, is(true));
     }
+
 }
