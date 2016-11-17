@@ -60,7 +60,7 @@ public class Asest {
         points -= tool.getValue();
     }
 
-    public void useTool(Tool tool) {
+    public void removeTool(Tool tool) {
         tools.compute(tool, (k,v) -> v-1);
     }
 

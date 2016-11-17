@@ -7,13 +7,21 @@ import com.tw.core.tools.Tool;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class UseRobot implements Command {
+public class SellTool implements Command {
+    private Tool tool;
+
+    public SellTool(Tool tool) {
+        this.tool = tool;
+    }
+
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(Tool.ROBOT_DULL) && player.getGame().getMap().useRobot(player.getCurrentPlace())){
-            player.getAsests().removeTool(Tool.ROBOT_DULL);
+        if(player.getAsests().hasTool(tool)){
+            player.getAsests().removeTool(tool);
+            player.getAsests().addPoints(tool.getValue());
         }
         return player.waitForCommand();
+
     }
 
     @Override

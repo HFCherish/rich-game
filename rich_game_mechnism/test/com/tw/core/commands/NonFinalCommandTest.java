@@ -122,7 +122,6 @@ public class NonFinalCommandTest {
         player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
         int emptyPrice = 500;
         Estate estate = new Estate(emptyPrice);
-        when(map.putBlock(anyObject(), anyInt())).thenReturn(true);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasEstate(estate), is(false));
@@ -151,5 +150,35 @@ public class NonFinalCommandTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasEstate(estate), is(false));
         assertThat(player.getAsests().getFunds(), is(emptyPrice * 4));
+    }
+
+    @Test
+    public void should_wait_for_next_command_if_not_has_that_tool_when_use_tool() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+
+        player.execute(CommandFactory.SellTool(Tool.BLOCK));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getFunds(), is(0));
+    }
+
+    @Test
+    public void should_wait_for_next_command_and_sell_tool_if_has_that_tool_when_use_tool() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+        player.getAsests().addPoints(Tool.BLOCK.getValue());
+        player.getAsests().addTool(Tool.BLOCK);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
+
+        player.execute(CommandFactory.SellTool(Tool.BLOCK));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
     }
 }
