@@ -2,7 +2,7 @@ package com.tw.core.commands;
 
 import com.tw.core.Dice;
 import com.tw.core.places.Estate;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 
 /**
  * Created by pzzheng on 11/16/16.

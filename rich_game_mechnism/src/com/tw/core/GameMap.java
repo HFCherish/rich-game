@@ -1,22 +1,47 @@
 package com.tw.core;
 
-import com.tw.core.places.Hospital;
-import com.tw.core.places.Place;
-import com.tw.core.places.Prison;
+import com.tw.core.places.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by pzzheng on 11/16/16.
  */
-public interface GameMap {
-    Place move(Place currentPlace, int steps);
+public class GameMap {
+    private List<Place> places;
+    private static Hospital hospital;
+    private static Prison prison;
 
-    Hospital getHospital();
+    public GameMap(Place... places) {
+        this.places = Arrays.asList(places);
+    }
 
-    Prison getPrison();
+    public Place move(Place currentPlace, int steps) {
+        int currentPlaceIndex = places.indexOf(currentPlace);
+        int nextIndex = (places.size() + (currentPlaceIndex + steps) % places.size()) % places.size();
+        return places.get(nextIndex);
+    }
 
-    boolean putBlock(Place start, int steps);
+    public Hospital getHospital() {
+        if(hospital == null) hospital = (Hospital)(places.stream().filter(place -> place instanceof Hospital).findAny().get());
+        return hospital;
+    }
 
-    boolean putBomb(Place start, int steps);
+    public Prison getPrison() {
+        if(prison == null) prison = (Prison) (places.stream().filter(place -> place instanceof Prison).findAny().get());
+        return prison;
+    }
 
-    boolean useRobot(Place start);
+    public boolean putBlock(Place start, int steps) {
+        return false;
+    }
+
+    public boolean putBomb(Place start, int steps) {
+        return false;
+    }
+
+    public boolean useRobot(Place start) {
+        return false;
+    }
 }

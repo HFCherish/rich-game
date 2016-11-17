@@ -2,7 +2,7 @@ package com.tw.core.commands;
 
 import com.tw.core.Player;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 
 /**
  * Created by pzzheng on 11/17/16.

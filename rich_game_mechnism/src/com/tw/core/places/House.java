@@ -1,7 +1,7 @@
 package com.tw.core.places;
 
 import com.tw.core.Player;
-import com.tw.core.tools.AssistentPower;
+import com.tw.core.assistentPower.AssistentPower;
 
 import java.util.Arrays;
 import java.util.List;

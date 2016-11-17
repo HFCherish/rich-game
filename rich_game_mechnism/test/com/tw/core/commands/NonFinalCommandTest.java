@@ -2,7 +2,7 @@ package com.tw.core.commands;
 
 import com.tw.core.*;
 import com.tw.core.places.Estate;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 import org.junit.Before;
 import org.junit.Test;
 

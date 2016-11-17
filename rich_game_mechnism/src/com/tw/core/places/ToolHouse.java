@@ -2,7 +2,7 @@ package com.tw.core.places;
 
 import com.tw.core.Player;
 import com.tw.core.commands.CommandFactory;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 
 /**
  * Created by pzzheng on 11/16/16.

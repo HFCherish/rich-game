@@ -1,23 +1,20 @@
 package com.tw.core;
 
-import com.sun.tools.javac.main.Option;
 import com.tw.core.places.Estate;
-import com.tw.core.tools.AssistentPower;
-import com.tw.core.tools.Gift;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 
 import java.util.*;
 
 /**
  * Created by pzzheng on 11/16/16.
  */
-public class Asest {
+public class Asset {
     private int funds;
     private List<Estate> estates;
     private int points;
     private Map<Tool, Integer> tools;
 
-    public Asest() {
+    public Asset() {
         estates = new ArrayList<>();
         tools = new HashMap();
     }

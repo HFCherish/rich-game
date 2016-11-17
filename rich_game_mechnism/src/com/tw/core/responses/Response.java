@@ -1,6 +1,6 @@
 package com.tw.core.responses;
 
-import com.tw.core.tools.AssistentPower;
+import com.tw.core.assistentPower.AssistentPower;
 
 /**
  * Created by pzzheng on 11/16/16.

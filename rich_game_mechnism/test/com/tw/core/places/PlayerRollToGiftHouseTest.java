@@ -8,7 +8,7 @@ import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.Gift;
+import com.tw.core.assistentPower.Gift;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -3,7 +3,7 @@ package com.tw.core;
 import com.tw.core.commands.Command;
 import com.tw.core.places.Place;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.Gift;
+import com.tw.core.assistentPower.Gift;
 
 /**
  * Created by pzzheng on 11/16/16.
@@ -14,12 +14,12 @@ public class Player {
     private Game game;
     private Place currentPlace;
     private Command lastCommand;
-    private Asest asests;
+    private Asset asests;
     private int luckyDays;
 
     private Player() {
         status = Status.WAIT_FOR_TURN;
-        asests = new Asest();
+        asests = new Asset();
     }
 
     public Status getStatus() {
@@ -91,7 +91,7 @@ public class Player {
         this.lastCommand = lastCommand;
     }
 
-    public Asest getAsests() {
+    public Asset getAsests() {
         return asests;
     }
 

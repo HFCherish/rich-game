@@ -1,14 +1,12 @@
 package com.tw.core.commands;
 
-import com.tw.core.Asest;
+import com.tw.core.Asset;
 import com.tw.core.Player;
 import com.tw.core.places.Estate;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Tool;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by pzzheng on 11/17/16.
@@ -30,20 +28,20 @@ public class Query implements Command {
         private static StringBuilder res;
 
         public static String printReportAsString(Player player) {
-            Asest asests = player.getAsests();
+            Asset asset = player.getAsests();
             res = new StringBuilder();
-            res.append("资金: " + asests.getFunds() + "元\n");
-            res.append("点数: " + asests.getPoints() + "点\n");
-            appendEstateInfo(asests.getEstates());
-            appendToolInfo(asests);
+            res.append("资金: " + asset.getFunds() + "元\n");
+            res.append("点数: " + asset.getPoints() + "点\n");
+            appendEstateInfo(asset.getEstates());
+            appendToolInfo(asset);
             System.out.println(res.toString());
             return res.toString();
         }
 
-        private static void appendToolInfo(Asest asest) {
-            int bomb = asest.getToolCount(Tool.BOMB);
-            int block = asest.getToolCount(Tool.BLOCK);
-            int robotDull = asest.getToolCount(Tool.ROBOT_DULL);
+        private static void appendToolInfo(Asset asset) {
+            int bomb = asset.getToolCount(Tool.BOMB);
+            int block = asset.getToolCount(Tool.BLOCK);
+            int robotDull = asset.getToolCount(Tool.ROBOT_DULL);
             res.append("道具: 路障" + block + "个; 炸弹" + bomb + "个; 机器娃娃" + robotDull + "个\n");
         }
 

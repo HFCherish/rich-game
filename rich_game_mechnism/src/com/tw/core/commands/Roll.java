@@ -5,8 +5,8 @@ import com.tw.core.Player;
 import com.tw.core.places.Estate;
 import com.tw.core.places.ToolHouse;
 import com.tw.core.responses.Response;
-import com.tw.core.tools.Gift;
-import com.tw.core.tools.Tool;
+import com.tw.core.assistentPower.Gift;
+import com.tw.core.assistentPower.Tool;
 
 /**
  * Created by pzzheng on 11/16/16.
