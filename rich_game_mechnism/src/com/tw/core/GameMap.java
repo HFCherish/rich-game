@@ -3,7 +3,6 @@ package com.tw.core;
 import com.tw.core.places.Hospital;
 import com.tw.core.places.Place;
 import com.tw.core.places.Prison;
-import com.tw.core.tools.Tool;
 
 /**
  * Created by pzzheng on 11/16/16.
@@ -15,7 +14,9 @@ public interface GameMap {
 
     Prison getPrison();
 
-    boolean putBlock(Tool block);
+    boolean putBlock(Place start, int steps);
 
-    boolean putBomb(Tool bomb);
+    boolean putBomb(Place start, int steps);
+
+    boolean useRobot(Place start);
 }

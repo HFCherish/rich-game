@@ -7,17 +7,11 @@ import com.tw.core.tools.Tool;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class UseBlock implements Command {
-    private int steps;
-
-    public UseBlock(int steps) {
-        this.steps = steps;
-    }
-
+public class UseRobot implements Command {
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(Tool.BLOCK) && player.getGame().getMap().putBlock(player.getCurrentPlace(), steps)){
-            player.getAsests().useTool(Tool.BLOCK);
+        if(player.getAsests().hasTool(Tool.ROBOT_DULL) && player.getGame().getMap().useRobot(player.getCurrentPlace())){
+            player.getAsests().useTool(Tool.ROBOT_DULL);
         }
         return player.waitForCommand();
     }

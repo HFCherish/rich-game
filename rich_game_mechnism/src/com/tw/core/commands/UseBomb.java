@@ -16,7 +16,7 @@ public class UseBomb implements Command {
 
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(Tool.BOMB) && player.getGame().getMap().putBomb(Tool.BOMB)){
+        if(player.getAsests().hasTool(Tool.BOMB) && player.getGame().getMap().putBomb(player.getCurrentPlace(), steps)){
             player.getAsests().useTool(Tool.BOMB);
         }
         return player.waitForCommand();
