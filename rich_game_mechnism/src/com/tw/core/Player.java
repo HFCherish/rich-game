@@ -27,7 +27,7 @@ public class Player {
     }
 
     public Status execute(Command command) {
-        if(status.equals(Status.WAIT_FOR_COMMAND)) {
+        if (status.equals(Status.WAIT_FOR_COMMAND)) {
             lastCommand = command;
             status = command.execute(this);
         }
@@ -41,7 +41,8 @@ public class Player {
 
     public Status endTurn() {
         status = Status.WAIT_FOR_TURN;
-        if(luckyDays > 0)   luckyDays--;
+        if (luckyDays > 0) luckyDays--;
+        if (stuckDays > 0) stuckDays--;
         return status;
     }
 
@@ -50,13 +51,13 @@ public class Player {
         return status;
     }
 
-    public  Status bankrupt() {
+    public Status bankrupt() {
         status = Status.BANKRUPT;
         return status;
     }
 
     public Status respond(Response response) {
-        if(status.equals(Status.WAIT_FOR_RESPONSE)) {
+        if (status.equals(Status.WAIT_FOR_RESPONSE)) {
             status = lastCommand.respond(response, this);
         }
         return status;
@@ -99,7 +100,7 @@ public class Player {
     }
 
     public void getLuckyGod() {
-        luckyDays = Gift.LUCKY_GOD.getValue() + 1   ;
+        luckyDays = Gift.LUCKY_GOD.getValue() + 1;
     }
 
     public boolean isLucky() {
@@ -107,7 +108,7 @@ public class Player {
     }
 
     public void stuckFor(int stuckDays) {
-        this.stuckDays = stuckDays;
+        this.stuckDays = stuckDays + 1;
     }
 
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
