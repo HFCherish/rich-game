@@ -1,9 +1,6 @@
 package com.tw.core.places;
 
-import com.tw.core.Dice;
-import com.tw.core.Game;
-import com.tw.core.GameMap;
-import com.tw.core.Player;
+import com.tw.core.*;
 import com.tw.core.commands.Command;
 import com.tw.core.commands.CommandFactory;
 import com.tw.core.commands.Roll;
@@ -86,7 +83,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(true));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 
@@ -108,7 +105,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(0));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(true));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 
@@ -130,7 +127,7 @@ public class PlayerRollToToolHouseTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(toolHouse));
         assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
         assertThat(player.lastCommand() instanceof Roll.BuyTool, is(true));
     }
 

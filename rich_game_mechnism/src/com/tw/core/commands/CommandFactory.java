@@ -11,6 +11,7 @@ public class CommandFactory {
     public static Command BuyTool = new Roll.BuyTool();
     public static Command SelectGift = new Roll.SelectGift();
     public static Command UseRobot = new UseRobot();
+    public static Command Query = new Query();
 
     public static Command Roll(Dice dice) {
         return new Roll(dice);

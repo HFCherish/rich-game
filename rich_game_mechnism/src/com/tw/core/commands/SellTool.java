@@ -16,7 +16,7 @@ public class SellTool implements Command {
 
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(tool)){
+        if(player.getAsests().getToolCount(tool) > 0){
             player.getAsests().removeTool(tool);
             player.getAsests().addPoints(tool.getValue());
         }

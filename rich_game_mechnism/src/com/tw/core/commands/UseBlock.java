@@ -16,7 +16,7 @@ public class UseBlock implements Command {
 
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(Tool.BLOCK) && player.getGame().getMap().putBlock(player.getCurrentPlace(), steps)){
+        if(player.getAsests().getToolCount(Tool.BLOCK) > 0 && player.getGame().getMap().putBlock(player.getCurrentPlace(), steps)){
             player.getAsests().removeTool(Tool.BLOCK);
         }
         return player.waitForCommand();

@@ -10,7 +10,7 @@ import com.tw.core.tools.Tool;
 public class UseRobot implements Command {
     @Override
     public Player.Status execute(Player player) {
-        if(player.getAsests().hasTool(Tool.ROBOT_DULL) && player.getGame().getMap().useRobot(player.getCurrentPlace())){
+        if(player.getAsests().getToolCount(Tool.ROBOT_DULL) > 0 && player.getGame().getMap().useRobot(player.getCurrentPlace())){
             player.getAsests().removeTool(Tool.ROBOT_DULL);
         }
         return player.waitForCommand();

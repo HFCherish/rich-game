@@ -41,7 +41,7 @@ public class Estate implements Place {
     }
 
     public void upgrade() {
-        level =  Level.values()[level.ordinal() + 1];
+        level = Level.values()[level.ordinal() + 1];
     }
 
     public Player getOwner() {
@@ -79,8 +79,9 @@ public class Estate implements Place {
                 return player.waitForResponse();
             }
         };
+
         abstract Player.Status action(Player player, Estate estate);
     }
 
-    public enum Level {EMPTY, THATCH}
+    public enum Level {EMPTY, THATCH, FOREIGN_STYLE, SKYSCRAPER}
 }

@@ -1,9 +1,6 @@
 package com.tw.core.commands;
 
-import com.tw.core.Dice;
-import com.tw.core.Game;
-import com.tw.core.GameMap;
-import com.tw.core.Player;
+import com.tw.core.*;
 import com.tw.core.places.Estate;
 import com.tw.core.tools.Tool;
 import org.junit.Before;
@@ -39,12 +36,12 @@ public class NonFinalCommandTest {
         player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
 
         player.execute(CommandFactory.UseBlock(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
     }
 
     @Test
@@ -54,12 +51,12 @@ public class NonFinalCommandTest {
         when(map.putBlock(anyObject(), anyInt())).thenReturn(true);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(true));
 
         player.execute(CommandFactory.UseBlock(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
     }
 
     @Test
@@ -67,12 +64,12 @@ public class NonFinalCommandTest {
         player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BOMB) > 0, is(false));
 
         player.execute(CommandFactory.UseBomb(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BOMB) > 0, is(false));
     }
 
     @Test
@@ -82,12 +79,12 @@ public class NonFinalCommandTest {
         when(map.putBomb(anyObject(), anyInt())).thenReturn(true);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BOMB), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.BOMB) > 0, is(true));
 
         player.execute(CommandFactory.UseBomb(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BOMB) > 0, is(false));
     }
 
     @Test
@@ -95,12 +92,12 @@ public class NonFinalCommandTest {
         player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.ROBOT_DULL), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.ROBOT_DULL) > 0, is(false));
 
         player.execute(CommandFactory.UseRobot);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.ROBOT_DULL), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.ROBOT_DULL) > 0, is(false));
     }
 
     @Test
@@ -110,12 +107,12 @@ public class NonFinalCommandTest {
         when(map.useRobot(anyObject())).thenReturn(true);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.ROBOT_DULL), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.ROBOT_DULL) > 0, is(true));
 
         player.execute(CommandFactory.UseRobot);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.ROBOT_DULL), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.ROBOT_DULL) > 0, is(false));
     }
 
     @Test
@@ -162,12 +159,12 @@ public class NonFinalCommandTest {
         player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
 
         player.execute(CommandFactory.SellTool(Tool.BLOCK));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
         assertThat(player.getAsests().getFunds(), is(0));
     }
 
@@ -178,12 +175,23 @@ public class NonFinalCommandTest {
         player.getAsests().addTool(Tool.BLOCK);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(true));
 
         player.execute(CommandFactory.SellTool(Tool.BLOCK));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
-        assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+        assertThat(player.getAsests().getToolCount(Tool.BLOCK) > 0, is(false));
         assertThat(player.getAsests().getPoints(), is(Tool.BLOCK.getValue()));
+    }
+
+    @Test
+    public void should_wait_for_next_command_when_query() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(CommandFactory.Query);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 }

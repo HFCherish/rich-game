@@ -46,11 +46,6 @@ public class Asest {
         return points;
     }
 
-    public boolean hasTool(Tool tool) {
-        tools.compute(tool, (k,v) -> v == null ? 0 : v);
-        return tools.get(tool) > 0;
-    }
-
     public void addTool(Tool tool) {
         tools.compute(tool, (k,v) -> v == null ? 1 : v+1);
         points -= tool.getValue();
@@ -66,5 +61,9 @@ public class Asest {
 
     public void removeEstate(Estate estate) {
         estates.remove(estate);
+    }
+
+    public int getToolCount(Tool tool) {
+        return tools.compute(tool, (k,v) -> v == null ? 0 : v);
     }
 }
