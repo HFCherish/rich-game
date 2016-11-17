@@ -1,6 +1,7 @@
 package com.tw.core.places;
 
 import com.tw.core.Player;
+import com.tw.core.assistentPower.Tool;
 
 /**
  * Created by pzzheng on 11/17/16.
@@ -8,6 +9,7 @@ import com.tw.core.Player;
 public class BombPlace extends ToolPlace{
     public BombPlace(Place basePlace) {
         super(basePlace);
+        toolOnThePlace = Tool.BOMB;
     }
 
     @Override

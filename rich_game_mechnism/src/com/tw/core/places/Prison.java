@@ -5,7 +5,7 @@ import com.tw.core.Player;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class Prison implements Place{
+public class Prison extends Place {
     private static int PRISON_DAYS = 2;
 
     @Override

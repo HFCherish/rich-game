@@ -1,5 +1,6 @@
 package com.tw.core;
 
+import com.tw.core.assistentPower.Tool;
 import com.tw.core.places.*;
 
 import java.util.Arrays;
@@ -17,10 +18,29 @@ public class GameMap {
         this.places = Arrays.asList(places);
     }
 
-    public Place move(Place currentPlace, int steps) {
-        int currentPlaceIndex = places.indexOf(currentPlace);
-        int nextIndex = (places.size() + (currentPlaceIndex + steps) % places.size()) % places.size();
-        return places.get(nextIndex);
+    public Place move(Place startPlace, int steps) {
+        int startIndex = places.indexOf(startPlace);
+
+        int direction = steps > 0 ? 1 : -1;
+        for (int i=0; Math.abs(i) < places.size() && Math.abs(i) <= Math.abs(steps); i += direction) {
+            int nextIndex = nextIndex(startIndex, i);
+            Place nextPlace = places.get(nextIndex);
+            Tool toolOnTheNextPlace = nextPlace.getToolOnThePlace();
+            if(toolOnTheNextPlace != null) {
+                nextPlace.removeTool();
+                if(toolOnTheNextPlace.equals(Tool.BLOCK)) {
+                    return new BlockPlace(nextPlace);
+                }
+                return new BombPlace(nextPlace);
+            }
+
+        }
+
+        return places.get(nextIndex(startIndex, steps));
+    }
+
+    private int nextIndex(int start, int steps) {
+        return (places.size() + (start + steps) % places.size()) % places.size();
     }
 
     public Hospital getHospital() {

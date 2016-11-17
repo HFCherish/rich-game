@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public abstract class House implements Place {
+public abstract class House extends Place {
     protected final List<AssistentPower> items;
 
     public House(AssistentPower... items) {

@@ -5,7 +5,7 @@ import com.tw.core.Player;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class Hospital implements Place{
+public class Hospital extends Place {
     public static int HOSPITAL_DAYS = 2;
     @Override
     public Player.Status comeHere(Player player) {

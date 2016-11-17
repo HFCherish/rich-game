@@ -6,7 +6,7 @@ import com.tw.core.commands.CommandFactory;
 /**
  * Created by pzzheng on 11/16/16.
  */
-public class Estate implements Place {
+public class Estate extends Place {
     private int emptyPrice;
     private Player owner;
     private Level level;

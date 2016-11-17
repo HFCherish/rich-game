@@ -3,7 +3,7 @@ package com.tw.core.places;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public abstract class ToolPlace implements Place{
+public abstract class ToolPlace extends Place {
     Place basePlace;
 
     public ToolPlace(Place basePlace) {
