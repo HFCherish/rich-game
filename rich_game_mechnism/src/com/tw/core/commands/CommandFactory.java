@@ -32,4 +32,7 @@ public class CommandFactory {
     }
 
 
+    public static Command SellEstate(Estate estate) {
+        return new SellEstate(estate);
+    }
 }

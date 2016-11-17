@@ -4,6 +4,7 @@ import com.tw.core.Dice;
 import com.tw.core.Game;
 import com.tw.core.GameMap;
 import com.tw.core.Player;
+import com.tw.core.places.Estate;
 import com.tw.core.tools.Tool;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,5 +115,41 @@ public class NonFinalCommandTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasTool(Tool.ROBOT_DULL), is(false));
+    }
+
+    @Test
+    public void should_wait_for_next_command_if_not_has_that_estate_when_use_estate() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+        int emptyPrice = 500;
+        Estate estate = new Estate(emptyPrice);
+        when(map.putBlock(anyObject(), anyInt())).thenReturn(true);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasEstate(estate), is(false));
+
+        player.execute(CommandFactory.SellEstate(estate));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasEstate(estate), is(false));
+        assertThat(player.getAsests().getFunds(), is(0));
+    }
+
+    @Test
+    public void should_wait_for_next_command_and_sell_estate_if_has_that_estate_when_use_estate() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+        int emptyPrice = 500;
+        Estate estate = new Estate(emptyPrice);
+        estate.setOwner(player);
+        estate.upgrade();
+        player.getAsests().addEstate(estate);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasEstate(estate), is(true));
+
+        player.execute(CommandFactory.SellEstate(estate));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasEstate(estate), is(false));
+        assertThat(player.getAsests().getFunds(), is(emptyPrice * 4));
     }
 }

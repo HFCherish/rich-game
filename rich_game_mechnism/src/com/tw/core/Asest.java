@@ -63,4 +63,12 @@ public class Asest {
     public void useTool(Tool tool) {
         tools.compute(tool, (k,v) -> v-1);
     }
+
+    public boolean hasEstate(Estate estate) {
+        return estates.contains(estate);
+    }
+
+    public void removeEstate(Estate estate) {
+        estates.remove(estate);
+    }
 }
