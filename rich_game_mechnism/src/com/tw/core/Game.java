@@ -32,9 +32,6 @@ public class Game {
     }
 
     public Status getStatus() {
-        if (players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1) {
-            status = Status.END;
-        }
         return status;
     }
 
@@ -67,6 +64,12 @@ public class Game {
 
     public GameMap getMap() {
         return map;
+    }
+
+    public void inform(Player.Status status) {
+        if( status.equals(Player.Status.BANKRUPT) && players.stream().filter(player -> !player.getStatus().equals(Player.Status.BANKRUPT)).count() == 1 ) {
+            this.status = Status.END;
+        }
     }
 
     public enum Status {END, START}

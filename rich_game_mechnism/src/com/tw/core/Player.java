@@ -53,6 +53,7 @@ public class Player {
 
     public Status bankrupt() {
         status = Status.BANKRUPT;
+        game.inform(status);
         return status;
     }
 

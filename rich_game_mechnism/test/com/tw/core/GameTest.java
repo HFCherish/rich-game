@@ -49,16 +49,13 @@ public class GameTest {
     @Test
     public void should_game_end_if_only_one_player_not_bankrupt() {
         Game game = new Game(map);
-        Player player = mock(Player.class);
-        Player player1 = mock(Player.class);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        Player player1 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
         game.initialPlayers(player, player1);
 
-        when(player.getStatus()).thenReturn(Player.Status.WAIT_FOR_COMMAND);
-        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
         assertThat(game.getStatus(), is(Game.Status.START));
 
-        when(player.getStatus()).thenReturn(Player.Status.BANKRUPT);
-        when(player1.getStatus()).thenReturn(Player.Status.WAIT_FOR_TURN);
+        player.bankrupt();
 
         assertThat(game.getStatus(), is(Game.Status.END));
     }
