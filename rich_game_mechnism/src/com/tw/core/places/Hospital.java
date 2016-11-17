@@ -10,7 +10,6 @@ public class Hospital implements Place{
     @Override
     public Player.Status comeHere(Player player) {
         player.moveTo(this);
-        player.stuckFor(HOSPITAL_DAYS);
         return player.endTurn();
     }
 }

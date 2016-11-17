@@ -46,7 +46,7 @@ public class PlayerRollToHospitalTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_TURN));
         assertThat(player.getCurrentPlace(), is(hospital));
-        assertThat(player.isStucked(), is(true));
+        assertThat(player.isStucked(), is(false));
         assertThat(player.lastCommand() instanceof Roll, is(true));
 
     }
