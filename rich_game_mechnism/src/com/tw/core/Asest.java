@@ -34,10 +34,6 @@ public class Asest {
         return estates;
     }
 
-    public void decreaseFunds(int charge) {
-        funds -= charge;
-    }
-
     public void addEstate(Estate estate) {
         estates.add(estate);
     }

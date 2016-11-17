@@ -43,7 +43,7 @@ public class Roll implements Command {
         @Override
         public Player.Status respond(Response response, Player player) {
             if(response.equals(Response.Yes)) {
-                player.getAsests().decreaseFunds(estate.getEmptyPrice());
+                player.getAsests().addFund(-estate.getEmptyPrice());
                 player.getAsests().addEstate(estate);
                 estate.setOwner(player);
             }
@@ -66,7 +66,7 @@ public class Roll implements Command {
         @Override
         public Player.Status respond(Response response, Player player) {
             if(response.equals(Response.Yes)) {
-                player.getAsests().decreaseFunds(estate.getEmptyPrice());
+                player.getAsests().addFund(-estate.getEmptyPrice());
                 estate.upgrade();
             }
             return player.endTurn();

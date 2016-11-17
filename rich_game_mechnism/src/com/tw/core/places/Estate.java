@@ -48,6 +48,11 @@ public class Estate implements Place {
         return owner;
     }
 
+    public void beEmpty() {
+        setOwner(null);
+        level = Level.EMPTY;
+    }
+
     public enum Type {
         EMPTY {
             @Override
@@ -61,7 +66,7 @@ public class Estate implements Place {
             Player.Status action(Player player, Estate estate) {
                 if (!player.isLucky() && !estate.getOwner().isStucked()) {
                     int charge = (int) (1.0 * estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) / 2);
-                    player.getAsests().decreaseFunds(charge);
+                    player.getAsests().addFund(-charge);
                     if (player.getAsests().getFunds() < 0) return player.bankrupt();
                 }
                 return player.endTurn();

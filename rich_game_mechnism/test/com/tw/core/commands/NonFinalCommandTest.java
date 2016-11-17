@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
@@ -130,6 +131,7 @@ public class NonFinalCommandTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasEstate(estate), is(false));
+        assertThat(estate.getOwner(), is(nullValue()));
         assertThat(player.getAsests().getFunds(), is(0));
     }
 
@@ -144,11 +146,14 @@ public class NonFinalCommandTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasEstate(estate), is(true));
+        assertThat(estate.getOwner(), is(player));
 
         player.execute(CommandFactory.SellEstate(estate));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasEstate(estate), is(false));
+        assertThat(estate.getOwner(), is(nullValue()));
+        assertThat(estate.getLevel(), is(Estate.Level.EMPTY));
         assertThat(player.getAsests().getFunds(), is(emptyPrice * 4));
     }
 

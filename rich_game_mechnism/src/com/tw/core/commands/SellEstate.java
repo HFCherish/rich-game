@@ -17,8 +17,9 @@ public class SellEstate implements Command {
     @Override
     public Player.Status execute(Player player) {
         if(player.getAsests().hasEstate(estate)){
-            player.getAsests().removeEstate(estate);
             player.getAsests().addFund(estate.getEmptyPrice() * (estate.getLevel().ordinal() + 1) * 2);
+            player.getAsests().removeEstate(estate);
+            estate.beEmpty();
         }
         return player.waitForCommand();
 
