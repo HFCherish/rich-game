@@ -86,6 +86,16 @@ public class GameMap {
     }
 
     public boolean useRobot(Place start) {
+        if( places.size() < 2 * 10 + 1) {
+            places.stream().forEach(place -> place.removeTool());
+            return true;
+        }
+
+        int startIndex = places.indexOf(start);
+        for( int steps=0; steps<=10; steps++ ) {
+            places.get(nextIndex(startIndex, steps)).removeTool();
+            places.get(nextIndex(startIndex, -steps)).removeTool();
+        }
         return false;
     }
 

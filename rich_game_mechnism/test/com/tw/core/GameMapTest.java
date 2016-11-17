@@ -92,4 +92,18 @@ public class GameMapTest {
         assertThat(map.putBlock(starting, 0), is(false));
         assertThat(starting.getToolOnThePlace(), is(nullValue()));
     }
+
+    @Test
+    public void should_able_to_use_robot_to_clear_tools_around_10() {
+        Starting starting = new Starting();
+        Estate estate = new Estate(10);
+        Prison prison = new Prison();
+        Estate estate2 = new Estate(10);
+        GameMap map = new GameMap(starting, estate, prison, estate2);
+
+        map.putBlock(starting, 1);
+
+        map.useRobot(starting);
+        assertThat(estate.getToolOnThePlace(), is(nullValue()));
+    }
 }
