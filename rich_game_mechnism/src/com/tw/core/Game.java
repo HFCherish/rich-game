@@ -25,8 +25,10 @@ public class Game {
 
     public void initialPlayers(Player... players) {
         this.players = Arrays.asList(players);
+        this.players.stream().forEach(player -> player.moveTo(map.getStarting()));
         this.players.get(0).inTurn();
         currentPlayerIndex = 0;
+        map.initPlayers(this.players);
     }
 
     public Status getStatus() {

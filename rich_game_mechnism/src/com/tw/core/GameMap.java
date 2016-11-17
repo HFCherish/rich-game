@@ -3,6 +3,7 @@ package com.tw.core;
 import com.tw.core.assistentPower.Tool;
 import com.tw.core.places.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,9 +14,12 @@ public class GameMap {
     private List<Place> places;
     private static Hospital hospital;
     private static Prison prison;
+    private List<Player> players;
+    private static Starting starting;
 
     public GameMap(Place... places) {
         this.places = Arrays.asList(places);
+        players = new ArrayList<>();
     }
 
     public Place move(Place startPlace, int steps) {
@@ -54,16 +58,43 @@ public class GameMap {
     }
 
     public boolean putBlock(Place start, int steps) {
-        places.get(nextIndex(places.indexOf(start), steps)).putTool(Tool.BLOCK);
+        if(Math.abs(steps) > 10 ) {
+            return false;
+        }
+        Place targetPlace = places.get(nextIndex(places.indexOf(start), steps));
+        if(targetPlace.getToolOnThePlace()!=null || hasPlayerOnPlace(targetPlace)) {
+            return false;
+        }
+        targetPlace.putTool(Tool.BLOCK);
         return true;
     }
 
     public boolean putBomb(Place start, int steps) {
-        places.get(nextIndex(places.indexOf(start), steps)).putTool(Tool.BOMB);
+        if(Math.abs(steps) > 10 ) {
+            return false;
+        }
+        Place targetPlace = places.get(nextIndex(places.indexOf(start), steps));
+        if(targetPlace.getToolOnThePlace()!=null || hasPlayerOnPlace(targetPlace)) {
+            return false;
+        }
+        targetPlace.putTool(Tool.BOMB);
         return true;
+    }
+
+    public boolean hasPlayerOnPlace(Place place) {
+        return players.stream().anyMatch(player -> player.getCurrentPlace().equals(place));
     }
 
     public boolean useRobot(Place start) {
         return false;
+    }
+
+    public void initPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public Starting getStarting() {
+        if(starting == null)    starting = (Starting) (places.stream().filter(place -> place instanceof Starting).findAny().get());
+        return starting;
     }
 }

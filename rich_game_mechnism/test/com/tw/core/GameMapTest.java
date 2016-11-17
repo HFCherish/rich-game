@@ -65,9 +65,31 @@ public class GameMapTest {
         GameMap map = new GameMap(starting, estate, prison, estate2);
 
         assertThat(map.putBlock(starting, 1), is(true));
-        assertThat(estate.getToolOnThePlace(), is(notNullValue()));
+        assertThat(estate.getToolOnThePlace(), is(Tool.BLOCK));
 
         assertThat(map.putBomb(starting, -5), is(true));
-        assertThat(estate2.getToolOnThePlace(), is(notNullValue()));
+        assertThat(estate2.getToolOnThePlace(), is(Tool.BOMB));
+    }
+
+    @Test
+    public void should_not_able_to_put_tool_if_invalid_steps_or_that_place_has_people_or_tool() {
+        Starting starting = new Starting();
+        Estate estate = new Estate(10);
+        Prison prison = new Prison();
+        Estate estate2 = new Estate(10);
+        GameMap map = new GameMap(starting, estate, prison, estate2);
+        Game game = new Game(map);
+        Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
+        game.initialPlayers(player);
+        System.out.println(player.getCurrentPlace());
+
+        assertThat(map.putBlock(starting, 15), is(false));
+
+        map.putBomb(starting,1);
+        assertThat(map.putBlock(starting, 1), is(false));
+        assertThat(estate.getToolOnThePlace(), is(Tool.BOMB));
+
+        assertThat(map.putBlock(starting, 0), is(false));
+        assertThat(starting.getToolOnThePlace(), is(nullValue()));
     }
 }
