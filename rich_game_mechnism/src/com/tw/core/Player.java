@@ -111,5 +111,10 @@ public class Player {
         this.stuckDays = stuckDays + 1;
     }
 
+    public Status waitForCommand() {
+        status = Status.WAIT_FOR_COMMAND;
+        return status;
+    }
+
     public enum Status {WAIT_FOR_COMMAND, BANKRUPT, WAIT_FOR_RESPONSE, WAIT_FOR_TURN}
 }

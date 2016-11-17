@@ -21,4 +21,8 @@ public class CommandFactory {
     public static Command UpgradeEstate(Estate estate) {
         return new Roll.UpgradeEstate(estate);
     }
+
+    public static Command Block(int steps) {
+        return new Block(steps);
+    }
 }
