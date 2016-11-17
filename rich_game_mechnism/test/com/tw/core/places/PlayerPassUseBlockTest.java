@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by pzzheng on 11/17/16.
  */
-public class PlayerPassBlockTest {
+public class PlayerPassUseBlockTest {
     public static final int INITIAL_FUND = 10000;
     private GameMap map;
     private Dice dice;

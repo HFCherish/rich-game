@@ -23,6 +23,6 @@ public class CommandFactory {
     }
 
     public static Command Block(int steps) {
-        return new Block(steps);
+        return new UseBlock(steps);
     }
 }
