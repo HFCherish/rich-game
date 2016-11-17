@@ -194,4 +194,15 @@ public class NonFinalCommandTest {
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
+
+    @Test
+    public void should_wait_for_next_command_when_help() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, 0);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(CommandFactory.Help);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+    }
 }

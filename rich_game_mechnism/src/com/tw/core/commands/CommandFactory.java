@@ -13,6 +13,8 @@ public class CommandFactory {
     public static Command UseRobot = new UseRobot();
     public static Command Query = new Query();
 
+    public static Command Help = new Help();
+
     public static Command Roll(Dice dice) {
         return new Roll(dice);
     }
