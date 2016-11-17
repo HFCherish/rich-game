@@ -4,7 +4,6 @@ import com.tw.core.Dice;
 import com.tw.core.Game;
 import com.tw.core.GameMap;
 import com.tw.core.Player;
-import com.tw.core.places.Mineral;
 import com.tw.core.tools.Tool;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,7 @@ public class NonFinalCommandTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
 
-        player.execute(CommandFactory.Block(1));
+        player.execute(CommandFactory.UseBlock(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
@@ -54,9 +53,37 @@ public class NonFinalCommandTest {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasTool(Tool.BLOCK), is(true));
 
-        player.execute(CommandFactory.Block(1));
+        player.execute(CommandFactory.UseBlock(1));
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getAsests().hasTool(Tool.BLOCK), is(false));
+    }
+
+    @Test
+    public void should_wait_for_next_command_if_no_bomb_when_use_bomb() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
+
+        player.execute(CommandFactory.UseBomb(1));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
+    }
+
+    @Test
+    public void should_wait_for_next_command_and_use_bomb_if_has_bomb_when_use_bomb() {
+        player = Player.createPlayerWithGame_Fund_CommandState(game, INITIAL_FUND);
+        player.getAsests().addTool(Tool.BOMB);
+        when(map.putBomb(anyObject())).thenReturn(true);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BOMB), is(true));
+
+        player.execute(CommandFactory.UseBomb(1));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(player.getAsests().hasTool(Tool.BOMB), is(false));
     }
 }

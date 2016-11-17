@@ -22,7 +22,11 @@ public class CommandFactory {
         return new Roll.UpgradeEstate(estate);
     }
 
-    public static Command Block(int steps) {
+    public static Command UseBlock(int steps) {
         return new UseBlock(steps);
+    }
+
+    public static Command UseBomb(int steps) {
+        return new UseBomb(steps);
     }
 }

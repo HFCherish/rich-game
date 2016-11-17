@@ -16,4 +16,6 @@ public interface GameMap {
     Prison getPrison();
 
     boolean putBlock(Tool block);
+
+    boolean putBomb(Tool bomb);
 }
