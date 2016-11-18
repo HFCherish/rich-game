@@ -41,7 +41,6 @@ public class Converter {
         if (command.equals("robot")) return CommandFactory.RobotDull;
         if (command.matches("sell \\d")) {
             Integer index = Integer.valueOf(command.split(" ")[1]);
-            System.out.println("the index: " + index);
             Estate estate = map.getEstate(index);
             if(estate == null) {
                 System.out.println("这处房产不为你所有, 请购买后再卖.");
