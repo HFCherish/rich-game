@@ -4,21 +4,42 @@ require '../src/player'
 require 'minitest/autorun'
 
 class PlayerTest < MiniTest::Test
+  def setup
+    @game = MiniTest::Mock.new
+  end
+
   def test_that_player_will_execute_the_current_command_if_waiting_for_command
-    game = MiniTest::Mock.new
     command = Command.new
     def command.execute(player)
-      puts "I'm in stub command"
       return Player::Status::WAIT_FOR_RESPONSE
     end
 
-    player = Player.create_player_with_game_and_fund_and_command_state(game)
+    player = Player.create_player_with_game_and_fund_and_command_state(@game)
 
     assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
 
     player.execute(command)
 
     assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
-
   end
+
+  def test_that_player_will_record_the_last_command_if_it_is_responsive
+    command = Command.new
+    def command.execute(player)
+      player.lastResponsiveCommand = Command.new
+      return Player::Status::WAIT_FOR_RESPONSE
+    end
+
+    player = Player.create_player_with_game_and_fund_and_command_state(@game)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
+    assert_nil player.lastResponsiveCommand
+
+    player.execute(command)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
+    refute_nil player.lastResponsiveCommand
+  end
+
+
 end
