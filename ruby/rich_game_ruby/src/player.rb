@@ -30,8 +30,10 @@ class Player
     WAIT_FOR_RESPONSE = Status.new
 
     def WAIT_FOR_RESPONSE.action(command, player)
-      player.lastResponsiveCommand.respond(command, player)
+      return player.lastResponsiveCommand.respond(command, player)
     end
+
+    WAIT_FOR_TURN = Status.new
 
     def action(command, player)
     end
