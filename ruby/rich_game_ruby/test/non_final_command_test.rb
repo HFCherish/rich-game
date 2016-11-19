@@ -60,4 +60,12 @@ class NonFinalCommandTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
   end
 
+  def test_that_can_query
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.execute(CommandFactory::Help)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
+  end
+
 end
