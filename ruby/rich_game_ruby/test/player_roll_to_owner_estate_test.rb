@@ -50,19 +50,19 @@ class PlayerRollToOwnEstateTest < Minitest::Test
     assert_equal player.asset.fund, 0
     assert_equal @ownEstate.level, Estate::Level::THATCH
   end
-  #
-  # def test_that_not_buy_estate_if_say_no
-  #   player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
-  #
-  #   @rollCommand = CommandFactory.Roll(@dice)
-  #   player.execute(@rollCommand)
-  #
-  #   player.execute(CommandFactory::No)
-  #
-  #   assert_equal player.status, Player::Status::WAIT_FOR_TURN
-  #   assert_equal player.asset.fund, EMPTY_PRICE
-  #   assert_equal player.asset.estates.length, 0
-  #   assert_equal @ownEstate.typeFor(player), Estate::Type::EMPTY
-  # end
+
+  def test_that_not_upgrade_estate_if_say_no
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
+    @ownEstate.owner = player
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory::No)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.fund, EMPTY_PRICE
+    assert_equal @ownEstate.level, Estate::Level::EMPTY
+  end
 
 end
