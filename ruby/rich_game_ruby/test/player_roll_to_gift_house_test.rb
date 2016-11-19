@@ -51,5 +51,21 @@ class PlayerRollToGiftHouseTest < Minitest::Test
     assert_equal player.asset.points, Gift::POINT_CARD.value
   end
 
+  def test_that_get_lucky_god_is_valid_for_5_turn
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.getLuckyGod
+    player.endTurn
+    assert player.isLucky
+
+    4.times {player.inTurn
+    player.endTurn
+    assert player.isLucky}
+
+    player.inTurn
+    player.endTurn
+    refute player.isLucky
+  end
+
 
 end

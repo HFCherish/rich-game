@@ -32,7 +32,13 @@ class Player
     return @status
   end
 
+  def inTurn
+    @status = Status::WAIT_FOR_COMMAND
+    return @status
+  end
+
   def endTurn
+    @luckyDays -= 1 if(@luckyDays > 0)
     @status = Status::WAIT_FOR_TURN
     return @status
   end
@@ -43,7 +49,7 @@ class Player
   end
 
   def getLuckyGod
-    @luckyDays = Gift::LUCKY_GOD.value
+    @luckyDays = Gift::LUCKY_GOD.value + 1
   end
 
   def isLucky
