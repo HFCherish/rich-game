@@ -16,6 +16,10 @@ class Game
     @currentPlayerIndex = 0
   end
 
+  def execute(command)
+    return currentPlayer.execute(command)
+  end
+
   def currentPlayer
     return @players[@currentPlayerIndex]
   end

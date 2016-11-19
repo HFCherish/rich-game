@@ -11,7 +11,7 @@ class GameTest < Minitest::Test
     @map = GameMap.new(2, 2, @starting, Estate.new(10), Estate.new(10), Estate.new(10))
   end
 
-  def test_the_first_player_is_in_turn
+  def test_the_first_player_is_in_turn_and_the_starting_place_is_set
     game = Game.new(@map)
     player = Player.create_player_with_game_and_fund(game)
     player1 = Player.create_player_with_game_and_fund(game)
@@ -23,4 +23,18 @@ class GameTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
     assert_equal player1.status, Player::Status::WAIT_FOR_TURN
   end
+
+  def test_that_can_let_the_current_player_execute_command
+    game = Game.new(@map)
+    player = Player.create_player_with_game_and_fund(game)
+    player1 = Player.create_player_with_game_and_fund(game)
+    game.initPlayers(player, player1)
+
+    command = Minitest::Mock.new
+    command.expect(:execute, Player::Status::WAIT_FOR_TURN, [Object])
+    game.execute(command)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
 end
