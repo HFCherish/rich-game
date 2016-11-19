@@ -7,6 +7,7 @@ class CommandFactory
   Yes = Command.new
   No = Command.new
   BuyTool = BuyTool.new
+  Quit = Command.new
 
   def self.Roll(dice)
     return Roll.new(dice)

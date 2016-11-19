@@ -7,5 +7,6 @@ class BuyTool < Command
       return player.waitForResponse if(player.currentPlace.canAffordWith(player.asset.points))
       return player.endTurn
     end
+    return player.endTurn
   end
 end

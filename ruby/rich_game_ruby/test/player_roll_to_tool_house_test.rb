@@ -71,5 +71,21 @@ class PlayerRollToToolHouseTest < Minitest::Test
     assert_kind_of BuyTool, player.lastResponsiveCommand
   end
 
+  def test_that_end_turn_if_quit_manually_when_waiting_for_response
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+    player.asset.addPoints(Tool::BOMB.value)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory::Quit)
+
+    assert_equal @toolHouse, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.points, Tool::BOMB.value
+    assert_equal player.asset.hasTool(Tool::BOMB), false
+    assert_kind_of BuyTool, player.lastResponsiveCommand
+  end
+
 
 end
