@@ -30,9 +30,9 @@ class Estate < Place
     OWNER = Type.new
 
     def OWNER.action(player, estate)
-      # return player.endTurn if (player.asset.fund < estate.emptyPrice)
-      #
-      # return player.waitForResponse
+      return player.endTurn if (player.asset.fund < estate.emptyPrice)
+      player.lastResponsiveCommand = CommandFactory.UpgradeEstate(estate)
+      return player.waitForResponse
     end
 
     def action(player, estate)
