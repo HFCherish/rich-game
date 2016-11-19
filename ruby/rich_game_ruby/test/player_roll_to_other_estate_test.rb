@@ -57,4 +57,19 @@ class PlayerRollToOtherEstateTest < Minitest::Test
     assert_equal player.asset.fund, 0
   end
 
+  def test_that_end_turn_if_the_owner_of_estate_is_in_hospital_or_prison
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, 0)
+    player.getLuckyGod
+    anotherPlayer = Player::create_player_with_game_and_fund_and_command_state(@game, 0)
+    @otherEstate.owner = anotherPlayer
+    anotherPlayer.stuckFor(1)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal @otherEstate, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.fund, 0
+  end
+
 end

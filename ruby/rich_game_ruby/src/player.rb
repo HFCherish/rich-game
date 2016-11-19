@@ -10,6 +10,7 @@ class Player
     @asset = Asset.new(initialFund)
     @status = Status::WAIT_FOR_COMMAND
     @luckyDays = 0
+    @stuckDays = 0
   end
 
   def moveTo(place)
@@ -46,6 +47,14 @@ class Player
   end
 
   def isLucky
+    @luckyDays > 0
+  end
+
+  def stuckFor(days)
+    @stuckDays = days
+  end
+
+  def isStucked
     @luckyDays > 0
   end
 
