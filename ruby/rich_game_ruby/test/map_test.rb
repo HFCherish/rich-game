@@ -35,5 +35,20 @@ class MapTest < Minitest::Test
     assert_equal @map.move(@starting, -5), @estate
   end
 
+  def test_that_can_set_block_or_bomb_on_map
+    @starting = Starting.new
+    @estate = Estate.new(10)
+    @estate1 = Estate.new(10)
+    @estate2 = Estate.new(10)
+
+    @map = GameMap.new(2, 2, @starting, @estate, @estate1, @estate2)
+
+    @map.setTool(Tool::BOMB, @starting, 1)
+    @map.setTool(Tool::BLOCK, @starting, -5)
+
+    refute_nil @estate.tool
+    refute_nil @estate2.tool
+  end
+
 
 end

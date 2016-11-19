@@ -10,7 +10,7 @@ class NonFinalCommandTest < Minitest::Test
   def setup
     @map = Minitest::Mock.new
     @map.expect(:move, @giftHouse, [Object, Fixnum])
-    @map.expect(:setTool, true, [Object, Fixnum])
+    @map.expect(:setTool, true, [Object, Object, Fixnum])
     @game = Minitest::Mock.new(@map)
     2.times {@game.expect(:map, @map)}
     @dice = Minitest::Mock.new.expect(:next, 1)

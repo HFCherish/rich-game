@@ -12,7 +12,7 @@ class Tool
     return place.comeHere(player)
   end
   def BLOCK.useBy(player, steps)
-    return player.game.map.setTool(self, steps)
+    return player.game.map.setTool(self, player.currentPlace, steps)
   end
 
   BOMB = Tool.new(50)
@@ -22,12 +22,12 @@ class Tool
     return player.game.map.hospital.comeHere(player)
   end
   def BOMB.useBy(player, steps)
-    return player.game.map.setTool(self, steps)
+    return player.game.map.setTool(self, player.currentPlace, steps)
   end
 
   ROBOT_DULL = Tool.new(30)
   def ROBOT_DULL.useBy(player, steps)
-    return player.game.map.useRobot(self, steps)
+    return player.game.map.useRobot(player.currentPlace)
   end
 
   def passOn(place, player)
