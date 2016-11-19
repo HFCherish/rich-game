@@ -87,5 +87,4 @@ class PlayerRollToToolHouseTest < Minitest::Test
     assert_kind_of BuyTool, player.lastResponsiveCommand
   end
 
-
 end

@@ -7,4 +7,6 @@ class Gift
   end
 
   LUCKY_GOD = Gift.new(5)
+  FUND = Gift.new(2000)
+  POINT_CARD = Gift.new(200)
 end

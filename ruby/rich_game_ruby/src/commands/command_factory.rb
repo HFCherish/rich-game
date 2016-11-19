@@ -3,10 +3,12 @@ require_relative 'buy_estate'
 require_relative 'upgrade_estate'
 require_relative 'buy_tool'
 require_relative 'get_house_product'
+require_relative 'select_gift'
 class CommandFactory
   Yes = Command.new
   No = Command.new
   BuyTool = BuyTool.new
+  SelectGift = SelectGift.new
   Quit = Command.new
 
   def self.Roll(dice)
