@@ -34,6 +34,11 @@ class Player
     return @status
   end
 
+  def bankrupt
+    @status = Status::BANKRUPT
+    return @status
+  end
+
   class Status
     WAIT_FOR_COMMAND = Status.new
 
@@ -48,6 +53,8 @@ class Player
     end
 
     WAIT_FOR_TURN = Status.new
+
+    BANKRUPT = Status.new
 
     def action(command, player)
     end

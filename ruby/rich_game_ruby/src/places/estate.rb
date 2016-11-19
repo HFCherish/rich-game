@@ -20,6 +20,10 @@ class Estate < Place
     return Type::OTHER if (@owner != player)
   end
 
+  def toll
+    (@emptyPrice * (@level+1) / 2.0).to_i
+  end
+
   def upgrade
     @level += 1
   end
@@ -41,7 +45,7 @@ class Estate < Place
 
     OTHER = Type.new
     def OTHER.action(player, estate)
-      # return player.bankrupt if (player.asset.fund < estate.emptyPrice || estate.level == Estate::Level::SKYSCRAPER)
+      return player.bankrupt if (player.asset.fund < estate.toll)
       player.asset.chargeToll(estate)
       estate.owner.asset.earnToll(estate)
       return player.endTurn
