@@ -52,4 +52,12 @@ class NonFinalCommandTest < Minitest::Test
     refute player.asset.hasTool(Tool::BLOCK)
   end
 
+  def test_that_can_query
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.execute(CommandFactory::Query)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
+  end
+
 end

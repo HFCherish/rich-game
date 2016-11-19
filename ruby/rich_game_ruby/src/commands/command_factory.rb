@@ -7,12 +7,14 @@ require_relative 'select_gift'
 require_relative 'use_tool'
 require_relative 'sell_estate'
 require_relative 'sell_tool'
+require_relative 'query'
 class CommandFactory
   Yes = Command.new
   No = Command.new
   BuyTool = BuyTool.new
   SelectGift = SelectGift.new
   Quit = Command.new
+  Query = Query.new
 
   def self.Roll(dice)
     return Roll.new(dice)
