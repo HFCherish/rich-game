@@ -4,7 +4,7 @@ class Asset
 
   def initialize(initialFund)
     @fund = initialFund
-    @estates = []
+    @estates = {}
     @points = 0
     @tools = {}
   end
@@ -35,15 +35,17 @@ class Asset
 
   def buyEstate(estate)
     @fund -= estate.emptyPrice
-    @estates.push(estate)
+    @estates[estate.level] = [] if !@estates.include? estate.level
+    @estates[estate.level].push(estate)
   end
 
   def hasEstate(estate)
-    @estates.include? estate
+    @estates[estate.level] = [] if !@estates.include? estate.level
+    @estates[estate.level].include? estate
   end
 
   def sellEstate(estate)
-    @estates.delete(estate)
+    @estates[estate.level].delete(estate)
     @fund += estate.sellPrice
   end
 
