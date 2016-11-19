@@ -62,5 +62,25 @@ class MapTest < Minitest::Test
     refute_nil estate2.tool
   end
 
+  def test_that_can_set_block_or_bomb_on_map
+    starting = Starting.new
+    estate = Estate.new(10)
+    estate1 = Estate.new(10)
+    estate2 = Estate.new(10)
+
+    map = GameMap.new(2, 2, starting, estate, estate1, estate2)
+
+    # refute map.setTool(Tool::BOMB, starting, 2)
+    #
+    # refute map.setTool(Tool::BOMB, starting, 15)
+
+    assert map.useRobot(starting)
+
+    # refute map.setTool(Tool::BOMB, starting, 1)
+    #
+    # assert map.setTool(Tool::BLOCK, starting, -5)
+
+  end
+
 
 end

@@ -15,7 +15,7 @@ class GameMap
     i = 0
     while i.abs <= @places.length && i.abs <= steps.abs
       nextIndex = nextIndex(startIndex, i)
-      return @places[nextIndex] if(@places[nextIndex].tool != nil)
+      return @places[nextIndex] if (@places[nextIndex].tool != nil)
       i += direction
     end
     return @places[nextIndex(startIndex, steps)]
@@ -26,13 +26,20 @@ class GameMap
     target = @places[nextIndex(@places.index(starting), steps)]
     return false if target.tool != nil
     @players.each {
-      |player| return false if player.currentPlace == target
+        |player| return false if player.currentPlace == target
     }
     target.tool = tool
   end
 
-  def useRobot(starting)
-
+  def useRobot(starting, steps=10)
+    i = 0
+    startIndex = @places.index(starting)
+    while i<=steps && i<= @places.length/2 + 1
+      @places[nextIndex(startIndex, i)].removeTool
+      @places[nextIndex(startIndex, -i)].removeTool
+      i += 1;
+    end
+    return true
   end
 
   def nextIndex(startIndex, steps)
