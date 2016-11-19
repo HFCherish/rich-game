@@ -27,14 +27,15 @@ class PlayerRollToOwnEstateTest < Minitest::Test
     assert_kind_of UpgradeEstate, player.lastResponsiveCommand
   end
 
-  # def test_that_end_turn_if_not_has_enough_money
-  #   player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE - 1)
-  #
-  #   @rollCommand = CommandFactory.Roll(@dice)
-  #   player.execute(@rollCommand)
-  #
-  #   assert_equal player.status, Player::Status::WAIT_FOR_TURN
-  # end
+  def test_that_end_turn_if_not_has_enough_money
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE - 1)
+    @ownEstate.owner = player
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
   #
   # def test_that_buy_estate_if_sayYes
   #   player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
