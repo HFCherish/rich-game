@@ -1,5 +1,5 @@
 require_relative 'asset'
-require_relative '../src/Gift/gift'
+require_relative '../src/assistencePower/gift'
 class Player
   attr_reader :game, :asset, :currentPlace
   attr_accessor :lastResponsiveCommand, :status

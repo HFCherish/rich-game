@@ -1,10 +1,15 @@
 class Asset
 
-  attr_reader :fund, :estates
+  attr_reader :fund, :estates, :points
 
   def initialize(initialFund)
     @fund = initialFund
     @estates = []
+    @points = 0
+  end
+
+  def addPoints(plusPoints)
+    @points += plusPoints
   end
 
   def buyEstate(estate)
