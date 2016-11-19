@@ -1,6 +1,6 @@
 require '../src/asset'
-require '../src/command'
 require '../src/player'
+require '../src/commands/command'
 require 'minitest/autorun'
 
 class PlayerTest < MiniTest::Test

@@ -1,5 +1,6 @@
+require_relative 'asset'
 class Player
-  attr_reader :game, :asset
+  attr_reader :game, :asset, :currentPlace
   attr_accessor :lastResponsiveCommand, :status
 
 
@@ -10,6 +11,10 @@ class Player
     @status = Status::WAIT_FOR_COMMAND
   end
 
+  def moveTo(place)
+    @currentPlace = place
+  end
+
   def self.create_player_with_game_and_fund_and_command_state(game, initialFund=10000)
     player = Player.new(game, initialFund)
     player.status = Status::WAIT_FOR_COMMAND
@@ -18,6 +23,10 @@ class Player
 
   def execute(command)
     @status=@status.action(command, self)
+  end
+
+  def waitForResponse
+    @status = Status::WAIT_FOR_RESPONSE
   end
 
   class Status
