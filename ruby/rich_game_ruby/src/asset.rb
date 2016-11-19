@@ -24,6 +24,11 @@ class Asset
     @points -= tool.value
   end
 
+  def sellTool(tool)
+    @tools[tool] -= 1
+    @points += tool.value
+  end
+
   def addPoints(plusPoints)
     @points += plusPoints
   end
