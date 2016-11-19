@@ -32,6 +32,11 @@ class Player
     return @status
   end
 
+  def waitForCommand
+    @status = Status::WAIT_FOR_COMMAND
+    return @status
+  end
+
   def inTurn
     @status = Status::WAIT_FOR_COMMAND
     return @status

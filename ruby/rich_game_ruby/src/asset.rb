@@ -9,6 +9,10 @@ class Asset
     @tools = {}
   end
 
+  def useTool(tool)
+    @tools[tool] -= 1
+  end
+
   def hasTool(tool)
     @tools[tool] = 0 if (@tools[tool] == nil)
     return @tools[tool] > 0
