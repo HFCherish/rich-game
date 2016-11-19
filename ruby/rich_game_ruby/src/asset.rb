@@ -41,7 +41,7 @@ class Asset
     @fund += estate.toll
   end
 
-  # def addFund(bonus)
-  #   @fund += bonus
-  # end
+  def addFunds(bonus)
+    @fund += bonus
+  end
 end

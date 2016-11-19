@@ -27,5 +27,29 @@ class PlayerRollToGiftHouseTest < Minitest::Test
     assert_kind_of SelectGift, player.lastResponsiveCommand
   end
 
+  def test_that_get_lucky_god_and_end_turn_after_select
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory.GetHouseProduct(Gift::LUCKY_GOD))
+
+    assert_equal @giftHouse, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert player.isLucky
+  end
+
+  def test_that_get_points_and_end_turn_after_select
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory.GetHouseProduct(Gift::POINT_CARD))
+
+    assert_equal @giftHouse, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.points, Gift::POINT_CARD.value
+  end
+
 
 end
