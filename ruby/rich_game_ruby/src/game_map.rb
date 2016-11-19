@@ -5,6 +5,10 @@ class GameMap
     @places = places
   end
 
+  def initPlayers(*players)
+    @players = players
+  end
+
   def move(start, steps)
     startIndex = @places.index(start)
     direction = steps > 0 ? 1 : -1
@@ -21,6 +25,9 @@ class GameMap
     return false if steps.abs > 10
     target = @places[nextIndex(@places.index(starting), steps)]
     return false if target.tool != nil
+    @players.each {
+      |player| return false if player.currentPlace == target
+    }
     target.tool = tool
   end
 
