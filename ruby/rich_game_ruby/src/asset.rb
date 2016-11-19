@@ -6,6 +6,18 @@ class Asset
     @fund = initialFund
     @estates = []
     @points = 0
+    @tools = {}
+  end
+
+  def hasTool(tool)
+    @tools[tool] = 0 if (@tools[tool] == nil)
+    return @tools[tool] > 0
+  end
+
+  def buyTool(tool)
+    @tools[tool] = 0 if (@tools[tool] == nil)
+    @tools[tool] += 1
+    @points -= tool.value
   end
 
   def addPoints(plusPoints)
