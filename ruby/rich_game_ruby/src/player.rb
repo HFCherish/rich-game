@@ -6,8 +6,7 @@ class Player
 
   def initialize(game, initialFund=10000)
     @game = game
-    @asset = Asset.new
-    @asset.addFund(initialFund)
+    @asset = Asset.new(initialFund)
     @status = Status::WAIT_FOR_COMMAND
   end
 

@@ -1,12 +1,18 @@
 class Asset
 
-  attr_reader :fund
+  attr_reader :fund, :estates
 
-  def initialize
-    @fund = 0
+  def initialize(initialFund)
+    @fund = initialFund
+    @estates = []
   end
 
-  def addFund(bonus)
-    @fund += bonus
+  def buyEstate(estate)
+    @fund -= estate.emptyPrice
+    @estates.push(estate)
   end
+
+  # def addFund(bonus)
+  #   @fund += bonus
+  # end
 end

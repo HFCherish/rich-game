@@ -23,6 +23,7 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     player.execute(@rollCommand)
 
     assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
+    refute_nil player.lastResponsiveCommand
   end
 
   def test_that_end_turn_if_not_has_enough_money
@@ -32,6 +33,20 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     player.execute(@rollCommand)
 
     assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
+  def test_that_buy_estate_if_sayYes
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory::Yes)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.fund, 0
+    assert_equal player.asset.estates.length, 1
+    assert_equal @emptyEstate.typeFor(player), Estate::Type::OWNER
   end
 
 end

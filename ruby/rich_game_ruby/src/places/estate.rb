@@ -1,6 +1,7 @@
 require_relative 'place'
 class Estate < Place
-  attr_reader :owner, :emptyPrice
+  attr_accessor :owner
+  attr_reader :emptyPrice
 
   def initialize(emptyPrice)
     @emptyPrice = emptyPrice
@@ -14,6 +15,7 @@ class Estate < Place
 
   def typeFor(player)
     return Type::EMPTY if (@owner == nil)
+    return Type::OWNER if (@owner == player)
   end
 
   class Type
@@ -21,8 +23,16 @@ class Estate < Place
 
     def EMPTY.action(player, estate)
       return player.endTurn if (player.asset.fund < estate.emptyPrice)
-
+      player.lastResponsiveCommand = CommandFactory.BuyEstate(estate)
       return player.waitForResponse
+    end
+
+    OWNER = Type.new
+
+    def OWNER.action(player, estate)
+      # return player.endTurn if (player.asset.fund < estate.emptyPrice)
+      #
+      # return player.waitForResponse
     end
 
     def action(player, estate)
