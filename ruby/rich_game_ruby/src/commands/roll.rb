@@ -6,7 +6,9 @@ class Roll < Command
   end
 
   def execute(player)
-    player.game.map.move(player.currentPlace, @dice.next).comeHere(player)
+    targetPlace = player.game.map.move(player.currentPlace, @dice.next)
+    return targetPlace.tool.passOn(targetPlace, player) if targetPlace.tool != nil
+    return targetPlace.comeHere(player)
   end
 
 

@@ -4,4 +4,8 @@ class Place
   def comeHere(player)
   end
 
+  def removeTool
+    @tool = nil
+  end
+
 end
