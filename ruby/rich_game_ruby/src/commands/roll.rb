@@ -10,6 +10,4 @@ class Roll < Command
     return targetPlace.tool.passOn(targetPlace, player) if targetPlace.tool != nil
     return targetPlace.comeHere(player)
   end
-
-
 end
