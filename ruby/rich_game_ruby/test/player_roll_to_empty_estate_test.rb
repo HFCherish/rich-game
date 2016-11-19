@@ -8,9 +8,9 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
   EMPTY_PRICE = 200
 
   def setup
-    @ownEstate = Estate.new(EMPTY_PRICE)
+    @emptyEstate = Estate.new(EMPTY_PRICE)
     @map = Minitest::Mock.new
-    @map.expect(:move, @ownEstate, [Object, Fixnum])
+    @map.expect(:move, @emptyEstate, [Object, Fixnum])
     @game = Minitest::Mock.new(@map)
     @game.expect(:map, @map)
     @dice = Minitest::Mock.new.expect(:next,1)
@@ -22,6 +22,7 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     @rollCommand = CommandFactory.Roll(@dice)
     player.execute(@rollCommand)
 
+    assert_equal @emptyEstate, player.currentPlace
     assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
     assert_kind_of BuyEstate, player.lastResponsiveCommand
   end
@@ -46,7 +47,7 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_TURN
     assert_equal player.asset.fund, 0
     assert_equal player.asset.estates.length, 1
-    assert_equal @ownEstate.typeFor(player), Estate::Type::OWNER
+    assert_equal @emptyEstate.typeFor(player), Estate::Type::OWNER
   end
 
   def test_that_not_buy_estate_if_say_no
@@ -60,7 +61,7 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_TURN
     assert_equal player.asset.fund, EMPTY_PRICE
     assert_equal player.asset.estates.length, 0
-    assert_equal @ownEstate.typeFor(player), Estate::Type::EMPTY
+    assert_equal @emptyEstate.typeFor(player), Estate::Type::EMPTY
   end
 
 end

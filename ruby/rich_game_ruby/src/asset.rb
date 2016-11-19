@@ -16,7 +16,15 @@ class Asset
     @fund -= estate.emptyPrice
   end
 
-    # def addFund(bonus)
+  def chargeToll(estate)
+    @fund -= (estate.emptyPrice * (estate.level+1) / 2.0).to_i
+  end
+
+  def earnToll(estate)
+    @fund += (estate.emptyPrice * (estate.level+1) / 2.0).to_i
+  end
+
+  # def addFund(bonus)
   #   @fund += bonus
   # end
 end

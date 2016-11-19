@@ -23,6 +23,7 @@ class PlayerRollToOwnEstateTest < Minitest::Test
     @rollCommand = CommandFactory.Roll(@dice)
     player.execute(@rollCommand)
 
+    assert_equal @ownEstate, player.currentPlace
     assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
     assert_kind_of UpgradeEstate, player.lastResponsiveCommand
   end

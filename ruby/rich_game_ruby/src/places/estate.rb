@@ -17,6 +17,7 @@ class Estate < Place
   def typeFor(player)
     return Type::EMPTY if (@owner == nil)
     return Type::OWNER if (@owner == player)
+    return Type::OTHER if (@owner != player)
   end
 
   def upgrade
@@ -25,7 +26,6 @@ class Estate < Place
 
   class Type
     EMPTY = Type.new
-
     def EMPTY.action(player, estate)
       return player.endTurn if (player.asset.fund < estate.emptyPrice)
       player.lastResponsiveCommand = CommandFactory.BuyEstate(estate)
@@ -33,11 +33,18 @@ class Estate < Place
     end
 
     OWNER = Type.new
-
     def OWNER.action(player, estate)
       return player.endTurn if (player.asset.fund < estate.emptyPrice || estate.level == Estate::Level::SKYSCRAPER)
       player.lastResponsiveCommand = CommandFactory.UpgradeEstate(estate)
       return player.waitForResponse
+    end
+
+    OTHER = Type.new
+    def OTHER.action(player, estate)
+      # return player.bankrupt if (player.asset.fund < estate.emptyPrice || estate.level == Estate::Level::SKYSCRAPER)
+      player.asset.chargeToll(estate)
+      estate.owner.asset.earnToll(estate)
+      return player.endTurn
     end
 
     def action(player, estate)
