@@ -12,7 +12,11 @@ class Asset
     @estates.push(estate)
   end
 
-  # def addFund(bonus)
+  def upgradeEstate(estate)
+    @fund -= estate.emptyPrice
+  end
+
+    # def addFund(bonus)
   #   @fund += bonus
   # end
 end

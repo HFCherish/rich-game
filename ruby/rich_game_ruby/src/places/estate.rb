@@ -1,11 +1,12 @@
 require_relative 'place'
 class Estate < Place
   attr_accessor :owner
-  attr_reader :emptyPrice
+  attr_reader :emptyPrice, :level
 
   def initialize(emptyPrice)
     @emptyPrice = emptyPrice
     @owner = nil
+    @level = Level::EMPTY
   end
 
   def comeHere(player)
@@ -16,6 +17,10 @@ class Estate < Place
   def typeFor(player)
     return Type::EMPTY if (@owner == nil)
     return Type::OWNER if (@owner == player)
+  end
+
+  def upgrade
+    @level += 1
   end
 
   class Type
@@ -38,5 +43,12 @@ class Estate < Place
     def action(player, estate)
     end
 
+  end
+
+  module Level
+    EMPTY = 0
+    THATCH = 1
+    FOREIGN_STYLE = 2
+    SKYSCRAPER = 3
   end
 end

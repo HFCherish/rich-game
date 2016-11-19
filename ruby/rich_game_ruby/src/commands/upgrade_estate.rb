@@ -7,8 +7,8 @@ class UpgradeEstate < Command
 
   def respond(response, player)
     if response == CommandFactory::Yes
-      # player.asset.buyEstate(@estate)
-      # @estate.owner = player
+      player.asset.upgradeEstate(@estate)
+      @estate.upgrade
     end
     player.endTurn
   end
