@@ -37,6 +37,19 @@ class PlayerRollToOwnEstateTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_TURN
   end
 
+  def test_that_end_turn_if_has_enough_money_but_estate_highest_level
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
+    @ownEstate.owner = player
+    @ownEstate.upgrade
+    @ownEstate.upgrade
+    @ownEstate.upgrade
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
   def test_that_upgrade_estate_if_sayYes
     player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
     @ownEstate.owner = player
