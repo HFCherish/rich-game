@@ -27,6 +27,12 @@ class Player
 
   def waitForResponse
     @status = Status::WAIT_FOR_RESPONSE
+    return @status
+  end
+
+  def endTurn
+    @status = Status::WAIT_FOR_TURN
+    return @status
   end
 
   class Status

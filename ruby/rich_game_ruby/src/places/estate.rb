@@ -1,6 +1,7 @@
 require_relative 'place'
 class Estate < Place
-  attr_reader :owner
+  attr_reader :owner, :emptyPrice
+
   def initialize(emptyPrice)
     @emptyPrice = emptyPrice
     @owner = nil
@@ -12,19 +13,20 @@ class Estate < Place
   end
 
   def typeFor(player)
-    return Type::EMPTY if(@owner == nil)
+    return Type::EMPTY if (@owner == nil)
   end
 
   class Type
     EMPTY = Type.new
 
     def EMPTY.action(player, estate)
-      player.waitForResponse
+      return player.endTurn if (player.asset.fund < estate.emptyPrice)
+
+      return player.waitForResponse
     end
 
     def action(player, estate)
     end
 
   end
-
 end

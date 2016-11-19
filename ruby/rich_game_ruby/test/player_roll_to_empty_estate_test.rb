@@ -24,4 +24,14 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
 
     assert_equal player.status, Player::Status::WAIT_FOR_RESPONSE
   end
+
+  def test_that_end_turn_if_not_has_enough_money
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE - 1)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
 end
