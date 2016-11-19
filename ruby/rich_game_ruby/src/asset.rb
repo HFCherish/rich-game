@@ -1,3 +1,4 @@
+require_relative '../src/places/estate'
 class Asset
 
   attr_reader :fund, :estates, :points
@@ -63,5 +64,19 @@ class Asset
 
   def addFunds(bonus)
     @fund += bonus
+  end
+
+  def reportAsString
+    Array[Estate::Level::EMPTY, Estate::Level::THATCH, Estate::Level::FOREIGN_STYLE, Estate::Level::SKYSCRAPER].each {
+        |level| @estates[level] = [] if !@estates.include? level
+    }
+    Array[Tool::BLOCK, Tool::BOMB, Tool::ROBOT_DULL].each {
+        |tool| @tools[tool] = 0 if (@tools[tool] == nil)
+    }
+    @res = "资金: #{@fund}元\n"
+    @res += "点数: #{@points}点\n"
+    @res += "地产: 空地#{@estates[Estate::Level::EMPTY].length}处, 茅屋#{@estates[Estate::Level::THATCH].length}处, 洋房#{@estates[Estate::Level::FOREIGN_STYLE].length}处, 摩天楼#{@estates[Estate::Level::SKYSCRAPER].length}处\n"
+    @res += "道具: 路障#{@tools[Tool::BLOCK]}个, 炸弹#{@tools[Tool::BOMB]}个, 机器娃娃#{@tools[Tool::ROBOT_DULL]}个"
+    puts @res.to_s
   end
 end
