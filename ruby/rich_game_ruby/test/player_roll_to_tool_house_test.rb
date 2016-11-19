@@ -16,7 +16,7 @@ class PlayerRollToToolHouseTest < Minitest::Test
     @dice = Minitest::Mock.new.expect(:next, 1)
   end
 
-  def test_that_charge_and_end_turn_if_has_enough_money
+  def test_that_wait_for_response_if_has_enough_points
     player = Player::create_player_with_game_and_fund_and_command_state(@game)
     player.asset.addPoints(Tool::BOMB.value)
 
@@ -28,4 +28,15 @@ class PlayerRollToToolHouseTest < Minitest::Test
     assert_equal player.asset.points, Tool::BOMB.value
     assert_kind_of BuyTool, player.lastResponsiveCommand
   end
+
+  def test_that_end_turn_if_has_no_enough_points
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal @toolHouse, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
 end

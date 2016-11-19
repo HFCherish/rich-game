@@ -7,9 +7,14 @@ class ToolHouse < Place
 
   def comeHere(player)
     player.moveTo(self)
-    # player.endTurn if !canAffordWith(player.asset.points)
+    return player.endTurn if !canAffordWith(player.asset.points)
     player.lastResponsiveCommand = CommandFactory::BuyTool
-    player.waitForResponse
+    return player.waitForResponse
+  end
+
+  def canAffordWith(points)
+    @tools.each {|tool| return true if tool.value <= points}
+    return false
   end
 
 
