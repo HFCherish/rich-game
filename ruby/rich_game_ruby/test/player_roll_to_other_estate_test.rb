@@ -43,4 +43,18 @@ class PlayerRollToOtherEstateTest < Minitest::Test
     assert_equal player.status, Player::Status::BANKRUPT
   end
 
+  def test_that_end_turn_if_not_has_enough_money_but_with_lucky_god
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, 0)
+    player.getLuckyGod
+    anotherPlayer = Player::create_player_with_game_and_fund_and_command_state(@game, 0)
+    @otherEstate.owner = anotherPlayer
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    assert_equal @otherEstate, player.currentPlace
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.fund, 0
+  end
+
 end

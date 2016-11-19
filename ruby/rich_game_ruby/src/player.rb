@@ -1,4 +1,5 @@
 require_relative 'asset'
+require_relative '../src/Gift/gift'
 class Player
   attr_reader :game, :asset, :currentPlace
   attr_accessor :lastResponsiveCommand, :status
@@ -8,6 +9,7 @@ class Player
     @game = game
     @asset = Asset.new(initialFund)
     @status = Status::WAIT_FOR_COMMAND
+    @luckyDays = 0
   end
 
   def moveTo(place)
@@ -37,6 +39,14 @@ class Player
   def bankrupt
     @status = Status::BANKRUPT
     return @status
+  end
+
+  def getLuckyGod
+    @luckyDays = Gift::LUCKY_GOD.value
+  end
+
+  def isLucky
+    @luckyDays > 0
   end
 
   class Status
