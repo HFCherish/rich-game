@@ -60,8 +60,8 @@ class Player
     @stuckDays = days
   end
 
-  def isStucked
-    @luckyDays > 0
+  def isStuck
+    @stuckDays > 0
   end
 
   class Status

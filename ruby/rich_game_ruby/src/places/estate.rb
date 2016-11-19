@@ -45,7 +45,7 @@ class Estate < Place
 
     OTHER = Type.new
     def OTHER.action(player, estate)
-      return player.endTurn if (player.isLucky || estate.owner.isStucked)
+      return player.endTurn if (player.isLucky || estate.owner.isStuck)
       return player.bankrupt if (player.asset.fund < estate.toll)
       player.asset.chargeToll(estate)
       estate.owner.asset.earnToll(estate)
