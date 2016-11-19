@@ -26,4 +26,19 @@ class NonFinalCommandTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
     refute player.asset.hasTool(Tool::BLOCK)
   end
+
+  def test_that_can_sell_estate_if_has
+    emptyPrice = 50
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, emptyPrice)
+    estate = Estate.new(emptyPrice)
+    player.asset.buyEstate(estate)
+    estate.owner =player
+
+    player.execute(CommandFactory.SellEstate(estate))
+
+    assert_equal player.status, Player::Status::WAIT_FOR_COMMAND
+    refute player.asset.hasEstate(estate)
+    assert_equal player.asset.fund, emptyPrice * 2
+  end
+
 end

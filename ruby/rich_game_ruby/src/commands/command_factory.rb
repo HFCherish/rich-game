@@ -5,6 +5,7 @@ require_relative 'buy_tool'
 require_relative 'get_house_product'
 require_relative 'select_gift'
 require_relative 'use_tool'
+require_relative 'sell_estate'
 class CommandFactory
   Yes = Command.new
   No = Command.new
@@ -18,6 +19,10 @@ class CommandFactory
 
   def self.BuyEstate(estate)
     return BuyEstate.new(estate)
+  end
+
+  def self.SellEstate(estate)
+    return SellEstate.new(estate)
   end
 
   def self.UpgradeEstate(estate)

@@ -24,6 +24,15 @@ class Estate < Place
     (@emptyPrice * (@level+1) / 2.0).to_i
   end
 
+  def sellPrice
+    @emptyPrice * (@level+1) * 2
+  end
+
+  def sell
+    @owner = nil
+    @level = Level::EMPTY
+  end
+
   def upgrade
     @level += 1
   end

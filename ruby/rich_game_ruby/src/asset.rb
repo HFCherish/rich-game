@@ -33,6 +33,15 @@ class Asset
     @estates.push(estate)
   end
 
+  def hasEstate(estate)
+    @estates.include? estate
+  end
+
+  def sellEstate(estate)
+    @estates.delete(estate)
+    @fund += estate.sellPrice
+  end
+
   def upgradeEstate(estate)
     @fund -= estate.emptyPrice
   end
