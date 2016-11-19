@@ -27,21 +27,21 @@ class PlayerRollToPrisonTest < Minitest::Test
     assert player.isStuck
   end
 
-  # def test_that_get_lucky_god_is_valid_for_5_turn
-  #   player = Player::create_player_with_game_and_fund_and_command_state(@game)
-  #
-  #   player.getLuckyGod
-  #   player.endTurn
-  #   assert player.isLucky
-  #
-  #   4.times {player.inTurn
-  #   player.endTurn
-  #   assert player.isLucky}
-  #
-  #   player.inTurn
-  #   player.endTurn
-  #   refute player.isLucky
-  # end
+  def test_that_stay_in_prison_for_2_turn
+    player = Player::create_player_with_game_and_fund_and_command_state(@game)
+
+    player.stuckFor(Prison::PRISON_DAYS)
+    player.endTurn
+    assert player.isStuck
+
+    1.times {player.inTurn
+    player.endTurn
+    assert player.isStuck}
+
+    player.inTurn
+    player.endTurn
+    refute player.isStuck
+  end
 
 
 end

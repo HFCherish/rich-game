@@ -39,6 +39,7 @@ class Player
 
   def endTurn
     @luckyDays -= 1 if(@luckyDays > 0)
+    @stuckDays -= 1 if(@stuckDays > 0)
     @status = Status::WAIT_FOR_TURN
     return @status
   end
@@ -57,7 +58,7 @@ class Player
   end
 
   def stuckFor(days)
-    @stuckDays = days
+    @stuckDays = days + 1
   end
 
   def isStuck
