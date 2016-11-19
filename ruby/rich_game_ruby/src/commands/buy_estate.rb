@@ -9,7 +9,7 @@ class BuyEstate < Command
     if response == CommandFactory::Yes
       player.asset.buyEstate(@estate)
       @estate.owner = player
-      player.endTurn
     end
-    end
+    player.endTurn
+  end
   end

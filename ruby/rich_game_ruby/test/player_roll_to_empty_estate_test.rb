@@ -49,4 +49,18 @@ class PlayerRollToEmptyEstateTest < Minitest::Test
     assert_equal @emptyEstate.typeFor(player), Estate::Type::OWNER
   end
 
+  def test_that_not_buy_estate_if_say_no
+    player = Player::create_player_with_game_and_fund_and_command_state(@game, EMPTY_PRICE)
+
+    @rollCommand = CommandFactory.Roll(@dice)
+    player.execute(@rollCommand)
+
+    player.execute(CommandFactory::No)
+
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player.asset.fund, EMPTY_PRICE
+    assert_equal player.asset.estates.length, 0
+    assert_equal @emptyEstate.typeFor(player), Estate::Type::EMPTY
+  end
+
 end

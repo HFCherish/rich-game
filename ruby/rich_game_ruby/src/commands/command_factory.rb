@@ -2,6 +2,7 @@ require_relative 'roll'
 require_relative 'buy_estate'
 class CommandFactory
   Yes = Command.new
+  No = Command.new
 
   def self.Roll(dice)
     return Roll.new(dice)
