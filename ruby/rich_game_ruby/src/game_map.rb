@@ -18,7 +18,10 @@ class GameMap
   end
 
   def setTool(tool, starting, steps)
-    @places[nextIndex(@places.index(starting), steps)].tool = tool
+    return false if steps.abs > 10
+    target = @places[nextIndex(@places.index(starting), steps)]
+    return false if target.tool != nil
+    target.tool = tool
   end
 
   def useRobot(starting)

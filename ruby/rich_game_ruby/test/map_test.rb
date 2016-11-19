@@ -43,8 +43,13 @@ class MapTest < Minitest::Test
 
     @map = GameMap.new(2, 2, @starting, @estate, @estate1, @estate2)
 
-    @map.setTool(Tool::BOMB, @starting, 1)
-    @map.setTool(Tool::BLOCK, @starting, -5)
+    refute @map.setTool(Tool::BOMB, @starting, 15)
+
+    assert @map.setTool(Tool::BOMB, @starting, 1)
+
+    refute @map.setTool(Tool::BOMB, @starting, 1)
+
+    assert @map.setTool(Tool::BLOCK, @starting, -5)
 
     refute_nil @estate.tool
     refute_nil @estate2.tool
