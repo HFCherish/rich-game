@@ -122,7 +122,7 @@ public class GameTest {
     }
 
     @Test
-    public void shoul_shift_to_next_player_if_current_player_end_turn() {
+    public void should_shift_to_next_player_if_current_player_end_turn() {
         Game game = new Game(map);
         Player player = Player.createPlayerWithGame_Fund_CommandState(game, 1000);
         Player player1 = Player.createPlayerWithGame_Fund_CommandState(game, 1000);

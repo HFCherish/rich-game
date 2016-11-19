@@ -1,8 +1,20 @@
+require_relative '../src/places/starting'
+require_relative '../src/places/hospital'
 class GameMap
+
+  attr_reader :height, :places, :width, :hospital, :starting
+
   def initialize(height, width, *places)
     @height = height
     @width = width
     @places = places
+    @places.each do |place|
+      if place.instance_of? Starting then
+        @starting = place
+      elsif place.instance_of? Hospital then
+        @hospital = place
+      end
+    end
   end
 
   def initPlayers(*players)

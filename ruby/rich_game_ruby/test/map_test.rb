@@ -70,15 +70,7 @@ class MapTest < Minitest::Test
 
     map = GameMap.new(2, 2, starting, estate, estate1, estate2)
 
-    # refute map.setTool(Tool::BOMB, starting, 2)
-    #
-    # refute map.setTool(Tool::BOMB, starting, 15)
-
     assert map.useRobot(starting)
-
-    # refute map.setTool(Tool::BOMB, starting, 1)
-    #
-    # assert map.setTool(Tool::BLOCK, starting, -5)
 
   end
 

@@ -8,13 +8,17 @@ class Player
   def initialize(game, initialFund=10000)
     @game = game
     @asset = Asset.new(initialFund)
-    @status = Status::WAIT_FOR_COMMAND
+    @status = Status::WAIT_FOR_TURN
     @luckyDays = 0
     @stuckDays = 0
   end
 
   def moveTo(place)
     @currentPlace = place
+  end
+
+  def self.create_player_with_game_and_fund(game, initialFund = 10000)
+    return Player.new(game, initialFund)
   end
 
   def self.create_player_with_game_and_fund_and_command_state(game, initialFund=10000)
@@ -91,4 +95,5 @@ class Player
     end
 
   end
+
 end
