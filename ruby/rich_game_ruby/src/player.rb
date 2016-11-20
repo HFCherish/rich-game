@@ -59,6 +59,10 @@ class Player
     return @status
   end
 
+  def isBankrupt
+   return @status == Status::BANKRUPT
+  end
+
   def getLuckyGod
     @luckyDays = Gift::LUCKY_GOD.value + 1
   end
