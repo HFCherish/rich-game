@@ -1,4 +1,5 @@
 class Game
+  attr_accessor :status
   attr_reader :map
 
   def initialize(map)

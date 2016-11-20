@@ -85,7 +85,7 @@ class GameTest < Minitest::Test
     player1 = Player.create_player_with_game_and_fund(game)
     player2 = Player.create_player_with_game_and_fund(game)
     game.initPlayers(player, player1, player2)
-    player1.stuckFor(1)
+    player1.stuckFor(0)
 
     player.endTurn
 
@@ -108,7 +108,7 @@ class GameTest < Minitest::Test
     game = Game.new(@map)
     player = Player.create_player_with_game_and_fund(game)
     player1 = Player.create_player_with_game_and_fund(game)
-    game.initPlayers(player, player1, player2)
+    game.initPlayers(player, player1)
 
     player.bankrupt
 
