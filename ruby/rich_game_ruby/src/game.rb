@@ -21,13 +21,13 @@ class Game
   end
 
   def nextPlayer
-    puts "I'm here againg"
     @currentPlayerIndex = (@currentPlayerIndex + 1) % @players.length
     current_player = currentPlayer
     if current_player.isBankrupt then
       self.nextPlayer
     else
       current_player.inTurn
+      current_player.endTurn if current_player.isStuck
     end
   end
 

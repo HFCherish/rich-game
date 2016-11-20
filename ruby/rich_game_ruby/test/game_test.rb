@@ -79,4 +79,21 @@ class GameTest < Minitest::Test
     assert_equal player1.status, Player::Status::BANKRUPT
   end
 
+  def test_that_shift_to_player_after_next_player_if_next_player_in_hospital_or_prison
+    game = Game.new(@map)
+    player = Player.create_player_with_game_and_fund(game)
+    player1 = Player.create_player_with_game_and_fund(game)
+    player2 = Player.create_player_with_game_and_fund(game)
+    game.initPlayers(player, player1, player2)
+    player1.stuckFor(1)
+
+    player.endTurn
+
+    assert_equal game.currentPlayer, player2
+    assert_equal player2.status, Player::Status::WAIT_FOR_COMMAND
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+    assert_equal player1.status, Player::Status::WAIT_FOR_TURN
+    refute player1.isStuck
+  end
+
 end
