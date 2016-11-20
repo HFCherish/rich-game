@@ -13,6 +13,7 @@ class PlayerRollToGiftHouseTest < Minitest::Test
     @map.expect(:move, @giftHouse, [Object, Fixnum])
     @game = Minitest::Mock.new(@map)
     @game.expect(:map, @map)
+    @game.expect(:nextPlayer, [])
     @dice = Minitest::Mock.new.expect(:next, 1)
     @rollCommand = CommandFactory.Roll(@dice)
   end
@@ -52,6 +53,7 @@ class PlayerRollToGiftHouseTest < Minitest::Test
   end
 
   def test_that_get_lucky_god_is_valid_for_5_turn
+    5.times {@game.expect(:nextPlayer, [])}
     player = Player::create_player_with_game_and_fund_and_command_state(@game)
 
     player.getLuckyGod

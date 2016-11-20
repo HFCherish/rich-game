@@ -37,4 +37,29 @@ class GameTest < Minitest::Test
     assert_equal player.status, Player::Status::WAIT_FOR_TURN
   end
 
+  def test_that_can_shift_to_next_player
+    game = Game.new(@map)
+    player = Player.create_player_with_game_and_fund(game)
+    player1 = Player.create_player_with_game_and_fund(game)
+    game.initPlayers(player, player1)
+
+    game.nextPlayer()
+
+    assert_equal game.currentPlayer, player1
+    assert_equal player1.status, Player::Status::WAIT_FOR_COMMAND
+  end
+
+  def test_that_should_shift_to_next_player_if_currentPlayer_end_turn
+    game = Game.new(@map)
+    player = Player.create_player_with_game_and_fund(game)
+    player1 = Player.create_player_with_game_and_fund(game)
+    game.initPlayers(player, player1)
+
+    player.endTurn
+
+    assert_equal game.currentPlayer, player1
+    assert_equal player1.status, Player::Status::WAIT_FOR_COMMAND
+    assert_equal player.status, Player::Status::WAIT_FOR_TURN
+  end
+
 end

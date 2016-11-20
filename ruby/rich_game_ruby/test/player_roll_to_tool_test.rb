@@ -17,6 +17,7 @@ class PlayerRollToToolTest < Minitest::Test
     @game = Minitest::Mock.new(@map)
     @game.expect(:map, @map)
     @game.expect(:map, @map)
+    @game.expect(:nextPlayer, [])
     @dice = Minitest::Mock.new.expect(:next, 1)
     @rollCommand = CommandFactory.Roll(@dice)
   end
@@ -34,6 +35,7 @@ class PlayerRollToToolTest < Minitest::Test
   end
 
   def test_that_get_into_hospital_for_3_days_and_end_turn_if_pass_bomb
+    3.times { @game.expect(:nextPlayer, []) }
     player = Player::create_player_with_game_and_fund_and_command_state(@game)
     @prison.tool = Tool::BOMB
 

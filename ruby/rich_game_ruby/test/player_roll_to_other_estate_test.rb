@@ -13,6 +13,7 @@ class PlayerRollToOtherEstateTest < Minitest::Test
     @map.expect(:move, @otherEstate, [Object, Fixnum])
     @game = Minitest::Mock.new(@map)
     @game.expect(:map, @map)
+    @game.expect(:nextPlayer, [])
     @dice = Minitest::Mock.new.expect(:next, 1)
   end
 

@@ -20,6 +20,13 @@ class Game
     return currentPlayer.execute(command)
   end
 
+  def nextPlayer
+    @currentPlayerIndex = (@currentPlayerIndex + 1) % @players.length
+    current_player = currentPlayer
+    current_player.inTurn
+    return current_player
+  end
+
   def currentPlayer
     return @players[@currentPlayerIndex]
   end

@@ -13,6 +13,7 @@ class PlayerRollToPrisonTest < Minitest::Test
     @map.expect(:move, @prison, [Object, Fixnum])
     @game = Minitest::Mock.new(@map)
     @game.expect(:map, @map)
+    @game.expect(:nextPlayer, [])
     @dice = Minitest::Mock.new.expect(:next, 1)
     @rollCommand = CommandFactory.Roll(@dice)
   end
@@ -28,6 +29,7 @@ class PlayerRollToPrisonTest < Minitest::Test
   end
 
   def test_that_stay_in_prison_for_2_turn
+    2.times {@game.expect(:nextPlayer, [])}
     player = Player::create_player_with_game_and_fund_and_command_state(@game)
 
     player.stuckFor(Prison::PRISON_DAYS)

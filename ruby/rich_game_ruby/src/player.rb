@@ -50,6 +50,7 @@ class Player
     @luckyDays -= 1 if(@luckyDays > 0)
     @stuckDays -= 1 if(@stuckDays > 0)
     @status = Status::WAIT_FOR_TURN
+    game.nextPlayer
     return @status
   end
 
