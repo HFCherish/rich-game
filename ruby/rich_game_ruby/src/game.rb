@@ -36,6 +36,16 @@ class Game
     end
   end
 
+  def inform(status)
+    if(status == Player::Status::BANKRUPT) then
+      non_bankrupt = 0
+      @players.each do |player|
+        non_bankrupt += 1 if !player.isBankrupt
+      end
+      self.quit if(non_bankrupt == 1)
+    end
+  end
+
   def currentPlayer
     return @players[@currentPlayerIndex]
   end

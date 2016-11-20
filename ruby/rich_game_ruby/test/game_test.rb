@@ -104,4 +104,15 @@ class GameTest < Minitest::Test
     assert_equal game.status, Game::Status::GAME_END
   end
 
+  def test_that_game_end_if_only_one_player_not_bankrupt
+    game = Game.new(@map)
+    player = Player.create_player_with_game_and_fund(game)
+    player1 = Player.create_player_with_game_and_fund(game)
+    game.initPlayers(player, player1, player2)
+
+    player.bankrupt
+
+    assert_equal game.status, Game::Status::GAME_END
+  end
+
 end

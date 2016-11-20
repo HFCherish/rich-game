@@ -56,6 +56,7 @@ class Player
 
   def bankrupt
     @status = Status::BANKRUPT
+    game.inform(@status)
     return @status
   end
 
