@@ -4,6 +4,7 @@ class Game
   def initialize(map)
     @map = map
     @players = []
+    @status = Status::GAME_START
   end
 
   def initPlayers(*players)
@@ -20,6 +21,10 @@ class Game
     return currentPlayer.execute(command)
   end
 
+  def quit()
+    @status = Status::GAME_END
+  end
+
   def nextPlayer
     @currentPlayerIndex = (@currentPlayerIndex + 1) % @players.length
     current_player = currentPlayer
@@ -31,9 +36,13 @@ class Game
     end
   end
 
-
   def currentPlayer
     return @players[@currentPlayerIndex]
+  end
+
+  module Status
+    GAME_START = 0
+    GAME_END = 1
   end
 
 end

@@ -96,4 +96,12 @@ class GameTest < Minitest::Test
     refute player1.isStuck
   end
 
+  def test_that_can_quit_game_manually
+    game = Game.new(@map)
+
+    game.quit
+
+    assert_equal game.status, Game::Status::GAME_END
+  end
+
 end
